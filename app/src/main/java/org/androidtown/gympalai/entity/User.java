@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(indices = {@Index(value = {"nickName"}, unique = true)})
 public class User {
+    @NonNull
     @PrimaryKey
     private String userId;
 

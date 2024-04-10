@@ -23,7 +23,7 @@ public class Avatar {
     @NonNull
     @ColumnInfo(name = "description")
     private String description;
-    
+
     public String getAvatarName() {
         return avatarName;
     }
