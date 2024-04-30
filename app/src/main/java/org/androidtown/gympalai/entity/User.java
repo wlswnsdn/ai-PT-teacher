@@ -6,9 +6,17 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-
-@Entity(indices = {@Index(value = {"nickName"}, unique = true)})
+// nickName에 unique 설정
+@Entity(tableName = "user", indices = {@Index(value = {"nickName"}, unique = true)})
 public class User {
+
+    public User(@NonNull String userId, @NonNull String pw, @NonNull String nickName, String avatarName) {
+        this.userId = userId;
+        this.pw = pw;
+        this.nickName = nickName;
+        this.avatarName = avatarName;
+    }
+
     @NonNull
     @PrimaryKey
     private String userId;
@@ -57,5 +65,15 @@ public class User {
 
     public void setAvatarName(String avatarName) {
         this.avatarName = avatarName;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", pw='" + pw + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", avatarName='" + avatarName + '\'' +
+                '}';
     }
 }

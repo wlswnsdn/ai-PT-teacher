@@ -3,12 +3,16 @@ package org.androidtown.gympalai.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
 
-@Entity
+// 외래키 설정
+@Entity(tableName = "avatar",  foreignKeys = @ForeignKey(entity = User.class,
+        parentColumns = "avatarName", childColumns = "avatarName", onDelete = ForeignKey.CASCADE))
 public class Avatar {
+    @NonNull
     @PrimaryKey
     private String avatarName;
 
@@ -56,5 +60,15 @@ public class Avatar {
 
     public void setDescription(@NonNull String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Avatar{" +
+                "avatarName='" + avatarName + '\'' +
+                ", date=" + date +
+                ", isLocked=" + isLocked +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
