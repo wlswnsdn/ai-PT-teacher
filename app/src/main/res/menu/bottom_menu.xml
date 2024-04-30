@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/chat"
+        android:enabled="true"
+        android:icon="@drawable/chat"
+        android:title="Chat"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/routine"
+        android:enabled="true"
+        android:icon="@drawable/plan"
+        android:title="Plan"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+
+        android:title="Home"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/analysis"
+        android:enabled="true"
+        android:icon="@drawable/analysis"
+        android:title="Analysis"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/my"
+        android:enabled="true"
+        android:icon="@drawable/mypage"
+        android:title="MY"
+        app:showAsAction="always"/>
+</menu>
