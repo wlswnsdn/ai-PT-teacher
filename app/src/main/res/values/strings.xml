@@ -5,6 +5,8 @@
     <string name="login_password_hint">Password</string>
     <string name="signup_button_text_in_login">You don\'t have account?\ntouch here to sign up!</string>
     <string name="login">Login</string>
+    <string name="nickname">Nickname</string>
+
 
 
 </resources>

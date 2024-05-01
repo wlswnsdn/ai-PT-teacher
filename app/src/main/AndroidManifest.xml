@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".VeryFirstScreenActivity"/>
+        <activity android:name=".LoginActivity"/>
+
     </application>
 
 </manifest>
