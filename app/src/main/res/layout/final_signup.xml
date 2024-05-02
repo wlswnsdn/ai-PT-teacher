@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/upper_bar_for_login"/>
+
+    <ImageView
+        android:layout_width="280dp"
+        android:layout_height="240dp"
+        android:layout_gravity="center"
+        android:scaleType="fitXY"
+        android:src="@drawable/dumbell" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="20dp">
+        <TextView
+            android:id="@+id/male_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:layout_marginRight="100dp"
+            />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/male_text"
+            android:layout_alignRight="@+id/female_chckbox"/>
+        <TextView
+            android:id="@+id/female_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_below="@+id/male_text"
+            android:layout_marginRight="100dp"
+            />
+        <CheckBox
+            android:id="@+id/female_chckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/female_text"
+            android:layout_alignBottom="@+id/female_text"
+            />
+
+        
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+        
+        <EditText
+            android:id="@+id/height_place"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:background="@color/bottom_grey"
+            android:inputType="number"
+            android:hint="@string/height"
+            android:textColorHint="@color/hint_grey"
+            android:textStyle="bold"
+            android:gravity="center"
+            />
+        <EditText
+            android:id="@+id/weight_place"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:background="@color/bottom_grey"
+            android:inputType="text"
+            android:hint="@string/weight"
+            android:textColorHint="@color/hint_grey"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            />
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <Button
+            android:id="@+id/first_signup_btn"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="@string/signup"
+            android:textStyle="bold"
+            android:background="@drawable/round_square"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+
+</LinearLayout>
