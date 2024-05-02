@@ -1,4 +1,4 @@
-package org.androidtown.gympalai;
+package org.androidtown.gympalai.layout;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import org.androidtown.gympalai.R;
 
 public class analysis extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
