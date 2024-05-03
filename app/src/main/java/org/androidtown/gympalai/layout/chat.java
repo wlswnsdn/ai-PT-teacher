@@ -34,6 +34,8 @@ import okhttp3.Response;
 
 public class chat extends Fragment {
 
+    //TODO 아바타 프로필, 이름 생성 메서드 추가
+
     RecyclerView recyclerView;
     EditText etMsg;
     TextView tvWelcome;
@@ -99,8 +101,6 @@ public class chat extends Fragment {
     void callAPI(String question) {
         //okhttp
         messageList.add(new Message("...", Message.SENT_BY_BOT));
-
-        //추가된 내용
         JSONArray arr = new JSONArray();
         JSONObject baseAi = new JSONObject();
         JSONObject userMsg = new JSONObject();
@@ -120,7 +120,7 @@ public class chat extends Fragment {
 
         JSONObject object = new JSONObject();
         try {
-            //모델명 변경
+
             object.put("model", "gpt-3.5-turbo");
             object.put("messages", arr);
 
@@ -150,7 +150,7 @@ public class chat extends Fragment {
                     try {
                         jsonObject = new JSONObject(response.body().string());
                         JSONArray jsonArray = jsonObject.getJSONArray("choices");
-                        //아래 result 받아오는 경로가 좀 수정되었다.
+
                         String result = jsonArray.getJSONObject(0).getJSONObject("message").getString("content");
                         addResponse(result.trim());
                     } catch (JSONException e) {
