@@ -91,17 +91,21 @@ public class chat extends Fragment {
         });
     }
 
-    // API 호출 수행, 응답 처리
+    void addResponse(String response){
+        messageList.remove(messageList.size()-1);
+        addToChat(response, Message.SENT_BY_BOT);
+    }
+
     void callAPI(String question) {
-
-        OkHttpClient client = new OkHttpClient();
+        //okhttp
         messageList.add(new Message("...", Message.SENT_BY_BOT));
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
+        //추가된 내용
         JSONArray arr = new JSONArray();
         JSONObject baseAi = new JSONObject();
         JSONObject userMsg = new JSONObject();
-        try{
+        try {
+            //AI 속성설정
             baseAi.put("role", "user");
             baseAi.put("content", "You are a helpful and kind AI Assistant.");
             //유저 메세지
@@ -110,61 +114,54 @@ public class chat extends Fragment {
             //array로 담아서 한번에 보낸다
             arr.put(baseAi);
             arr.put(userMsg);
-
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
 
-
-        //최종 JSON 객체 생성
         JSONObject object = new JSONObject();
-        try{
+        try {
+            //모델명 변경
             object.put("model", "gpt-3.5-turbo");
-            object.put("prompt",question);
+            object.put("messages", arr);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(object.toString(), JSON);
-        //Request  생성
         Request request = new Request.Builder()
-                .url("https://api.openai.com/v1/chat/completions")
-                .header("Authorization", "Bearer "+api_key)
+                .url("https://api.openai.com/v1/chat/completions")  //url 경로 수정됨
+                .header("Authorization", "Bearer " + api_key)
                 .post(body)
                 .build();
 
+        OkHttpClient client = new OkHttpClient();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                addResponse("Failed to load response due to "+e.getMessage());
+                addResponse("Failed to load response due to " + e.getMessage());
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(response.body().string());
                         JSONArray jsonArray = jsonObject.getJSONArray("choices");
+                        //아래 result 받아오는 경로가 좀 수정되었다.
                         String result = jsonArray.getJSONObject(0).getJSONObject("message").getString("content");
                         addResponse(result.trim());
-                    }catch (JSONException e){
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    addResponse("Failed to load response due to "+response.body().string());
+                    addResponse("Failed to load response due to " + response.body().string());
                 }
             }
-        });
-    }
 
-    // API 응답 채팅 목록에 추가
-    void addResponse(String response) {
-        getActivity().runOnUiThread(() -> {
-            messageList.remove(messageList.size() - 1);
-            addToChat(response, Message.SENT_BY_BOT);
+
         });
     }
 }

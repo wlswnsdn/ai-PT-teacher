@@ -31,6 +31,6 @@
         android:id="@+id/my"
         android:enabled="true"
         android:icon="@drawable/mypage"
-        android:title="MY"
+        android:title="My"
         app:showAsAction="always"/>
 </menu>
