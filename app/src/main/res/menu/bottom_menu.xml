@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
@@ -14,11 +14,13 @@
         android:icon="@drawable/plan"
         android:title="Plan"
         app:showAsAction="always"/>
+
     <item
-        android:id="@+id/home"
+        android:id="@+id/empty"
         android:enabled="true"
-        android:title="Home"
+        android:title=""
         app:showAsAction="always"/>
+
     <item
         android:id="@+id/analysis"
         android:enabled="true"
