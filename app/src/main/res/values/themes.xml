@@ -10,4 +10,9 @@
         <!-- Customize your theme here. -->
         <item name="colorControlHighlight">@android:color/transparent</item>
     </style>
+
+    <style name="Login_Font">
+        <item name="android:textColor">@android:color/darker_gray</item>
+
+    </style>
 </resources>
