@@ -32,12 +32,12 @@ public class User {
     @ColumnInfo(name = "avatarName")
     private String avatarName;
 
-
+    @NonNull
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(@NonNull String userId) {
         this.userId = userId;
     }
 

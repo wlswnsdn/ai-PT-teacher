@@ -9,8 +9,9 @@ import androidx.room.PrimaryKey;
 import java.time.LocalDateTime;
 
 // 외래키 설정
-@Entity(tableName = "avatar",  foreignKeys = @ForeignKey(entity = User.class,
-        parentColumns = "avatarName", childColumns = "avatarName", onDelete = ForeignKey.CASCADE))
+// foreignKeys = @ForeignKey(entity = User.class,
+//        parentColumns = "avatarName", childColumns = "avatarName", onDelete = ForeignKey.CASCADE
+@Entity(tableName = "avatar")
 public class Avatar {
     @NonNull
     @PrimaryKey
