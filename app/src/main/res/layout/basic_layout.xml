@@ -63,7 +63,6 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/homebutton"
                 android:layout_gravity="center"/>
 
 
