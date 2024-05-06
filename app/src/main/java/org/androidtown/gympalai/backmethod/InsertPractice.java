@@ -1,4 +1,4 @@
-package org.androidtown.gympalai;
+package org.androidtown.gympalai.backmethod;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.androidtown.gympalai.R;
 import org.androidtown.gympalai.dao.UserDao;
 import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.User;

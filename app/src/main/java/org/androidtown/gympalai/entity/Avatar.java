@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 // 외래키 설정
 // foreignKeys = @ForeignKey(entity = User.class,
 //        parentColumns = "avatarName", childColumns = "avatarName", onDelete = ForeignKey.CASCADE
-@Entity(tableName = "avatar")
+@Entity(tableName = "avatar", foreignKeys = @ForeignKey(entity = User.class,
+        parentColumns = "avatarName", childColumns = "avatarName", onDelete = ForeignKey.CASCADE))
 public class Avatar {
     @NonNull
     @PrimaryKey

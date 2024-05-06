@@ -9,11 +9,13 @@ import androidx.room.TypeConverters;
 
 import org.androidtown.gympalai.converter.Converters;
 import org.androidtown.gympalai.dao.AvatarDao;
+import org.androidtown.gympalai.dao.ChatDao;
 import org.androidtown.gympalai.dao.UserDao;
 import org.androidtown.gympalai.entity.Avatar;
+import org.androidtown.gympalai.entity.Chat;
 import org.androidtown.gympalai.entity.User;
 // 데이터베이스에 넣을 테이블 추가,
-@Database(entities = {User.class, Avatar.class}, version = 1)
+@Database(entities = {User.class, Avatar.class, Chat.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class GymPalDB extends RoomDatabase {
 
@@ -23,6 +25,8 @@ public abstract class GymPalDB extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract AvatarDao avatarDao();
+
+    public abstract ChatDao chatDao();
 
     public static GymPalDB getInstance(Context context) {
         if (instance == null) {

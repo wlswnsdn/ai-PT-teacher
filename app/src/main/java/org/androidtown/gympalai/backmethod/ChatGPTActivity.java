@@ -1,4 +1,4 @@
-package org.androidtown.gympalai;
+package org.androidtown.gympalai.backmethod;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.androidtown.gympalai.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
