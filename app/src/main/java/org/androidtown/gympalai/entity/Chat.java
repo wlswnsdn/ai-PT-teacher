@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
         parentColumns = "userId", childColumns = "userId", onDelete = ForeignKey.CASCADE))
 public class Chat {
 
-    public Chat(@NonNull Long chatId, @NonNull String userId, LocalDateTime dateTime, Boolean isQuestion, String message) {
-        this.chatId = chatId;
+    public Chat(@NonNull String userId, LocalDateTime dateTime, Boolean isQuestion, String message) {
         this.userId = userId;
         this.dateTime = dateTime;
         this.isQuestion = isQuestion;

@@ -15,8 +15,8 @@ import java.util.List;
 @Dao
 public interface ChatDao {
 
-    @Query("select * from chat")
-    LiveData<List<Chat>> getAll();
+    @Query("SELECT * FROM chat WHERE userId = :userId")
+    LiveData<List<Chat>> getAll(String userId);
 
     @Insert
     void insert(Chat chat);
