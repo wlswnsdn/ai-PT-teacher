@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.androidtown.gympalai.layout.home;
+
 //로그인 페이지를 담당하는 코드입니다
 public class LoginActivity extends AppCompatActivity {
     private EditText login_id, login_password;
@@ -28,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(){//로그인 성공했을때
                     Toast success= Toast.makeText(getApplicationContext(),"로그인에 성공했습니다.",Toast.LENGTH_SHORT);
                     success.show();
-                    Intent intent = new Intent(this,home.class);
+                    Intent intent = new Intent(getApplicationContext(), home.class);
                     startActivity(intent);
                 }else{//로그인 실패했을때
                     Toast failure= Toast.makeText(getApplicationContext(),"로그인에 실패했습니다.",Toast.LENGTH_SHORT);
