@@ -8,12 +8,19 @@ import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
 
-@Entity(tableName = "ranking",primaryKeys ={"date", "userId"},
-        foreignKeys = @ForeignKey(entity = User.class,
+@Entity(tableName = "ranking", foreignKeys = @ForeignKey(entity = User.class,
 parentColumns = "userId", childColumns = "userId", onDelete = ForeignKey.CASCADE))
 public class Ranking {
 
+    //PK: RankingId
+    //columns : date, userId, score
+
     @NonNull
+    @PrimaryKey(autoGenerate = true)
+    private long rankingId;
+
+    @NonNull
+    @ColumnInfo(name = "date")
     private LocalDateTime date;
 
     @NonNull
@@ -23,6 +30,13 @@ public class Ranking {
     @ColumnInfo(name = "Score")
     private int score;
 
+    public long getRankingId() {
+        return rankingId;
+    }
+
+    public void setRankingId(long rankingId) {
+        this.rankingId = rankingId;
+    }
 
     @NonNull
     public LocalDateTime getDate() {
@@ -53,7 +67,8 @@ public class Ranking {
     @Override
     public String toString() {
         return "Ranking{" +
-                "date=" + date +
+                "rankingId=" + rankingId +
+                ", date=" + date +
                 ", userId='" + userId + '\'' +
                 ", score=" + score +
                 '}';
