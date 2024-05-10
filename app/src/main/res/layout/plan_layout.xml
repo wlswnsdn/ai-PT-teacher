@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:background="@color/basic_purple"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+
+            android:src="@drawable/dumbell"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+            android:text="  GymPal AI"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:textSize="40dp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:gravity="center">
+<!--                    Daily exercise와 이미지 뷰가 있는 linear layout-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/daily_exercise"
+                            />
+                        <TextView
+                            android:id="@+id/TextView_exercise"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Daily exercise"
+                            android:textStyle="bold"
+                            android:textSize="30sp"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
+<!--                    운동버튼들이 들어있는 relative layout-->
+                    <RelativeLayout
+                        android:id="@+id/exercise_relativelayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+<!--                        운동 텍스트 들어갈 버튼 5개-->
+                        <Button
+                            android:id="@+id/exercise_btn_1"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/round_square"
+                            android:contentDescription="운동버튼"
+                            android:text="" />
+                        <Button
+                            android:id="@+id/exercise_btn_2"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/exercise_btn_1"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/round_square"
+                            android:contentDescription="운동버튼 2"
+                            android:text="" />
+                        <Button
+                            android:id="@+id/exercise_btn_3"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/exercise_btn_2"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/round_square"
+                            android:contentDescription="운동버튼 3"
+                            android:text="" />
+                        <Button
+                            android:id="@+id/exercise_btn_4"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/exercise_btn_3"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/round_square"
+                            android:contentDescription="운동버튼 4"
+                            android:text="" />
+                        <Button
+                            android:id="@+id/exercise_btn_5"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/exercise_btn_4"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/round_square"
+                            android:contentDescription="운동버튼 4"
+                            android:text="" />
+
+
+                        <!--                        유저가 편하게 표시할 수 있는 체크박스-->
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/exercise_btn_1"
+                            android:layout_alignBaseline="@+id/exercise_btn_1"
+                            android:minHeight="48dp"
+                            android:minWidth="48dp"/>
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/exercise_btn_2"
+                            android:layout_alignBaseline="@+id/exercise_btn_2"
+                            android:minHeight="48dp"
+                            android:minWidth="48dp"/>
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/exercise_btn_3"
+                            android:layout_alignBaseline="@+id/exercise_btn_3"
+                            android:minHeight="48dp"
+                            android:minWidth="48dp"/>
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/exercise_btn_4"
+                            android:layout_alignBaseline="@+id/exercise_btn_4"
+                            android:minHeight="48dp"
+                            android:minWidth="48dp"/>
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/exercise_btn_5"
+                            android:layout_alignBaseline="@+id/exercise_btn_5"
+                            android:minHeight="48dp"
+                            android:minWidth="48dp"/>
+
+
+                    </RelativeLayout>
+
+
+
+                </LinearLayout>
+<!--            여기서부터 diet linear layout이에요-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/daily_diet"
+                            android:scaleType="fitXY"/>
+
+                        <TextView
+                            android:id="@+id/Diet_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Diet"
+                            android:textStyle="bold"
+                            android:textSize="30sp"
+                            android:textColor="@color/black"
+                            />
+
+                    </LinearLayout>
+<!--                    여기서부터 diet버튼 시작입니다(relative layout아래에 있음-->
+                    <RelativeLayout
+                        android:id="@+id/diet_relative_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/diet_btn_1"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/round_square"
+                            android:contentDescription="식단버튼 1"
+                            android:text="" />
+
+                        <Button
+                            android:id="@+id/diet_btn_2"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/diet_btn_1"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/round_square"
+                            android:contentDescription="식단버튼 2"
+                            android:text="" />
+
+                        <Button
+                            android:id="@+id/diet_btn_3"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/diet_btn_2"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/round_square"
+                            android:contentDescription="식단버튼 3"
+                            android:text="" />
+<!--                        여기서부터 식단 checkbox-->
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/diet_btn_1"
+                            android:layout_alignBaseline="@+id/diet_btn_1"
+                            android:minHeight="48dp"
+                            android:minWidth="48dp"/>
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/diet_btn_2"
+                            android:layout_alignBaseline="@+id/diet_btn_2"
+                            android:minHeight="48dp"
+                            android:minWidth="48dp"/>
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/diet_btn_3"
+                            android:layout_alignBaseline="@+id/diet_btn_3"
+                            android:minHeight="48dp"
+                            android:minWidth="48dp"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+    </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/half_round_shape"
+            android:layout_alignParentBottom="true"
+            tools:ignore="MissingConstraints" />
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/menubar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00ffffff"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_menu">
+
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"/>
+
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
