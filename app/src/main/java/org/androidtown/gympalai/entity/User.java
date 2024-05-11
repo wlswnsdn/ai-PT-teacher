@@ -7,7 +7,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 // nickName에 unique 설정
-@Entity(tableName = "user", indices = {@Index(value = {"nickName"}, unique = true)})
+@Entity(tableName = "user", indices = {@Index(value = {"nickName"}, unique = true), @Index(value = {"avatarName"}, unique = true)})
 public class User {
 
     public User(@NonNull String userId, @NonNull String pw, @NonNull String nickName, String avatarName) {
@@ -32,12 +32,12 @@ public class User {
     @ColumnInfo(name = "avatarName")
     private String avatarName;
 
-
+    @NonNull
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(@NonNull String userId) {
         this.userId = userId;
     }
 

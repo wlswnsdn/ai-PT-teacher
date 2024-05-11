@@ -8,6 +8,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorControlHighlight">@android:color/transparent</item>
     </style>
 
     <style name="Login_Font">

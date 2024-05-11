@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,12 +7,13 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/logo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_height="80dp"
         android:background="@color/basic_purple"
         android:orientation="horizontal"
-        >
+        tools:ignore="MissingConstraints">
+
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -31,33 +32,44 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/framelayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/layout_bottom_2"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        tools:ignore="MissingConstraints">
 
     </FrameLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="4">
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
-        <View
+        <org.androidtown.gympalai.layout.CustomBottomNavigationView
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/half_round_shape"
-            android:layout_alignParentBottom="true"
-            tools:ignore="MissingConstraints" />
-
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/menubar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#00ffffff"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_navigation"
+            android:background="@color/white"
+            android:layout_gravity="bottom"
+            android:translationZ="1dp"
+            app:rippleColor="#00ffffff"
             app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_menu">
+            app:menu="@menu/bottom_menu"
+            />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_bottom_2"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
 
             <ImageView
@@ -66,9 +78,29 @@
                 android:layout_gravity="center"/>
 
 
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/homebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/basic_purple"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:elevation="3dp"
+            android:translationZ="2dp"
+            app:rippleColor="#00ffffff"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="HOME"
+            android:gravity="center"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:translationZ="8dp"/>
 
-</LinearLayout>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
