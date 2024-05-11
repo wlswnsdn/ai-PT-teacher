@@ -23,6 +23,10 @@ import org.androidtown.gympalai.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import java.util.Locale;
 
 public class analysis extends Fragment {
 
@@ -47,50 +51,95 @@ public class analysis extends Fragment {
 
 
     private void setupCharts() {
-        //차트 기본 속성 설정
         LineChart[] charts = {chartWeight, chartScore, chartTDEE};
         for (LineChart chart : charts) {
-            chart.getDescription().setEnabled(false); //차트 설명 비활성화
-            chart.setDrawGridBackground(false); //그리드 배경 그리기 비활성화
+
+
+            chart.getDescription().setEnabled(false);
+            chart.setDrawGridBackground(false);
+            chart.getLegend().setEnabled(false);
+            chart.getAxisRight().setEnabled(false);
 
             XAxis xAxis = chart.getXAxis();
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); //x축 위치 아래로 설정
-            xAxis.setDrawGridLines(false); //x축 그리드 라인 비활성화
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setDrawGridLines(false);
+            xAxis.setValueFormatter(new DateValueFormatter());
 
             YAxis leftAxis = chart.getAxisLeft();
             leftAxis.setDrawGridLines(false);
-
-            chart.getAxisRight().setEnabled(false);
         }
     }
 
+
     private void loadChartData() {
-        //차트에 표시할 데이터 로드
-        List<Entry> entries = new ArrayList<>();
+        // Weight Chart Data
+        List<Entry> weightEntries = new ArrayList<>();
+        weightEntries.add(new Entry(dateToTimestamp("01/01/2021"), 60f));
+        weightEntries.add(new Entry(dateToTimestamp("05/01/2021"), 55f));
+        weightEntries.add(new Entry(dateToTimestamp("11/03/2021"), 80f));
+        LineDataSet weightDataSet = new LineDataSet(weightEntries, "Weight");
+        setupDataSet(weightDataSet);
+        LineData weightLineData = new LineData(weightDataSet);
+        chartWeight.setData(weightLineData);
+        chartWeight.invalidate(); // 갱신
 
-        /*db에 연결해서 값 가져오기
-        entries.add(new Entry(0f, 60f)); // Sample data
-        entries.add(new Entry(1f, 62f));
-        entries.add(new Entry(2f, 61f));
-         */
+        // Score Chart Data
+        List<Entry> scoreEntries = new ArrayList<>();
+        scoreEntries.add(new Entry(dateToTimestamp("01/01/2021"), 70f));
+        scoreEntries.add(new Entry(dateToTimestamp("11/12/2021"), 68f));
+        LineDataSet scoreDataSet = new LineDataSet(scoreEntries, "Score");
+        setupDataSet(scoreDataSet);
+        LineData scoreLineData = new LineData(scoreDataSet);
+        chartScore.setData(scoreLineData);
+        chartScore.invalidate(); // 갱신
 
-        LineDataSet dataSet = new LineDataSet(entries, "Label"); //데이터셋 생성
+        // TDEE Chart Data
+        List<Entry> tdeeEntries = new ArrayList<>();
+        tdeeEntries.add(new Entry(dateToTimestamp("01/01/2021"), 2500f));
+        tdeeEntries.add(new Entry(dateToTimestamp("02/01/2021"), 2600f));
+        tdeeEntries.add(new Entry(dateToTimestamp("03/01/2021"), 2550f));
+        tdeeEntries.add(new Entry(dateToTimestamp("04/01/2021"), 2450f));
+        tdeeEntries.add(new Entry(dateToTimestamp("05/01/2021"), 2475f));
+        LineDataSet tdeeDataSet = new LineDataSet(tdeeEntries, "TDEE");
+        setupDataSet(tdeeDataSet);
+        LineData tdeeLineData = new LineData(tdeeDataSet);
+        chartTDEE.setData(tdeeLineData);
+        chartTDEE.invalidate(); // 갱신
+    }
 
-        //차트 형태 설정
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+    private void setupDataSet(LineDataSet dataSet) {
+        dataSet.setColor(Color.BLACK);
         dataSet.setDrawValues(false);
         dataSet.setDrawCircles(true);
         dataSet.setLineWidth(2f);
         dataSet.setCircleRadius(3f);
-
-        LineData lineData = new LineData(dataSet);
-
-        //차트에 데이터 설정 및 차트 갱신
-        chartWeight.setData(lineData);
-        chartWeight.invalidate(); //갱신
-        chartScore.setData(lineData);
-        chartScore.invalidate(); //갱신
-        chartTDEE.setData(lineData);
-        chartTDEE.invalidate(); //갱신
     }
+
+
+    //날짜 스탬프 변환 함수
+    public long dateToTimestamp(String dateStr) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); // 날짜 포맷 지정
+        try {
+            Date date = formatter.parse(dateStr);
+            return date.getTime(); // 타임스탬프 반환
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    //X값을 날짜 형식으로 포맷
+    class DateValueFormatter extends ValueFormatter {
+        private final SimpleDateFormat mDateFormat;
+
+        public DateValueFormatter() {
+            mDateFormat = new SimpleDateFormat("MM/dd", Locale.ENGLISH);
+        }
+
+        @Override
+        public String getFormattedValue(float value) {
+            return mDateFormat.format(new Date((long) value));
+        }
+    }
+
 }
