@@ -9,23 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 import org.androidtown.gympalai.R;
+
 import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.User;
-
 import java.util.List;
 
 public class basicLayout extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton homeButton;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +31,7 @@ public class basicLayout extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         homeButton = findViewById(R.id.homebutton);
+
 
         //DB 생성
         GymPalDB db = GymPalDB.getInstance(this);
@@ -45,6 +43,7 @@ public class basicLayout extends AppCompatActivity {
 
             }
         });
+
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")

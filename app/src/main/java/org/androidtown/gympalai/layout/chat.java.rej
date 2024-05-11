@@ -1,0 +1,10 @@
+diff a/app/src/main/java/org/androidtown/gympalai/layout/chat.java b/app/src/main/java/org/androidtown/gympalai/layout/chat.java	(rejected hunks)
+@@ -34,6 +34,8 @@
+ 
+ public class chat extends Fragment {
+ 
++    //TODO 아바타 프로필, 이름 생성 메서드 추가
++
+     RecyclerView recyclerView;
+     EditText etMsg;
+     TextView tvWelcome;

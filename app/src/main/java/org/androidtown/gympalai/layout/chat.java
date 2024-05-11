@@ -1,5 +1,6 @@
 package org.androidtown.gympalai.layout;
 import android.annotation.SuppressLint;
+
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +51,7 @@ import okhttp3.Response;
 
 public class chat extends Fragment {
 
+
     //TODO 아바타 프로필, 이름 생성 메서드 추가
 
     RecyclerView recyclerView;
@@ -57,10 +62,12 @@ public class chat extends Fragment {
     List<Message> messageList;
     MessageAdapter messageAdapter;
 
+
     //DB 생성
     GymPalDB db;
 
     LoginId loginId = new LoginId();
+
 
     private static final String api_key = "sk-proj-5h1uVBeVPFcBqzoibAlUT3BlbkFJoWYnw4fzTEHfeDs9RuFv";
 
@@ -68,8 +75,10 @@ public class chat extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // 레이아웃 파일을 inflate하여 View 생성
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
+
         //DB 생성
         db = GymPalDB.getInstance(getActivity());
+
 
         // View에서 각 UI 컴포넌트 찾기
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -85,6 +94,10 @@ public class chat extends Fragment {
 
         // 메시지 리스트 초기화 및 어댑터 설정
         messageList = new ArrayList<>();
+        messageAdapter = new MessageAdapter(messageList);
+        recyclerView.setAdapter(messageAdapter);
+
+
         // db의 이전 메시지 list에 추가
 
         db.chatDao().getAll(loginId.getLoginId()).observe(getViewLifecycleOwner(), new Observer<List<Chat>>() {
@@ -98,11 +111,22 @@ public class chat extends Fragment {
         recyclerView.setAdapter(messageAdapter);
 
 
+
         // 버튼 클릭 이벤트 리스너 설정
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String question = etMsg.getText().toString().trim();
+                addToChat(question, Message.SENT_BY_ME);
+                etMsg.setText("");
+                callAPI(question);
+                tvWelcome.setVisibility(View.GONE);
+            }
+        });
+
+        return view;
+    }
+
                 System.out.println("question = " + question);
                 addToChat(question, Message.SENT_BY_ME);
                 etMsg.setText("");
@@ -128,11 +152,13 @@ public class chat extends Fragment {
         messageAdapter.notifyDataSetChanged(); // RecyclerView를 업데이트합니다.
     }
 
+
     //  채팅 목록에 메세지 추가
     @SuppressLint("NotifyDataSetChanged")
     void addToChat(String message, String sentBy) {
         getActivity().runOnUiThread(() -> {
             messageList.add(new Message(message, sentBy));
+
             // db에도 message 저장
             // sentBy==SENT_BY_BOT -> isQuestion false로
             // sentBy==SENT_BY_ME -> isQuestion true로
@@ -142,6 +168,7 @@ public class chat extends Fragment {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 new InsertAsyncTask(db.chatDao()).execute(new Chat(loginId.getLoginId(), LocalDateTime.now(), isQuestion, message ));
             }
+
             messageAdapter.notifyDataSetChanged();
             recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
         });
@@ -155,6 +182,9 @@ public class chat extends Fragment {
     void callAPI(String question) {
         //okhttp
         messageList.add(new Message("...", Message.SENT_BY_BOT));
+
+
+        //추가된 내용
         JSONArray arr = new JSONArray();
         JSONObject baseAi = new JSONObject();
         JSONObject userMsg = new JSONObject();
@@ -219,6 +249,7 @@ public class chat extends Fragment {
         });
     }
 
+
     //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
     public static class InsertAsyncTask extends AsyncTask<Chat, Void, Void> {
         private ChatDao chatDao;
@@ -242,6 +273,7 @@ public class chat extends Fragment {
 
         }
     }
+
 
 
 }
