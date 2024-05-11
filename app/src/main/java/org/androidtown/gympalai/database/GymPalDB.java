@@ -23,7 +23,7 @@ import org.androidtown.gympalai.entity.Score;
 import org.androidtown.gympalai.entity.User;
 
 // 데이터베이스에 넣을 테이블 추가,
-@Database(entities = {User.class, Avatar.class, Chat.class, HealthInfo.class, Score.class, Ranking.class}, version = 4) //roomdb수정 시 버전업 필요
+@Database(entities = {User.class, Avatar.class, Chat.class, HealthInfo.class, Score.class, Ranking.class}, version = 5) //roomdb수정 시 버전업 필요
 @TypeConverters({Converters.class})
 public abstract class GymPalDB extends RoomDatabase {
 
