@@ -10,6 +10,7 @@
     <string name="nickname">Nickname</string>
     <string name="height">Height(cm)</string>
     <string name="weight">Weight(kg)</string>
+    <string name="age">Age</string>
 
 
 
