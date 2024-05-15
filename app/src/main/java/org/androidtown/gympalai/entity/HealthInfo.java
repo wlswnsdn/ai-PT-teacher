@@ -27,14 +27,17 @@ public class HealthInfo {
     @ColumnInfo(name = "Age")
     private int age;
 
+    //true 남자, false 여자
     @NonNull
     @ColumnInfo(name = "Gender")
     private boolean gender;
 
+    //0:거의 앉아있고 운동하지 않음, 1:일주일에 1~2회, 2:일주일에 3~5회, 3: 일주일에 6~7회, 4: 하루 2번 매우 심한 운동
     @NonNull
     @ColumnInfo(name = "Activity")
     private int activity;
 
+    //0:다이어트, 1:유지어터, 2: 벌크업
     @NonNull
     @ColumnInfo(name = "Purpose")
     private int purpose;
@@ -105,5 +108,18 @@ public class HealthInfo {
 
     public void setPurpose(int purpose) {
         this.purpose = purpose;
+    }
+
+    @Override
+    public String toString() {
+        return "HealthInfo{" +
+                "userId='" + userId + '\'' +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", age=" + age +
+                ", gender=" + gender +
+                ", activity=" + activity +
+                ", purpose=" + purpose +
+                '}';
     }
 }
