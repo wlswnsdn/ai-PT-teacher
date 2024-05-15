@@ -94,12 +94,30 @@
                     android:gravity="center"
                     android:layout_marginTop="10dp"
                     />
+
+                <EditText
+                    android:id="@+id/weekly_ex_num"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:background="@color/bottom_grey"
+                    android:inputType="number"
+                    android:hint="@string/exercise_number"
+                    android:textColorHint="@color/hint_grey"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    />
+
+
+
                 <Spinner
                     android:id="@+id/purpose_spinner"
                     android:layout_width="250dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="10dp"
                     />
+
+
 
 
                 <Button

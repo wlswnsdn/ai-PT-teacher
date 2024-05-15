@@ -1,16 +1,21 @@
 <resources>
     <string name="app_name">GymPalAi</string>
-    <string name="catch_phrase">We encourage\npeople\'s better life\nwith out best ai\npersonal trainner</string>
+    <string name="catch_phrase">We encourage\npeople\'s better life\nwith our best ai\npersonal trainner</string>
     <string name="login_id_hint">ID</string>
     <string name="login_password_hint">Password</string>
-    <string name="signup_button_text_in_login">You don\'t have account?\ntouch here to sign up!</string>
+    <string name="signup_button_text_in_login">New user?\ntouch here to sign up!</string>
     <string name="login">Login</string>
     <string name="signup">Sign up</string>
 
+<!--    signup page에서 사용하는 string-->
     <string name="nickname">Nickname</string>
     <string name="height">Height(cm)</string>
     <string name="weight">Weight(kg)</string>
     <string name="age">Age</string>
+    <string name="exercise_number">exercise number per week</string>
+
+
+
 
 
 
