@@ -2,6 +2,7 @@ package org.androidtown.gympalai.LoginSignupJava;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +27,8 @@ public class NextSignupActivity extends AppCompatActivity {
     EditText Height_number;
     EditText Weight_number;
     EditText Age_number;
+    EditText exercise_number;
+
 
 
 
@@ -43,22 +46,18 @@ public class NextSignupActivity extends AppCompatActivity {
         female_r_btn=findViewById(R.id.female_r_btn);
         //회원가입 완료 버튼
         complete_signup=findViewById(R.id.complete_signup_btn);
+        //edittext들 생성
+        Height_number=findViewById(R.id.height_place);
+        Weight_number=findViewById(R.id.weight_place);
+        Weight_number=findViewById(R.id.weight_place);
+        Age_number=findViewById(R.id.age_place);
+        exercise_number=findViewById(R.id.weekly_ex_num);
 
-
-        //선택된 radio button에 따라서 boolean값으로 성별을 넣는다.
-        int radioId=radGroupGender.getCheckedRadioButtonId();
-        Boolean gender;
-        if(male_r_btn.getId()==radioId){
-            gender=true;
-        }
-        if(female_r_btn.getId()==radioId){
-            gender=false;
-
-        }
         //spinner 생성
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item,purposes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //여기에 register()로 purpose_in_DB string을 DB에 넣어주시면 될 것 같아요
@@ -75,25 +74,44 @@ public class NextSignupActivity extends AppCompatActivity {
         });
 
 
-        //최종 signup 버튼이 눌렸을 때
+        //최종 signup 버튼이 눌렸을 때 //edittext에 값이 안들어가있을때, toast메세지를 띄웁니다.
         complete_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(true){//회원가입이 정상적으로 완료되었을 때, Login페이지로 돌아가서 로그인한다. 찬우님 여기에 회원가입 성공, 실패 boolean값으로 리턴되는 함수 넣어주세요
-                    Toast.makeText(getApplicationContext(),"회원가입 완료",Toast.LENGTH_SHORT).show();
-                    Intent intent= new Intent(NextSignupActivity.this, LoginActivity.class);
-                    startActivity(intent);
+
+                try {
+                    int radioId = radGroupGender.getCheckedRadioButtonId();
+                    boolean gender;
+                    if (male_r_btn.getId() == radioId) {
+                        gender = true;
+                    } else if (female_r_btn.getId() == radioId) {
+                        gender = false;
+                    } else {
+                        Toast.makeText(getApplicationContext(), "성별을 선택해주세요", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (TextUtils.isEmpty(Height_number.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "키를 입력해주세요(cm)", Toast.LENGTH_SHORT).show();
+                    } else if (TextUtils.isEmpty(Weight_number.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "몸무게를 입력해주세요(kg)", Toast.LENGTH_SHORT).show();
+                    } else if (TextUtils.isEmpty(Age_number.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "나이를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    } else if (TextUtils.isEmpty(exercise_number.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "일주일에 얼마나 많이 운동하시는지 입력해주세요", Toast.LENGTH_SHORT).show();
+                    } else {//여기에서 height랑 weight랑 age랑 exercise number db에 넣으시면 될것 같아요
+                        int height = Integer.parseInt(Height_number.getText().toString());
+                        int weight = Integer.parseInt(Weight_number.getText().toString());
+                        int age = Integer.parseInt(Age_number.getText().toString());
+                        int exercise = Integer.parseInt(exercise_number.getText().toString());
+                        String purpose_in_DB = (String) spinner.getSelectedItem();
+                        Intent intent = new Intent(NextSignupActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                } catch (NumberFormatException e){
+                    Toast.makeText(getApplicationContext(), "모든 값을 올바르게 입력해주세요", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    Toast.makeText(getApplicationContext(),"다시 시도해주세요",Toast.LENGTH_SHORT).show();
-
-                }
-
-
             }
         });
-
-
-
     }
 }
