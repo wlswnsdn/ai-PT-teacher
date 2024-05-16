@@ -55,20 +55,17 @@
             />
 
     </RelativeLayout>
+
     <Button
         android:id="@+id/sign_up_btn_in_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/signup_button_text_in_login"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:background="@color/transparent"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"/>
-
-
-    <include layout="@layout/general_lower_bar"/>
-
+        android:layout_marginTop="30dp"
+        android:background="@color/transparent"
+        android:text="@string/signup_button_text_in_login"
+        android:textAllCaps="false"
+        android:textStyle="bold" />
 
 
 </LinearLayout>

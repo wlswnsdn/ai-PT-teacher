@@ -50,22 +50,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:text="exercise"
-                android:background="@color/white"
+                android:background="@drawable/round_square_diet_exercise_white"
                 />
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:background="@color/black"/>
 
             <Button
                 android:id="@+id/diet_frag_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_margin="10dp"
                 android:text="diet"
-                android:background="@color/white"/>
+                android:background="@drawable/round_square_diet_exercise_white"
+                />
 
         </LinearLayout>
         <FrameLayout

@@ -1,11 +1,13 @@
 package org.androidtown.gympalai.LoginSignupJava;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import org.androidtown.gympalai.R;
 
@@ -29,13 +31,18 @@ public class plan extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.exercise_diet_frame, exerciseFragment).commit();
         dietFragment=new DietFragment();
 
+        //Drawable 리소스
+        final Drawable purpleBackground = ContextCompat.getDrawable(this, R.drawable.round_square_diet_exercise_purple);
+        final Drawable whiteBackground = ContextCompat.getDrawable(this, R.drawable.round_square_diet_exercise_white);
+
+
 
         if (exercise_btn != null) {
             exercise_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    exercise_btn.setBackgroundResource(R.color.basic_purple);
-                    diet_btn.setBackgroundResource(R.color.white);
+                    exercise_btn.setBackground(purpleBackground);
+                    diet_btn.setBackground(whiteBackground);
 
                     plan plan_activity= plan.this;
                     plan_activity.onFragmentChanged(0);
@@ -49,8 +56,8 @@ public class plan extends AppCompatActivity {
             diet_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    diet_btn.setBackgroundResource(R.color.basic_purple);
-                    exercise_btn.setBackgroundResource(R.color.white);
+                    exercise_btn.setBackground(whiteBackground);
+                    diet_btn.setBackground(purpleBackground);
                     plan plan_activity= plan.this;
                     plan_activity.onFragmentChanged(1);
                 }

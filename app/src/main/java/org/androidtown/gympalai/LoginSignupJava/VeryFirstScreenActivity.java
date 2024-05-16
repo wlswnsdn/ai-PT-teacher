@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.androidtown.gympalai.LoginSignupJava.LoginActivity;
 import org.androidtown.gympalai.R;
 
 public class VeryFirstScreenActivity extends AppCompatActivity {
@@ -23,8 +24,8 @@ public class VeryFirstScreenActivity extends AppCompatActivity {
         login_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                    Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
+                Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
             }
         });
 
