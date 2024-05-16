@@ -18,12 +18,20 @@ public interface UserDao {
     LiveData<List<User>> getAll();
 
     @Insert
-    void insert(User user);
+    void insert(User user); //회원등록
 
     @Update
     void update(User user);
 
     @Delete
-    void delete(User user);
+    void delete(User user); // 회원 삭제
+
+    @Query("SELECT userId FROM user")
+    List<String> getUserIdList(); // 아이디값을 List<String>로 받아 회원가입 시 사전에 존재하는 아이디값인지 확인하기 위함
+    @Query("SELECT nickName FROM user")
+    List<String> getUserNickList();
+
+    @Query("SELECT pw FROM user WHERE userId = :loginId")
+    String getUserPwById(String loginId); //로그인 시 아이디로 비밀번호를 가져와 일치여부를 판단할거임
 
 }
