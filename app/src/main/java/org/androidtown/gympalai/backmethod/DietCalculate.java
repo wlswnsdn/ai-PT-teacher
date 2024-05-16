@@ -33,10 +33,10 @@ public class DietCalculate extends AppCompatActivity {
             public void onChanged(HealthInfo userInfo) {
                 System.out.println("userInfo.toString() = " + userInfo.toString());
                 double TDEE = getTDEE(userInfo);
-                600을 먹어 200 200 200 50 50 20 먹어야돼
                 // tdee             5: 2: 3
                     // 1g 당 칼로리 탄 4 단 4 지 9
-                -(700*0.33)/q^2*(x-q)^2+(700*0.33)
+
+
 
             }
 
@@ -70,7 +70,14 @@ public class DietCalculate extends AppCompatActivity {
                 return TDEE;
             }
 
-            private int getDietScore()
+            private int getDietScore(double tdee, double ratio, double actualIntake){
+                int gperKcal = (ratio == 0.5 || ratio == 0.2) ? 4 : 9;
+                double recommendedIntake = (tdee / ratio) / gperKcal;
+                int score = (int) (-(700 * ratio) / Math.pow(recommendedIntake, 2) * Math.pow(actualIntake - recommendedIntake, 2) + (700 * ratio));
+
+                return score;
+
+            }
         });
 
 
