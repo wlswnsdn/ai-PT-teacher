@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:textStyle="bold"
-        android:background="@drawable/round_square"
+        android:background="@drawable/round_square_purple"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"/>
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="Sign up"
         android:textStyle="bold"
-        android:background="@drawable/round_square"
+        android:background="@drawable/round_square_purple"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"/>
 
