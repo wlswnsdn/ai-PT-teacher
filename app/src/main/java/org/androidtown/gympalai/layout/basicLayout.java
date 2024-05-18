@@ -62,7 +62,7 @@ public class basicLayout extends AppCompatActivity {
                         selectedFragment = new myPage();
                         break;
                     case R.id.routine:
-                        selectedFragment = new Routine();
+                        selectedFragment = new plan();
                         break;
                 }
                 if(selectedFragment != null) {
