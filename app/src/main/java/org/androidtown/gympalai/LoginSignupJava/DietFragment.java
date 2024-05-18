@@ -2,7 +2,6 @@ package org.androidtown.gympalai.LoginSignupJava;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import org.androidtown.gympalai.R;
-import org.androidtown.gympalai.LoginSignupJava.plan;
 
 public class DietFragment extends Fragment {
     Button diet_btn_1,diet_btn_2,diet_btn_3;
