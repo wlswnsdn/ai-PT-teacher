@@ -28,6 +28,7 @@ import java.util.List;
 
 public class NextSignupActivity extends AppCompatActivity {
     String[] purposes={"다이어트","벌크업","유지어트"};
+    String[] exercise_num={"운동하지 않음","일주일에 1~2회","일주일에 6~7회","하루에 2회"};
 
     RadioGroup radGroupGender;
     RadioButton male_r_btn, female_r_btn;
@@ -36,9 +37,9 @@ public class NextSignupActivity extends AppCompatActivity {
     EditText Height_number;
     EditText Weight_number;
     EditText Age_number;
-    EditText exercise_number; //승우님 Exercise_number보다 Activity로 해서 Spinner로 값을 받아와서 운동 목적처럼 int값으로 받아서 저장해야될거같아요.
 
     int purpose;
+    int exercise_num_index;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,8 @@ public class NextSignupActivity extends AppCompatActivity {
 
 
         //spinner 생성
-        Spinner spinner=findViewById(R.id.purpose_spinner);
+        Spinner spinner_purpose=findViewById(R.id.purpose_spinner);
+        Spinner spinner_exercise_num=findViewById(R.id.exercise_num_spinner);
         //radijo group생성
         radGroupGender=findViewById(R.id.radioGroup);
         //radio button 생성
@@ -69,21 +71,35 @@ public class NextSignupActivity extends AppCompatActivity {
         Weight_number=findViewById(R.id.weight_place);
         Weight_number=findViewById(R.id.weight_place);
         Age_number=findViewById(R.id.age_place);
-        exercise_number=findViewById(R.id.weekly_ex_num);
 
         //spinner 생성
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item,purposes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinner_purpose.setAdapter(adapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            //여기에 register()로 purpose_in_DB string을 DB에 넣어주시면 될 것 같아요
+        //spinner 생성
+        ArrayAdapter<String> adapter_2= new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item,exercise_num);
+        adapter_2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_exercise_num.setAdapter(adapter_2);
+        
+        
+        //purpose spinner
+        spinner_purpose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //선택된 운동 목적을 String타입 변수 purpose_in_DB에 저장합니다.
                 String purpose_in_DB=purposes[position];
                 purpose = position; // 운동목적의 data type이 int
                 // 다이어트 벌크업 유지어트 순서대로 0, 1, 2임
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+        //exercise num spinner
+        spinner_exercise_num.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                exercise_num_index = position; // 운동횟수의 data type이 int
+                // 운동강도가 순서대로 0, 1, 2임
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -112,14 +128,11 @@ public class NextSignupActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "몸무게를 입력해주세요(kg)", Toast.LENGTH_SHORT).show();
                     } else if (TextUtils.isEmpty(Age_number.getText().toString())) {
                         Toast.makeText(getApplicationContext(), "나이를 입력해주세요", Toast.LENGTH_SHORT).show();
-                    } else if (TextUtils.isEmpty(exercise_number.getText().toString())) {
-                        Toast.makeText(getApplicationContext(), "일주일에 얼마나 많이 운동하시는지 입력해주세요", Toast.LENGTH_SHORT).show();
                     } else {
                         String userId = getIntent().getStringExtra("userId");
                         float height = Float.valueOf(Height_number.getText().toString());
                         float weight = Float.valueOf(Weight_number.getText().toString());
                         int age = Integer.parseInt(Age_number.getText().toString());
-                        int exercise = Integer.parseInt(exercise_number.getText().toString());
                         HealthInfo healthInfo = new HealthInfo(userId, height, weight, age, gender, 0, purpose); // Activity는 수정해주시면 입력기능 추가할게요
                         new InsertAsyncTask(db.healthInfoDao()).execute(healthInfo);
 
