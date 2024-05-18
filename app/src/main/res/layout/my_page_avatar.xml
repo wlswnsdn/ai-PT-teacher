@@ -1,6 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/current_trainner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                >
+                <LinearLayout
+                    android:id="@+id/text_linearlayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    >
+                    <TextView
+                        android:id="@+id/current_trainer_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="현재 트레이너:"
+                        android:textStyle="bold"
+                        android:textSize="25sp"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:id="@+id/trainer_name_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:text="시험 텍스트"
+                        android:textStyle="bold"
+                        android:textSize="25sp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/trainner_circle_1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_toRightOf="@+id/text_linearlayout"
+                    android:background="@drawable/basic_circle_shape"
+                    android:src="@drawable/password_img"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/current_trainner_layout"
+                android:gravity="center_horizontal"
+                >
+                <LinearLayout
+                    android:id="@+id/trainner_option_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/trainner_option_circle_1"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/basic_circle_shape"
+                        android:src="@drawable/password_img"/>
+                    <TextView
+                        android:id="@+id/trainner_textview_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Freindly\n Jenny"
+                        android:textStyle="bold"
+                        android:textSize="25sp"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:id="@+id/trainner_description_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="She has kind\n personality \nand will lead \nyou slowly \nand gently"
+                        android:textSize="20sp"
+                        android:textColor="@color/black"/>
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/trainner_option_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/trainner_option_1"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/trainner_option_circle_2"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/basic_circle_shape"
+                        android:src="@drawable/password_img"/>
+                    <TextView
+                        android:id="@+id/trainner_textview_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Strong\n Ronny"
+                        android:textStyle="bold"
+                        android:textSize="25sp"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:id="@+id/trainner_description_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="He has\n sgrong\n personality\n and might\n push you\n hard. "
+                        android:textSize="20sp"
+                        android:textColor="@color/black"/>
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/trainner_option_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/trainner_option_2"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/trainner_option_circle_3"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/basic_circle_shape"
+                        android:src="@drawable/password_img"/>
+                    <TextView
+                        android:id="@+id/trainner_textview_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Master\n Woo"
+                        android:textStyle="bold"
+                        android:textSize="25sp"
+                        android:textColor="@color/black"/>
+                    <TextView
+                        android:id="@+id/trainner_description_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="She is \nmaster of\nyofa. She\nwill help you\nfind inner\n peace! Try\n her out!"
+                        android:textSize="20sp"
+                        android:textColor="@color/black"/>
+
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>

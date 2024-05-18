@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ public class MyInformationChangeFragment extends Fragment {
     String[] purposes={"다이어트","벌크업","유지어트"};
     Spinner spinner_purpose;
 
+    public Button information_submit_btn;
+
 
     @Nullable
     @Override
@@ -30,6 +33,8 @@ public class MyInformationChangeFragment extends Fragment {
         //picker들 선언하고 minimum, maximum value들을 설정합니다.
         weightPicker=rootView.findViewById(R.id.weight_picker);
         heightPicker=rootView.findViewById(R.id.height_picker);
+        information_submit_btn=rootView.findViewById(R.id.information_submit_btn);
+
 
 
 
@@ -43,6 +48,13 @@ public class MyInformationChangeFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_purpose.setAdapter(adapter);
 
+        //바뀐 정보들을 저장하고 마지막으로 submit버튼을 누르면 유저의 건강정보가 갱신된다.
+        information_submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return rootView;
     }

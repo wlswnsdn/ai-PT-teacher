@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:text="next"
         android:textStyle="bold"
-        android:background="@drawable/round_square"
+        android:background="@drawable/round_square_purple"
         android:layout_marginTop="20dp"/>
     </LinearLayout>
 
