@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--그냥 scrollview를 위한 linearlayout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--이 relative layout아래에는 유저 사진과 닉네임이 들어있다.-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                >
+            <ImageView
+                android:id="@+id/profile_circle_image"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:background="@drawable/basic_circle_shape"
+                android:src="@drawable/password_img"/>
+            <TextView
+                android:id="@+id/old_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오래된 닉네임"
+                android:textSize="35sp"
+                android:layout_toRightOf="@+id/profile_circle_image"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"/>
+                
+            </RelativeLayout>
+            <!--이 linear layout아래에는 닉네임과 비밃번호를 바꾸는 edittext와 버튼들이 있다..-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <EditText
+                    android:id="@+id/new_nickname"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/round_square_white"
+                    android:hint="새로운 닉네임"
+                    android:gravity="center"/>
+                <Button
+                    android:id="@+id/nickname_change_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:text="닉네임 변경"
+                    android:textStyle="bold"
+                    android:background="@drawable/round_square_purple"/>
+
+                <EditText
+                    android:id="@+id/new_password"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="60dp"
+                    android:background="@drawable/round_square_white"
+                    android:hint="새로운 비밀번호"
+                    android:gravity="center"/>
+
+                <EditText
+                    android:id="@+id/new_password_confirm"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/round_square_white"
+                    android:hint="비밀번호를 한번 더 입력해주세요"
+                    android:gravity="center"/>
+
+                <Button
+                    android:id="@+id/password_change_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:text="비밀번호 변경"
+                    android:textStyle="bold"
+                    android:background="@drawable/round_square_purple"/>
+                
+                
+                
+            </LinearLayout>
+            
+            
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--여기서부터 버튼이 들어있는 frame-->
+<FrameLayout android:id="@+id/setting_frame"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingConstraints"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/minimalist_book_icon_transparent"
+                    android:scaleType="fitXY"/>
+
+                <Button
+                    android:id="@+id/information_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="70dp"
+                    android:text="내 정보 수정"
+                    android:textStyle="bold"
+                    android:background="@color/transparent"
+
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/password_img"
+                    android:scaleType="fitXY"/>
+
+                <Button
+                    android:id="@+id/nickname_password_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="70dp"
+                    android:text="닉네임/비밀번호 설정"
+                    android:textStyle="bold"
+                    android:background="@color/transparent"
+
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/avatar_img"
+                    android:scaleType="fitXY"/>
+
+                <Button
+                    android:id="@+id/avatar_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="70dp"
+                    android:text="아바타 설정"
+                    android:textStyle="bold"
+                    android:background="@color/transparent"
+
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/laguage_img"
+                    android:scaleType="fitXY"/>
+
+                <Button
+                    android:id="@+id/language_setting_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="70dp"
+                    android:text="언어 설정"
+                    android:textStyle="bold"
+                    android:background="@color/transparent"
+
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/logout_img"
+                    android:scaleType="fitXY"/>
+
+                <Button
+                    android:id="@+id/logout_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="70dp"
+                    android:text="로그아웃"
+                    android:textStyle="bold"
+                    android:background="@color/transparent"
+
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+</FrameLayout>
+
+

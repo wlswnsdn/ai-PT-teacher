@@ -81,8 +81,8 @@ public class NextSignupActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter_2= new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item,exercise_num);
         adapter_2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_exercise_num.setAdapter(adapter_2);
-
-
+        
+        
         //purpose spinner
         spinner_purpose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

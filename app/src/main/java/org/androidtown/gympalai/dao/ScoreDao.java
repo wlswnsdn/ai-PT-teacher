@@ -16,11 +16,14 @@ public interface ScoreDao {
     @Query("select * from score")
     LiveData<List<Score>> getAll();
 
+    @Query(("SELECT * FROM score WHERE DATE(date) = DATE('now') AND userId = :userId"))
+    Score getScore(String userId);
+
     @Insert
     void insert (Score score);
 
-    @Update
-    void update (Score score);
+    @Query("UPDATE score SET Score=:score , date=DATE('now') WHERE scoreId=:scoreId")
+    void updateScore (long scoreId, int score);
 
     @Delete
     void delete (Score score);

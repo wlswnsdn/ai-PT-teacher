@@ -51,7 +51,7 @@
             android:layout_toRightOf="@+id/id_place"
             android:layout_alignBottom="@+id/password_place"
             android:layout_alignTop="@+id/id_place"
-            android:background="@drawable/round_square"
+            android:background="@drawable/round_square_purple"
             />
 
     </RelativeLayout>
