@@ -28,4 +28,7 @@ public interface RankingDao {
 
     @Delete
     void delete (Ranking ranking);
+
+    @Query("DELETE FROM ranking WHERE date <= date('now', '-14 days')")
+    void seasonUpdate();
 }
