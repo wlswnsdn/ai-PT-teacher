@@ -4,90 +4,129 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <include layout="@layout/upper_bar_for_login"/>
-
-    <ImageView
-        android:layout_width="280dp"
-        android:layout_height="240dp"
-        android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:src="@drawable/dumbell" />
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginBottom="20dp">
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <RadioButton
-                android:id="@+id/male_r_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Male"
-                android:textStyle="bold"
-                android:textSize="25sp"/>
-
-            <RadioButton
-                android:id="@+id/female_r_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Female"
-                android:textStyle="bold"
-                android:textSize="25sp"/>
-        </RadioGroup>
-
-        
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        >
-        
-        <EditText
-            android:id="@+id/height_place"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:background="@color/bottom_grey"
-            android:inputType="number"
-            android:hint="@string/height"
-            android:textColorHint="@color/hint_grey"
-            android:textStyle="bold"
-            android:gravity="center"
-            />
-        <EditText
-            android:id="@+id/weight_place"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:background="@color/bottom_grey"
-            android:inputType="number"
-            android:hint="@string/weight"
-            android:textColorHint="@color/hint_grey"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            />
-        <Spinner
-            android:id="@+id/purpose_spinner"
-            android:layout_width="250dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"/>
-
-
-        <Button
-            android:id="@+id/first_signup_btn"
-            android:layout_width="250dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/signup"
-            android:textStyle="bold"
-            android:background="@drawable/round_square"
-            android:layout_marginTop="10dp"/>
-    </LinearLayout>
-    <include layout="@layout/general_lower_bar"/>
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="280dp"
+                android:layout_height="240dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/dumbell" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/male_r_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Male"
+                        android:textStyle="bold"
+                        android:textSize="25sp"
+                        android:minWidth="48dp"
+                        android:minHeight="48dp"/>
+
+                    <RadioButton
+                        android:id="@+id/female_r_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Female"
+                        android:textStyle="bold"
+                        android:textSize="25sp"
+                        android:minWidth="48dp"
+                        android:minHeight="48dp"/>
+                </RadioGroup>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+
+                <EditText
+                    android:id="@+id/height_place"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:background="@color/bottom_grey"
+                    android:inputType="number"
+                    android:hint="@string/height"
+                    android:textColorHint="@color/hint_grey"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    />
+                <EditText
+                    android:id="@+id/weight_place"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:background="@color/bottom_grey"
+                    android:inputType="number"
+                    android:hint="@string/weight"
+                    android:textColorHint="@color/hint_grey"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    />
+                <EditText
+                    android:id="@+id/age_place"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:background="@color/bottom_grey"
+                    android:inputType="number"
+                    android:hint="@string/age"
+                    android:textColorHint="@color/hint_grey"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <Spinner
+                    android:id="@+id/exercise_num_spinner"
+                    android:layout_width="250dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="10dp"
+                    />
+
+
+
+                <Spinner
+                    android:id="@+id/purpose_spinner"
+                    android:layout_width="250dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="10dp"
+                    />
+
+
+
+
+                <Button
+                    android:id="@+id/complete_signup_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/signup"
+                    android:textStyle="bold"
+                    android:background="@drawable/round_square"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </LinearLayout>

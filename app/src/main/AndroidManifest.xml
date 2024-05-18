@@ -13,18 +13,20 @@
         android:theme="@style/Theme.GymPalAi"
         tools:targetApi="31">
         <activity
-            android:name=".layout.basicLayout"
+            android:name=".LoginSignupJava.VeryFirstScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VeryFirstScreenActivity"/>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".NextSignupActivity"/>
-        <activity android:name=".FirstSignupActivity"/>
+        <activity android:name=".LoginSignupJava.FirstSignupActivity"/>
+        <activity android:name=".LoginSignupJava.LoginActivity"/>
+        <activity android:name=".LoginSignupJava.NextSignupActivity"/>
+        <activity android:name=".layout.basicLayout"/>
+
+
+
 
 
 

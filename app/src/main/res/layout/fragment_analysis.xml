@@ -10,73 +10,74 @@
         android:layout_height="match_parent"
         android:fillViewport="true"
         >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:orientation="vertical">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="체중 (kg)"
-            android:textStyle="bold"
-            android:padding="5dp"
-            android:textSize="15dp"
-            android:background="@color/bottom_grey"/>
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart_weight"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="체중 (kg)"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textSize="15dp"
+                    android:background="@color/bottom_grey"/>
 
-    </LinearLayout>
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:orientation="vertical">
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="식단점수 (점)"
-            android:textStyle="bold"
-            android:padding="5dp"
-            android:textSize="15dp"
-            android:background="@color/bottom_grey"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart_score"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"/>
-    </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="식단점수 (점)"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textSize="15dp"
+                    android:background="@color/bottom_grey"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:orientation="vertical">
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="TDEE (점)"
-            android:textStyle="bold"
-            android:padding="5dp"
-            android:textSize="15dp"
-            android:background="@color/bottom_grey"/>
+            </LinearLayout>
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart_TDEE"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"/>
-    </LinearLayout>
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="TDEE (점)"
+                    android:textStyle="bold"
+                    android:padding="5dp"
+                    android:textSize="15dp"
+                    android:background="@color/bottom_grey"/>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart_TDEE"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"/>
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -11,24 +11,21 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import org.androidtown.gympalai.R;
 import org.androidtown.gympalai.dao.HealthInfoDao;
 import org.androidtown.gympalai.entity.HealthInfo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import java.util.List;
 import java.util.Locale;
 
 public class analysis extends Fragment {
@@ -130,7 +127,7 @@ public class analysis extends Fragment {
                 for (HealthInfo healthInfo : healthInfos) {
 
                     long timestamp =dateToTimestamp(); //dateToTimestamp( ); 여기에 날짜 데이터 넣어야함.
-                    scoreEntries.add(new Entry(timestamp, healthInfo.getscore()));
+                    scoreEntries.add(new Entry(timestamp, getscore()));
 
                 }
                 setupChartData(chartScore, scoreEntries, "Score");
@@ -147,7 +144,7 @@ public class analysis extends Fragment {
                 for (HealthInfo healthInfo : healthInfos) {
 
                     long timestamp =dateToTimestamp(); //dateToTimestamp( ); 여기에 날짜 데이터 넣어야함.
-                    TDEEEntries.add(new Entry(timestamp, healthInfo.getTDEE()));
+                    TDEEEntries.add(new Entry(timestamp, getTDEE()));
 
                 }
                 setupChartData(chartTDEE, weightEntries, "TDEE");
@@ -160,15 +157,15 @@ public class analysis extends Fragment {
     }
 
 
-            //날짜 스탬프 변환 함수
-            public long dateToTimestamp(String dateStr) {
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); // 날짜 포맷 지정
-                try {
-                    Date date = formatter.parse(dateStr);
-                    return date.getTime(); // 타임스탬프 반환
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return 0;
-                }
-            }
+    //날짜 스탬프 변환 함수
+    public long dateToTimestamp(String dateStr) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); // 날짜 포맷 지정
+        try {
+            Date date = formatter.parse(dateStr);
+            return date.getTime(); // 타임스탬프 반환
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 }

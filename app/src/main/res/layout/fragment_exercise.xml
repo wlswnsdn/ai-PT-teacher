@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/exercise_btn_1"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/exercise_img_1"
+                android:scaleType="centerCrop"
+                android:alpha="0.7"
+                android:text=""
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:contentDescription="dd"
+                />
+
+            <Button
+                android:id="@+id/exercise_btn_2"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/exercise_img_2"
+                android:scaleType="centerCrop"
+                android:alpha="0.7"
+                android:text=""
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:contentDescription="dd"
+                />
+
+            <Button
+                android:id="@+id/exercise_btn_3"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/exercise_img_3"
+                android:scaleType="centerCrop"
+                android:alpha="0.7"
+                android:text=""
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:contentDescription="dd"
+
+                />
+
+            <Button
+                android:id="@+id/exercise_btn_4"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/exercise_img_4"
+                android:scaleType="centerCrop"
+                android:alpha="0.7"
+                android:text=""
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:contentDescription="dd"
+
+                />
+
+            <Button
+                android:id="@+id/exercise_btn_5"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/exercise_img_5"
+                android:scaleType="centerCrop"
+                android:alpha="0.7"
+                android:text=""
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:contentDescription="dd"
+
+                />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

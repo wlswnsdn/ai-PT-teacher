@@ -14,8 +14,8 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
-        <!--        여기가 가운데 프레임-->
-        <!--        버튼 2개를 포함하고 있는 linealayout-->
+<!--        여기가 가운데 프레임-->
+<!--        버튼 2개를 포함하고 있는 linealayout-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
