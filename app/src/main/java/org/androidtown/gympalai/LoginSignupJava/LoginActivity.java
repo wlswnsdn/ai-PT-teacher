@@ -15,8 +15,10 @@ import org.androidtown.gympalai.R;
 import org.androidtown.gympalai.dao.UserDao;
 import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.User;
+import org.androidtown.gympalai.layout.basicLayout;
 import org.androidtown.gympalai.layout.home;
 import org.androidtown.gympalai.backmethod.LoginFunction;
+import org.androidtown.gympalai.layout.plan;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -46,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         login_button=findViewById(R.id.login_button_in_login_page);
         signup_in_login=findViewById(R.id.sign_up_btn_in_login);
 
-
         login_button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 //여기에 login() 사용해주시면 됩니다.
@@ -62,17 +63,20 @@ public class LoginActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);}
-
                 if(loginResult){
                     loginFunction = new LoginFunction(id);
                     Toast.makeText(getApplicationContext(),"로그인에 성공했습니다.",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, plan.class);
+                    Intent intent = new Intent(LoginActivity.this, basicLayout.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(getApplicationContext(),"잘못된 아이디 또는 비밀번호입니다..",Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
+
+
+
 
         signup_in_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +86,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
 
     private static class GetUserPwTask extends AsyncTask<String, Void, String>{
         private UserDao userDao;
@@ -94,3 +102,4 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
+

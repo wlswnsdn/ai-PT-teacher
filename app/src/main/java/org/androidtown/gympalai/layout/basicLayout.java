@@ -44,6 +44,9 @@ public class basicLayout extends AppCompatActivity {
             }
         });
 
+        // 2주마다 ranking 초기화
+        seasonChange();
+
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -90,5 +93,9 @@ public class basicLayout extends AppCompatActivity {
                     .replace(R.id.framelayout, new home())
                     .commit();
         }
+    }
+
+    private void seasonChange() {
+
     }
 }

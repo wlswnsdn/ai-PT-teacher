@@ -12,6 +12,12 @@ import java.time.LocalDateTime;
         foreignKeys = @ForeignKey(entity = User.class, parentColumns = "userId", childColumns = "userId", onDelete = ForeignKey.CASCADE))
 public class Score {
 
+    public Score(@NonNull LocalDateTime date, @NonNull String userId, int score) {
+        this.date = date;
+        this.userId = userId;
+        this.score = score;
+    }
+
     //PK : scoreId
     //columns : date, userId, score
     @NonNull

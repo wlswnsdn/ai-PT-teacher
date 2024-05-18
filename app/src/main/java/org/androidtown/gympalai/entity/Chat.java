@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
         parentColumns = "userId", childColumns = "userId", onDelete = ForeignKey.CASCADE))
 public class Chat {
 
-    public Chat(@NonNull String userId, LocalDateTime dateTime, Boolean isQuestion, String message) {
+    public Chat(@NonNull String userId, LocalDateTime dateTime, Boolean isQuestion, String message, String exerciseList, String dietList) {
         this.userId = userId;
         this.dateTime = dateTime;
         this.isQuestion = isQuestion;
         this.message = message;
+        this.exerciseList = exerciseList;
+        this.dietList = dietList;
     }
 
     @NonNull
@@ -35,6 +37,12 @@ public class Chat {
 
     @ColumnInfo(name = "message")
     private String message;
+
+    @ColumnInfo(name = "exerciseList")
+    private String exerciseList;
+
+    @ColumnInfo(name = "dietList")
+    private String dietList;
 
     @NonNull
     public Long getChatId() {
@@ -78,6 +86,22 @@ public class Chat {
         this.message = message;
     }
 
+    public String getExerciseList() {
+        return exerciseList;
+    }
+
+    public void setExerciseList(String exerciseList) {
+        this.exerciseList = exerciseList;
+    }
+
+    public String getDietList() {
+        return dietList;
+    }
+
+    public void setDietList(String dietList) {
+        this.dietList = dietList;
+    }
+
     @Override
     public String toString() {
         return "Chat{" +
@@ -86,6 +110,8 @@ public class Chat {
                 ", dateTime=" + dateTime +
                 ", isQuestion=" + isQuestion +
                 ", message='" + message + '\'' +
+                ", exerciseList='" + exerciseList + '\'' +
+                ", dietList='" + dietList + '\'' +
                 '}';
     }
 }
