@@ -19,6 +19,7 @@ import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.model.LoginId;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
@@ -44,8 +45,18 @@ public class ExerciseFragment extends Fragment {
         exercise_btn_5 = rootView.findViewById(R.id.exercise_btn_5);
 
         try {
-            String response = new DietFragment.chatAsyncTask(db.chatDao()).execute(loginId.getLoginId()).get();
-            List<String> exercise_routine_array = getSplitedNamesFromResponse(response);
+            String response = new chatAsyncTask(db.chatDao()).execute(loginId.getLoginId()).get();
+            List<String> exercise_routine_array = new ArrayList<>();
+
+            if (response!=null) {
+                List<String> exerciseList = getSplitedNamesFromResponse(response);
+                for (String exercise : exerciseList) {
+                    exercise_routine_array.add(exercise);
+                }
+            }
+
+            else exercise_routine_array = Arrays.asList("Take a recommendation", "Take a recommendation", "Take a recommendation", "Take a recommendation", "Take a recommendation" );
+
 
             // 버튼에 텍스트 세팅
             setButtonText(exercise_btn_1, exercise_routine_array.get(0));
@@ -106,9 +117,8 @@ public class ExerciseFragment extends Fragment {
 
         @Override //백그라운드작업(메인스레드 X)
         protected String doInBackground(String ... userIds) {
-            String dietList = chatDao.getExerciseList(userIds[0]);
-            System.out.println("exerciseList = " + dietList);
-            return dietList;
+            String exerciseList = chatDao.getExerciseList(userIds[0]);
+            return exerciseList;
 
         }
     }

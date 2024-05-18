@@ -21,6 +21,7 @@ import org.androidtown.gympalai.entity.Chat;
 import org.androidtown.gympalai.model.LoginId;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
@@ -47,10 +48,19 @@ public class DietFragment extends Fragment {
         diet_btn_2 = rootView.findViewById(R.id.diet_btn_2);
         diet_btn_3 = rootView.findViewById(R.id.diet_btn_3);
 
-        //db에서 식단이름 불러와서 배열에 넣으시면 돼요.
+
         try {
             String response = new chatAsyncTask(db.chatDao()).execute(loginId.getLoginId()).get();
-            List<String> diet_array = getSplitedNamesFromResponse(response);
+            List<String> diet_array = new ArrayList<>();
+
+            if (response != null) {
+                List<String> dietList = getSplitedNamesFromResponse(response);
+                for (String diet : dietList) {
+                    diet_array.add(diet);
+                }
+            } else
+                diet_array = Arrays.asList("Take a recommendation", "Take a recommendation", "Take a recommendation");
+
             // 버튼에 텍스트 세팅
             setButtonText(diet_btn_1, diet_array.get(0));
             setButtonText(diet_btn_2, diet_array.get(1));
@@ -110,7 +120,6 @@ public class DietFragment extends Fragment {
         @Override //백그라운드작업(메인스레드 X)
         protected String doInBackground(String ... userIds) {
             String dietList = chatDao.getDietList(userIds[0]);
-            System.out.println("dietList = " + dietList);
             return dietList;
 
         }

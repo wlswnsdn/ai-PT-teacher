@@ -15,8 +15,10 @@ import org.androidtown.gympalai.R;
 import org.androidtown.gympalai.dao.UserDao;
 import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.User;
+import org.androidtown.gympalai.layout.basicLayout;
 import org.androidtown.gympalai.layout.home;
 import org.androidtown.gympalai.backmethod.LoginFunction;
+import org.androidtown.gympalai.layout.plan;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -64,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(loginResult){
                     loginFunction = new LoginFunction(id);
                     Toast.makeText(getApplicationContext(),"로그인에 성공했습니다.",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, plan.class);
+                    Intent intent = new Intent(LoginActivity.this, basicLayout.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(getApplicationContext(),"잘못된 아이디 또는 비밀번호입니다..",Toast.LENGTH_SHORT).show();

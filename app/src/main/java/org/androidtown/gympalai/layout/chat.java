@@ -230,7 +230,7 @@ public class chat extends Fragment {
                 else if (identifier == '4') {
                     new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginId.getLoginId(), LocalDateTime.now(), isQuestion, message,null,null ));
                     // 운동 점수 계산
-                    int sets = Integer.parseInt(getFullNamesFromResponse(message));
+                    int sets = Integer.parseInt(getSplitedNamesFromResponse(message).get(0));
                     // 최대 세트 수는 30
                    if(sets >30) sets = 30;
                     exerciseScore = sets * 10;
@@ -280,9 +280,9 @@ public class chat extends Fragment {
         Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
         Matcher matcher = pattern.matcher(response);
         if (matcher.find()) {
-            return matcher.group(1);
+            return matcher.group(0);
         } else {
-            return ""; // 대괄호로 둘러싸인 부분이 없는 경우 빈 문자열 반환
+            return "";
         }
     }
 
