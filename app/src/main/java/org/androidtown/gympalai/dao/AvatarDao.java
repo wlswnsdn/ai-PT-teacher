@@ -17,6 +17,12 @@ public interface AvatarDao {
     @Query("select * from avatar")
     LiveData<List<Avatar>> getAll();
 
+    @Query("select * from avatar where avatarName=:avatarName")
+    Avatar getAvatar(String avatarName);
+
+    @Query("select count(*) =0 from avatar")
+    boolean isTableEmpty();
+
     @Insert
     void insert(Avatar avatar);
 
