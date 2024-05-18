@@ -125,29 +125,38 @@ public class chat extends Fragment {
         });
 
         return view;
-
     }
 
+                System.out.println("question = " + question);
+    addToChat(question, Message.SENT_BY_ME);
+                etMsg.setText("");
+    callAPI(question);
+    // tvWelcome.setVisibility(View.GONE);
+}
+        });
 
 
+                return view;
+                }
 
-    private void updateRecyclerView(List<Chat> chatList){
+
+private void updateRecyclerView(List<Chat> chatList){
         messageList.clear(); // 기존 데이터를 지웁니다.
         if (chatList != null) {
-            for (Chat chat : chatList) {
-                String sentBy = (chat.getQuestion()) ? "me" : "bot";
-                Message message = new Message(chat.getMessage(), sentBy);
-                messageList.add(message);
-            }
+        for (Chat chat : chatList) {
+        String sentBy = (chat.getQuestion()) ? "me" : "bot";
+        Message message = new Message(chat.getMessage(), sentBy);
+        messageList.add(message);
+        }
         }
         messageAdapter.notifyDataSetChanged(); // RecyclerView를 업데이트합니다.
-    }
+        }
 
 
-    //  채팅 목록에 메세지 추가
-    @SuppressLint("NotifyDataSetChanged")
+//  채팅 목록에 메세지 추가
+@SuppressLint("NotifyDataSetChanged")
     void addToChat(String message, String sentBy) {
-        getActivity().runOnUiThread(() -> {
+            getActivity().runOnUiThread(() -> {
             messageList.add(new Message(message, sentBy));
 
             // db에도 message 저장
@@ -157,29 +166,29 @@ public class chat extends Fragment {
             Boolean isQuestion = (sentBy.compareTo("me") == 0) ? true : false;
             System.out.println("isQuestion = " + isQuestion);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                new InsertAsyncTask(db.chatDao()).execute(new Chat(loginId.getLoginId(), LocalDateTime.now(), isQuestion, message ));
+            new InsertAsyncTask(db.chatDao()).execute(new Chat(loginId.getLoginId(), LocalDateTime.now(), isQuestion, message ));
             }
 
             messageAdapter.notifyDataSetChanged();
             recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-        });
-    }
+            });
+            }
 
-    void addResponse(String response){
-        messageList.remove(messageList.size()-1);
-        addToChat(response, Message.SENT_BY_BOT);
-    }
+            void addResponse(String response){
+            messageList.remove(messageList.size()-1);
+            addToChat(response, Message.SENT_BY_BOT);
+            }
 
-    void callAPI(String question) {
-        //okhttp
-        messageList.add(new Message("...", Message.SENT_BY_BOT));
+            void callAPI(String question) {
+            //okhttp
+            messageList.add(new Message("...", Message.SENT_BY_BOT));
 
 
-        //추가된 내용
-        JSONArray arr = new JSONArray();
-        JSONObject baseAi = new JSONObject();
-        JSONObject userMsg = new JSONObject();
-        try {
+            //추가된 내용
+            JSONArray arr = new JSONArray();
+            JSONObject baseAi = new JSONObject();
+            JSONObject userMsg = new JSONObject();
+            try {
             //AI 속성설정
             baseAi.put("role", "user");
             baseAi.put("content", "You are a helpful and kind AI Assistant.");
@@ -189,81 +198,81 @@ public class chat extends Fragment {
             //array로 담아서 한번에 보낸다
             arr.put(baseAi);
             arr.put(userMsg);
-        } catch (JSONException e) {
+            } catch (JSONException e) {
             throw new RuntimeException(e);
-        }
+            }
 
-        JSONObject object = new JSONObject();
-        try {
+            JSONObject object = new JSONObject();
+            try {
 
             object.put("model", "gpt-3.5-turbo");
             object.put("messages", arr);
 
-        } catch (JSONException e) {
+            } catch (JSONException e) {
             e.printStackTrace();
+            }
+            MediaType JSON = MediaType.get("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(object.toString(), JSON);
+            Request request = new Request.Builder()
+            .url("https://api.openai.com/v1/chat/completions")  //url 경로 수정됨
+            .header("Authorization", "Bearer " + api_key)
+            .post(body)
+            .build();
+
+            OkHttpClient client = new OkHttpClient();
+
+            client.newCall(request).enqueue(new Callback() {
+@Override
+public void onFailure(@NonNull Call call, @NonNull IOException e) {
+        addResponse("Failed to load response due to " + e.getMessage());
         }
-        MediaType JSON = MediaType.get("application/json; charset=utf-8");
-        RequestBody body = RequestBody.create(object.toString(), JSON);
-        Request request = new Request.Builder()
-                .url("https://api.openai.com/v1/chat/completions")  //url 경로 수정됨
-                .header("Authorization", "Bearer " + api_key)
-                .post(body)
-                .build();
 
-        OkHttpClient client = new OkHttpClient();
+@Override
+public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+        if (response.isSuccessful()) {
+        JSONObject jsonObject = null;
+        try {
+        jsonObject = new JSONObject(response.body().string());
+        JSONArray jsonArray = jsonObject.getJSONArray("choices");
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                addResponse("Failed to load response due to " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(response.body().string());
-                        JSONArray jsonArray = jsonObject.getJSONArray("choices");
-
-                        String result = jsonArray.getJSONObject(0).getJSONObject("message").getString("content");
-                        addResponse(result.trim());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    addResponse("Failed to load response due to " + response.body().string());
-                }
-            }
+        String result = jsonArray.getJSONObject(0).getJSONObject("message").getString("content");
+        addResponse(result.trim());
+        } catch (JSONException e) {
+        e.printStackTrace();
+        }
+        } else {
+        addResponse("Failed to load response due to " + response.body().string());
+        }
+        }
 
 
         });
-    }
-
-
-    //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
-    public static class InsertAsyncTask extends AsyncTask<Chat, Void, Void> {
-        private ChatDao chatDao;
-
-        public  InsertAsyncTask(ChatDao chatDao){
-            this.chatDao = chatDao;
         }
 
-        @Override //백그라운드작업(메인스레드 X)
-        protected Void doInBackground(Chat... chats) {
-            //추가만하고 따로 SELECT문을 안해도 라이브데이터로 인해
-            //getAll()이 반응해서 데이터를 갱신해서 보여줄 것이다,  메인액티비티에 옵저버에 쓴 코드가 실행된다. (라이브데이터는 스스로 백그라운드로 처리해준다.)
-            try {
-                if (chats != null && chats.length > 0) {
-                    chatDao.insert(chats[0]);
-                }
-            } catch (Exception e) {
-                System.out.println("AsyncTask Exception occurred: " + e.getMessage());
+
+//메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
+public static class InsertAsyncTask extends AsyncTask<Chat, Void, Void> {
+    private ChatDao chatDao;
+
+    public  InsertAsyncTask(ChatDao chatDao){
+        this.chatDao = chatDao;
+    }
+
+    @Override //백그라운드작업(메인스레드 X)
+    protected Void doInBackground(Chat... chats) {
+        //추가만하고 따로 SELECT문을 안해도 라이브데이터로 인해
+        //getAll()이 반응해서 데이터를 갱신해서 보여줄 것이다,  메인액티비티에 옵저버에 쓴 코드가 실행된다. (라이브데이터는 스스로 백그라운드로 처리해준다.)
+        try {
+            if (chats != null && chats.length > 0) {
+                chatDao.insert(chats[0]);
             }
-            return null;
-
+        } catch (Exception e) {
+            System.out.println("AsyncTask Exception occurred: " + e.getMessage());
         }
+        return null;
+
     }
+}
 
 
 
