@@ -24,7 +24,7 @@
         <activity android:name=".LoginSignupJava.FirstSignupActivity"/>
         <activity android:name=".LoginSignupJava.LoginActivity"/>
         <activity android:name=".LoginSignupJava.NextSignupActivity"/>
-        <activity android:name=".LoginSignupJava.plan"/>
+
 
     </application>
 
