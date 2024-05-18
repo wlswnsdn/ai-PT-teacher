@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -20,6 +20,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.androidtown.gympalai.R;
+import org.androidtown.gympalai.dao.HealthInfoDao;
+import org.androidtown.gympalai.entity.HealthInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +52,9 @@ public class analysis extends Fragment {
 
     }
 
-
     private void setupCharts() {
         LineChart[] charts = {chartWeight, chartScore, chartTDEE};
         for (LineChart chart : charts) {
-
 
             chart.getDescription().setEnabled(false);
             chart.setDrawGridBackground(false);
@@ -71,43 +71,6 @@ public class analysis extends Fragment {
         }
     }
 
-
-    private void loadChartData() {
-        // Weight Chart Data
-        List<Entry> weightEntries = new ArrayList<>();
-        weightEntries.add(new Entry(dateToTimestamp("01/01/2021"), 60f));
-        weightEntries.add(new Entry(dateToTimestamp("05/01/2021"), 55f));
-        weightEntries.add(new Entry(dateToTimestamp("11/03/2021"), 80f));
-        LineDataSet weightDataSet = new LineDataSet(weightEntries, "Weight");
-        setupDataSet(weightDataSet);
-        LineData weightLineData = new LineData(weightDataSet);
-        chartWeight.setData(weightLineData);
-        chartWeight.invalidate(); // 갱신
-
-        // Score Chart Data
-        List<Entry> scoreEntries = new ArrayList<>();
-        scoreEntries.add(new Entry(dateToTimestamp("01/01/2021"), 70f));
-        scoreEntries.add(new Entry(dateToTimestamp("11/12/2021"), 68f));
-        LineDataSet scoreDataSet = new LineDataSet(scoreEntries, "Score");
-        setupDataSet(scoreDataSet);
-        LineData scoreLineData = new LineData(scoreDataSet);
-        chartScore.setData(scoreLineData);
-        chartScore.invalidate(); // 갱신
-
-        // TDEE Chart Data
-        List<Entry> tdeeEntries = new ArrayList<>();
-        tdeeEntries.add(new Entry(dateToTimestamp("01/01/2021"), 2500f));
-        tdeeEntries.add(new Entry(dateToTimestamp("02/01/2021"), 2600f));
-        tdeeEntries.add(new Entry(dateToTimestamp("03/01/2021"), 2550f));
-        tdeeEntries.add(new Entry(dateToTimestamp("04/01/2021"), 2450f));
-        tdeeEntries.add(new Entry(dateToTimestamp("05/01/2021"), 2475f));
-        LineDataSet tdeeDataSet = new LineDataSet(tdeeEntries, "TDEE");
-        setupDataSet(tdeeDataSet);
-        LineData tdeeLineData = new LineData(tdeeDataSet);
-        chartTDEE.setData(tdeeLineData);
-        chartTDEE.invalidate(); // 갱신
-    }
-
     private void setupDataSet(LineDataSet dataSet) {
         dataSet.setColor(Color.BLACK);
         dataSet.setDrawValues(false);
@@ -116,17 +79,12 @@ public class analysis extends Fragment {
         dataSet.setCircleRadius(3f);
     }
 
-
-    //날짜 스탬프 변환 함수
-    public long dateToTimestamp(String dateStr) {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); // 날짜 포맷 지정
-        try {
-            Date date = formatter.parse(dateStr);
-            return date.getTime(); // 타임스탬프 반환
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+    private void setupChartData(LineChart chart, List<Entry> entries, String label) {
+        LineDataSet dataSet = new LineDataSet(entries, label);
+        setupDataSet(dataSet);
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate(); // 갱신
     }
 
     //X값을 날짜 형식으로 포맷
@@ -143,4 +101,74 @@ public class analysis extends Fragment {
         }
     }
 
+
+    private void loadChartData() {
+
+        // 여기 아래 weight 받아와야합니다
+        HealthInfoDao.getAll().observe(getViewLifecycleOwner(), new Observer<List<HealthInfo>>() {
+            @Override
+            public void onChanged(List<HealthInfo> healthInfos) {
+                List<Entry> weightEntries = new ArrayList<>();
+
+                for (HealthInfo healthInfo : healthInfos) {
+
+                    long timestamp =0; //dateToTimestamp( ); 여기에 날짜 데이터 넣어야함.
+                    weightEntries.add(new Entry(timestamp, healthInfo.getWeight()));
+
+                }
+                setupChartData(chartWeight, weightEntries, "Weight");
+
+
+            }
+        });
+        // 여기 아래 Score 받아와야합니다.
+        HealthInfoDao.getAll().observe(getViewLifecycleOwner(), new Observer<List<HealthInfo>>() {
+            @Override
+            public void onChanged(List<HealthInfo> healthInfos) {
+                List<Entry> scoreEntries = new ArrayList<>();
+
+                for (HealthInfo healthInfo : healthInfos) {
+
+                    long timestamp =dateToTimestamp(); //dateToTimestamp( ); 여기에 날짜 데이터 넣어야함.
+                    scoreEntries.add(new Entry(timestamp, healthInfo.getscore()));
+
+                }
+                setupChartData(chartScore, scoreEntries, "Score");
+
+
+            }
+        });
+        // 여기 아래 TDEE 받아와야합니다.
+        HealthInfoDao.getAll().observe(getViewLifecycleOwner(), new Observer<List<HealthInfo>>() {
+            @Override
+            public void onChanged(List<HealthInfo> healthInfos) {
+                List<Entry> TDEEEntries = new ArrayList<>();
+
+                for (HealthInfo healthInfo : healthInfos) {
+
+                    long timestamp =dateToTimestamp(); //dateToTimestamp( ); 여기에 날짜 데이터 넣어야함.
+                    TDEEEntries.add(new Entry(timestamp, healthInfo.getTDEE()));
+
+                }
+                setupChartData(chartTDEE, weightEntries, "TDEE");
+
+
+            }
+        });
+
+
+    }
+
+
+            //날짜 스탬프 변환 함수
+            public long dateToTimestamp(String dateStr) {
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); // 날짜 포맷 지정
+                try {
+                    Date date = formatter.parse(dateStr);
+                    return date.getTime(); // 타임스탬프 반환
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            }
 }

@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view){
                 //여기에 login() 사용해주시면 됩니다.
                 //login_id.getText().toString(), login_password.getText().toString()
-               if(){//로그인 성공했을때
+                /*if(){//로그인 성공했을때
                     Toast success= Toast.makeText(getApplicationContext(),"로그인에 성공했습니다.",Toast.LENGTH_SHORT);
                     success.show();
                     Intent intent = new Intent(getApplicationContext(), home.class);
@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
 
+                 */
             }
         });
 
