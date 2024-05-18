@@ -22,11 +22,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.androidtown.gympalai.R;
 import org.androidtown.gympalai.adapter.MessageAdapter;
 import org.androidtown.gympalai.dao.ChatDao;
+import org.androidtown.gympalai.dao.RankingDao;
 import org.androidtown.gympalai.dao.ScoreDao;
 import org.androidtown.gympalai.dao.UserDao;
 import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.Chat;
 import org.androidtown.gympalai.entity.HealthInfo;
+import org.androidtown.gympalai.entity.Ranking;
 import org.androidtown.gympalai.entity.Score;
 import org.androidtown.gympalai.entity.User;
 import org.androidtown.gympalai.model.LoginId;
@@ -186,12 +188,20 @@ public class chat extends Fragment {
                             // 지방
                             dietScore += (int) (getDietScore(TDEE, 0.3, Double.parseDouble(nutrition.get(2))));
                             Score score = null;
+                            Ranking ranking = null;
                             try {
-                                score = new scoreInsertAsyncTask(2, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
+                                score = new scoreAsyncTask(2, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
+                                ranking = new rankingAsyncTask(2, 0, loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
                                 // 오늘 첫 기록이면
-                                if(score==null) new scoreInsertAsyncTask(0, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), dietScore));
+                                if(score==null) {
+                                    new scoreAsyncTask(0, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), dietScore));
+                                    new rankingAsyncTask(0, 0, loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), dietScore));
+                                }
                                 // 이미 오늘 기록한게 있으면
-                                else if(score.getScore()+dietScore<1000) new scoreInsertAsyncTask(1, score.getScoreId(), loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), score.getScore()+dietScore));
+                                else if(score.getScore()+dietScore<1000) {
+                                    new scoreAsyncTask(1, score.getScoreId(), loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), score.getScore()+dietScore));
+                                    new rankingAsyncTask(1, ranking.getRankingId(), loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), ranking.getScore() + dietScore));
+                                }
 
                                 //System.out.println("score.toString() = " + score.toString());
                             } catch (ExecutionException e) {
@@ -225,12 +235,20 @@ public class chat extends Fragment {
                    if(sets >30) sets = 30;
                     exerciseScore = sets * 10;
                     Score score = null;
+                    Ranking ranking = null;
                     try {
-                        score = new scoreInsertAsyncTask(2, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
+                        score = new scoreAsyncTask(2, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
+                        ranking = new rankingAsyncTask(2, 0, loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
                         // 오늘 첫 기록이면
-                        if(score==null) new scoreInsertAsyncTask(0, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), exerciseScore));
+                        if(score==null) {
+                            new scoreAsyncTask(0, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), exerciseScore));
+                            new rankingAsyncTask(0, 0, loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), exerciseScore));
+                        }
                         // 이미 오늘 기록한게 있으면
-                        else if(score.getScore()+exerciseScore<1000) new scoreInsertAsyncTask(1, score.getScoreId(), loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), score.getScore()+exerciseScore));
+                        else if(score.getScore()+exerciseScore<1000) {
+                            new scoreAsyncTask(1, score.getScoreId(), loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), score.getScore()+exerciseScore));
+                            new rankingAsyncTask(1, ranking.getRankingId(), loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), ranking.getScore() + exerciseScore));
+                        }
 
                         //System.out.println("score.toString() = " + score.toString());
                     } catch (ExecutionException e) {
@@ -424,7 +442,7 @@ public class chat extends Fragment {
     }
 
     //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
-    public static class scoreInsertAsyncTask extends AsyncTask<Score, Void, Score> {
+    public static class scoreAsyncTask extends AsyncTask<Score, Void, Score> {
         private ScoreDao scoreDao;
         private int identifier;
 
@@ -432,7 +450,7 @@ public class chat extends Fragment {
 
         private String userId;
 
-        public  scoreInsertAsyncTask(int identifier, long scoreId, String userId, ScoreDao scoreDao){
+        public  scoreAsyncTask(int identifier, long scoreId, String userId, ScoreDao scoreDao){
             this.scoreDao = scoreDao;
             this.identifier = identifier;
             this.scoreId = scoreId;
@@ -441,21 +459,15 @@ public class chat extends Fragment {
 
         @Override //백그라운드작업(메인스레드 X)
         protected Score doInBackground(Score...scores) {
-            System.out.println("identifier = " + identifier);
             // insert
             if(identifier==0 && scores!=null)   scoreDao.insert(scores[0]);
             // update
             else if(identifier==1 && scores!=null)   {
-                System.out.println("scoreId = " + scoreId);
-                System.out.println("scores[0].getScore() = " + scores[0].getScore());
                 scoreDao.updateScore(scoreId, scores[0].getScore());
             }
             // select
             else {
-                System.out.println("welcome identifier 2");
-                System.out.println("scores[0].getUserId() = " + scores[0].getUserId());
                 Score score = scoreDao.getScore(scores[0].getUserId());
-                System.out.println("score = " + score);
                 return score;
             }
 
@@ -463,6 +475,46 @@ public class chat extends Fragment {
 
         }
     }
+
+    public static class rankingAsyncTask extends AsyncTask<Ranking, Void, Ranking> {
+
+        private RankingDao rankingDao;
+
+        private int identifier;
+
+        private long rankingId;
+
+        private String userId;
+
+        public rankingAsyncTask(int identifier, long rankingId, String userId,RankingDao rankingDao) {
+            this.rankingDao = rankingDao;
+            this.identifier = identifier;
+            this.rankingId = rankingId;
+            this.userId = userId;
+        }
+
+        @Override //백그라운드작업(메인스레드 X)
+        protected Ranking doInBackground(Ranking ... rankings) {
+            System.out.println("identifier = " + identifier);
+            // insert
+            if(identifier==0 && rankings!=null)   rankingDao.insert(rankings[0]);
+            // update
+            else if(identifier==1 && rankings!=null)   {
+                System.out.println("rankingId = " + rankingId);
+                System.out.println("scores[0].getScore() = " + rankings[0].getScore());
+                rankingDao.updateRanking(rankingId, rankings[0].getScore());
+            }
+            else {
+                Ranking ranking = rankingDao.getRanking(rankings[0].getUserId());
+                return ranking;
+            }
+
+            return null;
+
+        }
+
+    }
+
 
 
 

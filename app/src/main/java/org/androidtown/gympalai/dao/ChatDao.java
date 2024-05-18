@@ -19,7 +19,10 @@ public interface ChatDao {
 
     @Query("SELECT exerciseList FROM chat WHERE userId = :userId AND exerciselist IS NOT NULL ORDER BY chatId DESC LIMIT 1")
     String getExerciseList(String userId);
-    @Query("SELECT dietList FROM chat WHERE date = DATE('now') AND userId = :userId AND dietList IS NOT NULL; -- exerciseList가 null이 아닌 경우 선택\n")
+//    @Query("SELECT dietList FROM chat WHERE date = DATE('now') AND userId = :userId AND dietList IS NOT NULL; -- exerciseList가 null이 아닌 경우 선택\n")
+//    String getDietList(String userId);
+
+    @Query("SELECT dietList FROM chat WHERE userId = :userId AND dietList IS NOT NULL ORDER BY chatId DESC LIMIT 1;")
     String getDietList(String userId);
     @Insert
     void insert(Chat chat);
