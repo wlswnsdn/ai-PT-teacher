@@ -64,23 +64,27 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
                     android:orientation="vertical"
                     android:gravity="center">
 
-                    <Button
+                    <ImageView
                         android:id="@+id/trainner_option_circle_1"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="@drawable/basic_circle_shape"
-                        android:src="@drawable/password_img"/>
-                    <TextView
-                        android:id="@+id/trainner_textview_1"
+                        android:src="@drawable/avatar_img"
+                        />
+                    <Button
+                        android:id="@+id/trainner_btn_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Freindly\n Jenny"
                         android:textStyle="bold"
                         android:textSize="25sp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:background="@color/transparent"/>
+
                     <TextView
                         android:id="@+id/trainner_description_1"
                         android:layout_width="wrap_content"
@@ -98,23 +102,25 @@
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/trainner_option_1"
                     android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
                     android:orientation="vertical"
                     android:gravity="center">
 
-                    <Button
+                    <ImageView
                         android:id="@+id/trainner_option_circle_2"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="@drawable/basic_circle_shape"
-                        android:src="@drawable/password_img"/>
-                    <TextView
-                        android:id="@+id/trainner_textview_2"
+                        android:src="@drawable/laguage_img"/>
+                    <Button
+                        android:id="@+id/trainner_btn_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Strong\n Ronny"
                         android:textStyle="bold"
                         android:textSize="25sp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:background="@color/transparent"/>
                     <TextView
                         android:id="@+id/trainner_description_2"
                         android:layout_width="wrap_content"
@@ -135,21 +141,21 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical"
                     android:gravity="center">
-
-                    <Button
+                    <ImageView
                         android:id="@+id/trainner_option_circle_3"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="@drawable/basic_circle_shape"
-                        android:src="@drawable/password_img"/>
-                    <TextView
-                        android:id="@+id/trainner_textview_3"
+                        android:src="@drawable/dumbell"/>
+                    <Button
+                        android:id="@+id/trainner_btn_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Master\n Woo"
                         android:textStyle="bold"
                         android:textSize="25sp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:background="@color/transparent"/>
                     <TextView
                         android:id="@+id/trainner_description_3"
                         android:layout_width="wrap_content"

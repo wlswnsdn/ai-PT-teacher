@@ -30,7 +30,7 @@
 
     </RelativeLayout>
     <Button
-        android:id="@+id/language_1"
+        android:id="@+id/kr_btn"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
@@ -40,7 +40,7 @@
 
         />
     <Button
-        android:id="@+id/language_2"
+        android:id="@+id/en_btn"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
@@ -50,7 +50,7 @@
 
         />
     <Button
-        android:id="@+id/language_3"
+        android:id="@+id/jp_btn"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="50dp"
