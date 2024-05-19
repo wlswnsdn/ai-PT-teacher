@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import org.androidtown.gympalai.R;
 import org.androidtown.gympalai.mypagefragments.AvatarSetting;
 import org.androidtown.gympalai.mypagefragments.LanguageSetting;
+import org.androidtown.gympalai.mypagefragments.Logout;
 import org.androidtown.gympalai.mypagefragments.MyInformationChangeFragment;
 import org.androidtown.gympalai.mypagefragments.NicknamePassword;
 
@@ -22,6 +23,8 @@ public class myPage extends Fragment {
     private NicknamePassword nicknamepasswordfragment;
     private AvatarSetting avatarsetting;
     private LanguageSetting languagesetting;
+    private Logout logout;
+
 
     private Button my_information_btn, nickname_change_btn, avatar_btn, language_change_btn, logout_btn;
     private LinearLayout buttonContainer; // 버튼들을 포함하는 레이아웃
@@ -35,6 +38,7 @@ public class myPage extends Fragment {
         nicknamepasswordfragment = new NicknamePassword();
         avatarsetting = new AvatarSetting();
         languagesetting = new LanguageSetting();
+        logout=new Logout();
     }
 
     @Override
@@ -54,9 +58,8 @@ public class myPage extends Fragment {
         nickname_change_btn.setOnClickListener(v -> replaceFragment(nicknamepasswordfragment));
         avatar_btn.setOnClickListener(v -> replaceFragment(avatarsetting));
         language_change_btn.setOnClickListener(v -> replaceFragment(languagesetting));
-        logout_btn.setOnClickListener(v -> {
-            // 로그아웃 처리 로직 추가
-        });
+        logout_btn.setOnClickListener(v -> replaceFragment(logout));
+
 
         return rootView;
     }
