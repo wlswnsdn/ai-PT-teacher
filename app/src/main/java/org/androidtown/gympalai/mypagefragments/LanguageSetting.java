@@ -1,9 +1,13 @@
 package org.androidtown.gympalai.mypagefragments;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,12 +15,89 @@ import androidx.fragment.app.Fragment;
 
 import org.androidtown.gympalai.R;
 
+import java.util.Locale;
+
 public class LanguageSetting extends Fragment {
+    Button kr_btn, en_btn, jp_btn;
+    TextView current_language;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView= (ViewGroup) inflater.inflate(R.layout.my_page_language, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.my_page_language, container, false);
+
+        // 버튼들 선언
+        kr_btn = rootView.findViewById(R.id.kr_btn);
+        en_btn = rootView.findViewById(R.id.en_btn);
+        jp_btn = rootView.findViewById(R.id.jp_btn);
+
+        // 텍스트 뷰 생성
+        current_language = rootView.findViewById(R.id.present_language);
+
+        // 현재 언어 설정
+        setCurrentLanguage();
+
+        // 한국어 버튼 클릭 리스너 설정
+        kr_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setLocale("ko"); // 언어 설정을 한국어로 변경
+            }
+        });
+
+        // 영어 버튼 클릭 리스너 설정
+        en_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setLocale("en"); // 언어 설정을 영어로 변경
+            }
+        });
+
+        // 일본어 버튼 클릭 리스너 설정
+        jp_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setLocale("ja"); // 언어 설정을 일본어로 변경
+            }
+        });
 
         return rootView;
+    }
+
+    // 현재 언어를 텍스트 뷰에 설정하는 메서드
+    private void setCurrentLanguage() {
+        String language = Locale.getDefault().getLanguage();
+        switch (language) {
+            case "ko":
+                current_language.setText("한국어");
+                break;
+            case "en":
+                current_language.setText("english");
+                break;
+            case "ja":
+                current_language.setText("日本語");
+                break;
+            default:
+                current_language.setText(language); // 기타 언어
+                break;
+        }
+    }
+
+    // 애플리케이션의 언어를 변경하는 메서드
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+        // 현재 언어를 업데이트
+        setCurrentLanguage();
+
+        // 필요 시, 애플리케이션을 재시작하여 언어 변경을 반영할 수 있습니다.
+        // 예를 들어, 다음과 같이 Activity를 재시작할 수 있습니다:
+        // Intent intent = getActivity().getIntent();
+        // getActivity().finish();
+        // startActivity(intent);
     }
 }
