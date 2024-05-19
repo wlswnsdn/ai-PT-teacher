@@ -17,6 +17,9 @@ public interface UserDao {
     @Query("select * from user")
     LiveData<List<User>> getAll();
 
+    @Query("select avatarName from user where userId=:userId")
+    String getAvatarName(String userId);
+
     @Insert
     void insert(User user); //회원등록
 

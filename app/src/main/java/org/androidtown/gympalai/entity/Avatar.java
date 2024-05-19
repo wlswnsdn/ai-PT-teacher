@@ -19,7 +19,6 @@ public class Avatar {
     public Avatar(@NonNull String avatarName, byte[] image, @NonNull Boolean isLocked, @NonNull String description) {
         this.avatarName = avatarName;
         this.image = image;
-
         this.isLocked = isLocked;
         this.description = description;
     }

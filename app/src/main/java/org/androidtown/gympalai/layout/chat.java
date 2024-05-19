@@ -1,6 +1,8 @@
 package org.androidtown.gympalai.layout;
 import android.annotation.SuppressLint;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,11 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.androidtown.gympalai.R;
 import org.androidtown.gympalai.adapter.MessageAdapter;
+import org.androidtown.gympalai.dao.AvatarDao;
 import org.androidtown.gympalai.dao.ChatDao;
 import org.androidtown.gympalai.dao.RankingDao;
 import org.androidtown.gympalai.dao.ScoreDao;
 import org.androidtown.gympalai.dao.UserDao;
 import org.androidtown.gympalai.database.GymPalDB;
+import org.androidtown.gympalai.entity.Avatar;
 import org.androidtown.gympalai.entity.Chat;
 import org.androidtown.gympalai.entity.HealthInfo;
 import org.androidtown.gympalai.entity.Ranking;
@@ -64,6 +69,7 @@ public class chat extends Fragment {
     TextView tvWelcome;
     ImageButton btnSend;
 
+    ImageView imageView;
     List<Message> messageList;
     MessageAdapter messageAdapter;
 
@@ -74,6 +80,7 @@ public class chat extends Fragment {
 
     LoginId loginId = new LoginId();
 
+    String avatarDescription;
 
     private static final String api_key = "sk-proj-5h1uVBeVPFcBqzoibAlUT3BlbkFJoWYnw4fzTEHfeDs9RuFv";
 
@@ -91,6 +98,7 @@ public class chat extends Fragment {
         tvWelcome = view.findViewById(R.id.tv_welcome);
         etMsg = view.findViewById(R.id.et_msg);
         btnSend = view.findViewById(R.id.btn_send);
+        imageView = view.findViewById(R.id.image_profile);
 
         // RecyclerView 설정
         recyclerView.setHasFixedSize(true);
@@ -102,6 +110,24 @@ public class chat extends Fragment {
         messageList = new ArrayList<>();
         messageAdapter = new MessageAdapter(messageList);
         recyclerView.setAdapter(messageAdapter);
+
+        // 아바타 설정
+        String avatarName = null;
+        try {
+            avatarName = new userAsyncTask(db.userDao()).execute(loginId.getLoginId()).get();
+            if (avatarName != null) {
+                Avatar avatar = new avatarAsyncTask(db.avatarDao()).execute(avatarName).get();
+                avatarDescription=avatar.getDescription();
+                byte[] image = avatar.getImage();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                imageView.setImageBitmap(bitmap);
+            }
+
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
 
 
@@ -302,7 +328,7 @@ public class chat extends Fragment {
 
 
 
-    void callAPI(String question) {
+    void callAPI(String question)  {
         //okhttp
         messageList.add(new Message("...", Message.SENT_BY_BOT));
 
@@ -317,7 +343,7 @@ public class chat extends Fragment {
         try {
             //AI 속성설정
             baseAi.put("role", "user");
-            baseAi.put("content", script);
+            baseAi.put("content", "너는 지금부터 내가 설명하는 트레이너가 돼서 유저들을 가르치는거야."+ avatarDescription + script);
             //유저 메세지
             userMsg.put("role", "user");
             userMsg.put("content", question);
@@ -513,6 +539,54 @@ public class chat extends Fragment {
 
         }
 
+    }
+
+    //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
+    public static class avatarAsyncTask extends AsyncTask<String, Void, Avatar> {
+
+        private AvatarDao avatarDao;
+
+        public avatarAsyncTask(AvatarDao avatarDao) {
+            this.avatarDao = avatarDao;
+        }
+
+        @Override //백그라운드작업(메인스레드 X)
+        protected Avatar doInBackground(String ...avatarNames) {
+            try{
+                if(avatarNames[0]!=null) {
+                    Avatar avatar = avatarDao.getAvatar(avatarNames[0]);
+                    return avatar;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+
+        }
+    }
+
+    //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
+    public static class userAsyncTask extends AsyncTask<String, Void, String> {
+
+        private UserDao userDao;
+
+        public userAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override //백그라운드작업(메인스레드 X)
+        protected String doInBackground(String ...userIds) {
+            try{
+                if(userIds[0]!=null) {
+                    String avatarName = userDao.getAvatarName(userIds[0]);
+                    return avatarName;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+
+        }
     }
 
 

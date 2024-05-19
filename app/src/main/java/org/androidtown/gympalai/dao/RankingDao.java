@@ -17,6 +17,9 @@ public interface RankingDao {
     @Query("select * from ranking")
     LiveData<List<Ranking>> getAll();
 
+    @Query("select userId from ranking group by userId order by sum(Score) desc limit 10")
+    List<String> getTop10();
+
     @Query(("SELECT * FROM ranking WHERE DATE(date) = DATE('now') AND userId = :userId"))
     Ranking getRanking(String userId);
 

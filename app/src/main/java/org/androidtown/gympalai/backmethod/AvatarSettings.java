@@ -30,15 +30,15 @@ public class AvatarSettings extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // 이미지 불러옴
-        Bitmap bitmap1 = loadImageFromDrawable(this, R.id.analysis);
+        Bitmap bitmap1 = loadImageFromDrawable(this, R.drawable.avatar1);
         byte[] imageData1 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap2 = loadImageFromDrawable(this, R.id.analysis);
+        Bitmap bitmap2 = loadImageFromDrawable(this, R.drawable.avatar2);
         byte[] imageData2 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap3 = loadImageFromDrawable(this, R.id.analysis);
+        Bitmap bitmap3 = loadImageFromDrawable(this, R.drawable.avatar3);
         byte[] imageData3 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap4 = loadImageFromDrawable(this, R.id.analysis);
+        Bitmap bitmap4 = loadImageFromDrawable(this, R.drawable.avatar4);
         byte[] imageData4 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap5 = loadImageFromDrawable(this, R.id.analysis);
+        Bitmap bitmap5 = loadImageFromDrawable(this, R.drawable.avatar5);
         byte[] imageData5 = bitmapToByteArray(bitmap1);
 
         List<byte[]> bitmapList = new ArrayList<>(Arrays.asList(imageData1,imageData2,imageData3,imageData4,imageData5));
