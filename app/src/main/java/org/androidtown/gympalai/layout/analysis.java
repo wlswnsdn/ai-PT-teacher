@@ -2,12 +2,14 @@ package org.androidtown.gympalai.layout;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
@@ -101,6 +103,9 @@ public class analysis extends Fragment {
             // 왼쪽 Y축 설정
             YAxis leftAxis = chart.getAxisLeft();
             leftAxis.setDrawGridLines(false); // 그리드 라인 비활성화
+
+            chart.setVisibleXRangeMaximum(5); // 초기 화면에 보이는 데이터 포인트 수
+            chart.setDragEnabled(true); // 차트를 드래그 가능하게 설정
         }
     }
 
@@ -186,6 +191,7 @@ public class analysis extends Fragment {
         });
 
         db.scoreDao().getUserScoreList(loginId.getLoginId()).observe(getViewLifecycleOwner(), new Observer<List<Score>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onChanged(List<Score> scores) {
                 List<Entry> scoreEntries = new ArrayList<>();
