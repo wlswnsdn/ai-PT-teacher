@@ -31,6 +31,14 @@ public interface UserDao {
     @Query("SELECT nickName FROM user")
     List<String> getUserNickList();
 
+    @Query("UPDATE user SET nickName = :newNickName WHERE userId = :userId")
+    void updateNickName(String userId, String newNickName); //닉네임 변경을 위한 메소드
+    @Query("Select nickName FROM user Where userId = :loginId")
+    String getUserNickById(String loginId);
+
+    @Query("UPDATE user SET pw = :newPw WHERE userId = :userId")
+    void updatePw(String userId, String newPw); //비밀번호 변경을 위한 메소드
+
     @Query("SELECT pw FROM user WHERE userId = :loginId")
     String getUserPwById(String loginId); //로그인 시 아이디로 비밀번호를 가져와 일치여부를 판단할거임
 

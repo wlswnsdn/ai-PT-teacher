@@ -7,7 +7,7 @@ public class LoginFunction { //로그인 한 유저의 아이디로 설정하기
         this.myId = myId;
     }
     public LoginFunction(){}
-    public String getMYId(){
+    public String getMyId(){
         return myId;
     }
 }
