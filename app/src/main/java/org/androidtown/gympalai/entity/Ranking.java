@@ -5,11 +5,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import org.androidtown.gympalai.converter.Converters;
 
 import java.time.LocalDateTime;
 
-@Entity(tableName = "ranking", foreignKeys = @ForeignKey(entity = User.class,
-parentColumns = "userId", childColumns = "userId", onDelete = ForeignKey.CASCADE))
+@Entity(tableName = "ranking",
+        foreignKeys = @ForeignKey(entity = User.class, parentColumns = "userId", childColumns = "userId", onDelete = ForeignKey.CASCADE))
 public class Ranking {
     public Ranking(@NonNull LocalDateTime date, @NonNull String userId, int score) {
         this.date = date;
@@ -25,6 +28,7 @@ public class Ranking {
     private long rankingId;
 
     @NonNull
+    @TypeConverters({Converters.class})
     @ColumnInfo(name = "date")
     private LocalDateTime date;
 

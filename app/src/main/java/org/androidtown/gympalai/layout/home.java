@@ -22,6 +22,10 @@ import org.androidtown.gympalai.R;
 import org.androidtown.gympalai.dao.AvatarDao;
 import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.Avatar;
+
+import org.androidtown.gympalai.adapter.LeaderboardAdapter;
+
+import org.androidtown.gympalai.entity.User;
 import org.androidtown.gympalai.model.CircularProgressView;
 import org.androidtown.gympalai.worker.SeasonUpdateWorker;
 
@@ -36,11 +40,12 @@ import java.util.concurrent.TimeUnit;
 
 public class home extends Fragment {
 
-    CircularProgressView personalScore;
-    RecyclerView recyclerView;
-    TextView firstPlace, secondPlace, thirdPlace;
-    TextView firstPlaceScore, secondPlaceScore, thirdPlaceScore;
-    private static String currentUser = "user6"; // 현재 사용자를 user6으로 설정
+    CircularProgressView personalScore;  // 개인 점수 표시 뷰
+    RecyclerView recyclerView;  // 리더보드 리사이클러뷰
+    TextView firstPlace, secondPlace, thirdPlace;  // 1, 2, 3등 사용자 이름 텍스트뷰
+    TextView firstPlaceScore, secondPlaceScore, thirdPlaceScore;  // 1, 2, 3등 사용자 점수 텍스트뷰
+
+    private static String currentUser = "user6"; // 현재 사용자 아이디를 user6으로 설정, 이부분 가져와야함.
 
     GymPalDB db;
 
@@ -48,6 +53,7 @@ public class home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        // 뷰 초기화
         personalScore = view.findViewById(R.id.score);
         recyclerView = view.findViewById(R.id.leaderboard);
         firstPlace = view.findViewById(R.id.userfirst);
@@ -66,15 +72,15 @@ public class home extends Fragment {
         // avatar 저장
 
         // 이미지 불러옴
-        Bitmap bitmap1 = loadImageFromDrawable(getActivity(), R.drawable.avatar1);
+        Bitmap bitmap1 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
         byte[] imageData1 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap2 = loadImageFromDrawable(getActivity(), R.drawable.avatar2);
+        Bitmap bitmap2 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
         byte[] imageData2 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap3 = loadImageFromDrawable(getActivity(), R.drawable.avatar3);
+        Bitmap bitmap3 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
         byte[] imageData3 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap4 = loadImageFromDrawable(getActivity(), R.drawable.avatar4);
+        Bitmap bitmap4 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
         byte[] imageData4 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap5 = loadImageFromDrawable(getActivity(), R.drawable.avatar5);
+        Bitmap bitmap5 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
         byte[] imageData5 = bitmapToByteArray(bitmap1);
 
         List<byte[]> bitmapList = new ArrayList<>(Arrays.asList(imageData1,imageData2,imageData3,imageData4,imageData5));
@@ -136,42 +142,58 @@ public class home extends Fragment {
 
 
         // 리사이클러뷰 설정
+
+        // 리사이클러뷰 레이아웃 매니저 설정
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        List<User> userList = generateDummyData(); // 더미 데이터 생성
+
+
+        // 더미 데이터 생성 (이 부분을 DB에서 데이터를 가져오도록 수정해야 함)
+        List<UserScore> userList = generateDummyData();
+
 
         // 점수순으로 정렬
-        Collections.sort(userList, new Comparator<User>() {
+        Collections.sort(userList, new Comparator<UserScore>() {
             @Override
-            public int compare(User u1, User u2) {
+            public int compare(UserScore u1, UserScore u2) {
                 return Integer.compare(u2.getScore(), u1.getScore()); // 점수 내림차순으로 정렬
             }
         });
 
-        LeaderboardAdapter adapter = new LeaderboardAdapter(userList);
+        // 리더보드 어댑터 설정
+        LeaderboardAdapter adapter = new LeaderboardAdapter(userList, currentUser);
         recyclerView.setAdapter(adapter);
 
-        // 더미 데이터에서 상위 3명 설정
+        // 상위 3명 사용자 이름 및 점수 설정
         if (userList.size() >= 3) {
-            firstPlace.setText(userList.get(0).getName());
-            secondPlace.setText(userList.get(1).getName());
-            thirdPlace.setText(userList.get(2).getName());
+            firstPlace.setText(userList.get(0).getUserId());
+            secondPlace.setText(userList.get(1).getUserId());
+            thirdPlace.setText(userList.get(2).getUserId());
 
             firstPlaceScore.setText(String.valueOf(userList.get(0).getScore()));
             secondPlaceScore.setText(String.valueOf(userList.get(1).getScore()));
             thirdPlaceScore.setText(String.valueOf(userList.get(2).getScore()));
         }
 
-        personalScore.setScore(700); // 예시 점수 설정
+        // 개인 점수 설정
+        for (UserScore user : userList) {
+            if (user.getUserId().equals(currentUser)) {
+                personalScore.setScore(user.getScore()); // 현재 사용자 점수 설정
+                break;
+            }
+        }
 
-        scrollToCurrentUser(userList); // 현재 사용자를 중앙에 위치시키는 메서드 호출
+        // 현재 사용자를 중앙에 위치시키는 메서드 호출
+        scrollToCurrentUser(userList);
 
         return view;
     }
 
-    private void scrollToCurrentUser(List<User> userList) {
+    // 현재 사용자를 중앙에 위치시키는 메서드
+    private void scrollToCurrentUser(List<UserScore> userList) {
         int position = -1;
         for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).getName().equals(currentUser)) {
+            if (userList.get(i).getUserId().equals(currentUser)) {
                 position = i;
                 break;
             }
@@ -184,32 +206,34 @@ public class home extends Fragment {
         }
     }
 
-    private List<User> generateDummyData() {
-        List<User> userList = new ArrayList<>();
+    // 더미 데이터 생성 메서드 (이 부분을 DB에서 데이터를 가져오도록 수정해야 함)
+    private List<UserScore> generateDummyData() {
+        List<UserScore> userList = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
-            userList.add(new User("user" + i, (int) (Math.random() * 1000)));
+            userList.add(new UserScore("user" + i, (int) (Math.random() * 1000)));
         }
         return userList;
     }
 
-    // User 클래스 테스트용
-    static class User {
-        private String name;
+    // UserScore 클래스 (테스트용)
+    public static class UserScore {
+        private String userId;
         private int score;
 
-        public User(String name, int score) {
-            this.name = name;
+        public UserScore(String userId, int score) {
+            this.userId = userId;
             this.score = score;
         }
 
-        public String getName() {
-            return name;
+        public String getUserId() {
+            return userId;
         }
 
         public int getScore() {
             return score;
         }
     }
+
 
     // LeaderboardAdapter 클래스
     static class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
@@ -231,7 +255,7 @@ public class home extends Fragment {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             User user = userList.get(position);
             holder.rank.setText(String.valueOf(position + 1)); // 랭킹 설정
-            holder.username.setText(user.getName());
+            holder.username.setText(user.getNickName());
             holder.score.setText(String.valueOf(user.getScore()));
 
 
@@ -289,4 +313,5 @@ public class home extends Fragment {
 
         WorkManager.getInstance(getActivity()).enqueueUniquePeriodicWork("SeasonUpdateWork", ExistingPeriodicWorkPolicy.KEEP, request);
     }
+
 }

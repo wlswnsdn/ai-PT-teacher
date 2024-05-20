@@ -5,6 +5,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import org.androidtown.gympalai.converter.Converters;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +28,7 @@ public class Score {
     private long scoreId;
 
     @NonNull
+    @TypeConverters({Converters.class}) //Use TypeConverters for LocalDateTime
     @ColumnInfo(name = "date")
     private LocalDateTime date;
     @NonNull
