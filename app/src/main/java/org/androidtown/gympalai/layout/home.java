@@ -19,12 +19,18 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import org.androidtown.gympalai.R;
+import org.androidtown.gympalai.backmethod.LoginFunction;
 import org.androidtown.gympalai.dao.AvatarDao;
+import org.androidtown.gympalai.dao.RankingDao;
+import org.androidtown.gympalai.dao.ScoreDao;
+import org.androidtown.gympalai.dao.UserDao;
 import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.Avatar;
 
 import org.androidtown.gympalai.adapter.LeaderboardAdapter;
 
+import org.androidtown.gympalai.entity.Ranking;
+import org.androidtown.gympalai.entity.Score;
 import org.androidtown.gympalai.entity.User;
 import org.androidtown.gympalai.model.CircularProgressView;
 import org.androidtown.gympalai.worker.SeasonUpdateWorker;
@@ -45,7 +51,9 @@ public class home extends Fragment {
     TextView firstPlace, secondPlace, thirdPlace;  // 1, 2, 3등 사용자 이름 텍스트뷰
     TextView firstPlaceScore, secondPlaceScore, thirdPlaceScore;  // 1, 2, 3등 사용자 점수 텍스트뷰
 
-    private static String currentUser = "user6"; // 현재 사용자 아이디를 user6으로 설정, 이부분 가져와야함.
+    LoginFunction loginFunction = new LoginFunction();
+
+    private static String currentUser; // 현재 사용자 아이디를 user6으로 설정, 이부분 가져와야함.
 
     GymPalDB db;
 
@@ -66,25 +74,26 @@ public class home extends Fragment {
         // 2주마다 ranking 초기화
         seasonUpdate();
 
+        currentUser = loginFunction.getMYId();
+
         //DB 생성
         db = GymPalDB.getInstance(getActivity());
 
         // avatar 저장
 
         // 이미지 불러옴
-        Bitmap bitmap1 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
+        Bitmap bitmap1 = loadImageFromDrawable(getActivity(), R.drawable.avatar1);
         byte[] imageData1 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap2 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
-        byte[] imageData2 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap3 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
-        byte[] imageData3 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap4 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
-        byte[] imageData4 = bitmapToByteArray(bitmap1);
-        Bitmap bitmap5 = loadImageFromDrawable(getActivity(), R.drawable.analysis);
-        byte[] imageData5 = bitmapToByteArray(bitmap1);
+        Bitmap bitmap2 = loadImageFromDrawable(getActivity(), R.drawable.avatar2);
+        byte[] imageData2 = bitmapToByteArray(bitmap2);
+        Bitmap bitmap3 = loadImageFromDrawable(getActivity(), R.drawable.avatar3);
+        byte[] imageData3 = bitmapToByteArray(bitmap3);
+        Bitmap bitmap4 = loadImageFromDrawable(getActivity(), R.drawable.avatar4);
+        byte[] imageData4 = bitmapToByteArray(bitmap4);
+        Bitmap bitmap5 = loadImageFromDrawable(getActivity(), R.drawable.avatar5);
+        byte[] imageData5 = bitmapToByteArray(bitmap5);
 
         List<byte[]> bitmapList = new ArrayList<>(Arrays.asList(imageData1,imageData2,imageData3,imageData4,imageData5));
-        System.out.println("avatar start = ");
         // 아바타 생성
         Avatar avatar1 = new Avatar("성민수", bitmapList.get(0), false, "나이: 20대 초반" +
                 "가르치는 스타일: 정석적인 접근, 자세 교정에 집중" +
@@ -116,20 +125,17 @@ public class home extends Fragment {
                 "말투: 직설적이고 강한\n" +
                 "예시:\n" +
                 "\"지금 포기할 생각하지 마세요. 더 강하게, 더 빠르게!\"");
-        System.out.println("avatar1.getDescription() = " + avatar1.getDescription());
-        System.out.println("avatar5.getDescription() = " + avatar5.getDescription());
+
         List<Avatar> avatarList = new ArrayList<>(Arrays.asList(avatar1, avatar2, avatar3, avatar4, avatar5));
 
         // 아바타 저장
         try {
             Boolean isEmpty = new avatarInsertAsyncTask(0, db.avatarDao()).execute(avatarList.get(0)).get();
-            System.out.println("isEmpty = " + isEmpty);
             if(isEmpty) {
 
                 for (int i = 0; i < 5; i++) {
                     System.out.println("avatarList = " + avatarList.get(i));
-                    //new avatarInsertAsyncTask(1, db.avatarDao()).execute(avatarList.get(i));
-                    new avatarInsertAsyncTask(1, db.avatarDao()).execute(avatarList.get(0));
+                    new avatarInsertAsyncTask(1, db.avatarDao()).execute(avatarList.get(i));
                 }
             }
         } catch (ExecutionException e) {
@@ -149,48 +155,55 @@ public class home extends Fragment {
 
 
         // 더미 데이터 생성 (이 부분을 DB에서 데이터를 가져오도록 수정해야 함)
-        List<UserScore> userList = generateDummyData();
+        List<Ranking> userList = null;
+        try {
+            userList = new rankingAsyncTask(0, db.rankingDao()).execute("").get();
+            for (Ranking ranking : userList) {
+                if (ranking != null) {
+                    String nickName = new userAsyncTask(db.userDao()).execute(ranking.getUserId()).get();
+                    ranking.setUserId(nickName);
+                }
 
 
-        // 점수순으로 정렬
-        Collections.sort(userList, new Comparator<UserScore>() {
-            @Override
-            public int compare(UserScore u1, UserScore u2) {
-                return Integer.compare(u2.getScore(), u1.getScore()); // 점수 내림차순으로 정렬
             }
-        });
 
-        // 리더보드 어댑터 설정
-        LeaderboardAdapter adapter = new LeaderboardAdapter(userList, currentUser);
-        recyclerView.setAdapter(adapter);
+            // 리더보드 어댑터 설정
+            LeaderboardAdapter adapter = new LeaderboardAdapter(userList);
+            recyclerView.setAdapter(adapter);
 
-        // 상위 3명 사용자 이름 및 점수 설정
-        if (userList.size() >= 3) {
-            firstPlace.setText(userList.get(0).getUserId());
-            secondPlace.setText(userList.get(1).getUserId());
-            thirdPlace.setText(userList.get(2).getUserId());
+            // 상위 3명 사용자 이름 및 점수 설정
+            if (userList.size() >= 3) {
+                firstPlace.setText(userList.get(0).getUserId());
+                secondPlace.setText(userList.get(1).getUserId());
+                thirdPlace.setText(userList.get(2).getUserId());
 
-            firstPlaceScore.setText(String.valueOf(userList.get(0).getScore()));
-            secondPlaceScore.setText(String.valueOf(userList.get(1).getScore()));
-            thirdPlaceScore.setText(String.valueOf(userList.get(2).getScore()));
+                firstPlaceScore.setText(String.valueOf(userList.get(0).getScore()));
+                secondPlaceScore.setText(String.valueOf(userList.get(1).getScore()));
+                thirdPlaceScore.setText(String.valueOf(userList.get(2).getScore()));
+            }
+
+            // 개인 점수 설정
+            personalScore.setScore(new scoreAsyncTask(db.scoreDao()).execute(currentUser).get());
+
+            // 현재 사용자를 중앙에 위치시키는 메서드 호출
+            scrollToCurrentUser(userList);
+
+        } catch (ExecutionException e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
+        } catch (InterruptedException e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
         }
 
-        // 개인 점수 설정
-        for (UserScore user : userList) {
-            if (user.getUserId().equals(currentUser)) {
-                personalScore.setScore(user.getScore()); // 현재 사용자 점수 설정
-                break;
-            }
-        }
 
-        // 현재 사용자를 중앙에 위치시키는 메서드 호출
-        scrollToCurrentUser(userList);
+
+
+
 
         return view;
     }
 
     // 현재 사용자를 중앙에 위치시키는 메서드
-    private void scrollToCurrentUser(List<UserScore> userList) {
+    private void scrollToCurrentUser(List<Ranking> userList) {
         int position = -1;
         for (int i = 0; i < userList.size(); i++) {
             if (userList.get(i).getUserId().equals(currentUser)) {
@@ -206,41 +219,14 @@ public class home extends Fragment {
         }
     }
 
-    // 더미 데이터 생성 메서드 (이 부분을 DB에서 데이터를 가져오도록 수정해야 함)
-    private List<UserScore> generateDummyData() {
-        List<UserScore> userList = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            userList.add(new UserScore("user" + i, (int) (Math.random() * 1000)));
-        }
-        return userList;
-    }
-
-    // UserScore 클래스 (테스트용)
-    public static class UserScore {
-        private String userId;
-        private int score;
-
-        public UserScore(String userId, int score) {
-            this.userId = userId;
-            this.score = score;
-        }
-
-        public String getUserId() {
-            return userId;
-        }
-
-        public int getScore() {
-            return score;
-        }
-    }
 
 
     // LeaderboardAdapter 클래스
     static class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
 
-        private List<User> userList;
+        private List<Ranking> userList;
 
-        public LeaderboardAdapter(List<User> userList) {
+        public LeaderboardAdapter(List<Ranking> userList) {
             this.userList = userList;
         }
 
@@ -253,10 +239,10 @@ public class home extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            User user = userList.get(position);
+            Ranking ranking = userList.get(position);
             holder.rank.setText(String.valueOf(position + 1)); // 랭킹 설정
-            holder.username.setText(user.getNickName());
-            holder.score.setText(String.valueOf(user.getScore()));
+            holder.username.setText(ranking.getUserId());
+            holder.score.setText(String.valueOf(ranking.getScore()));
 
 
         }
@@ -299,14 +285,81 @@ public class home extends Fragment {
         @Override
         protected Boolean doInBackground(Avatar ... avatars) {
 
-            if(identifier==0) return avatarDao.isTableEmpty();
-            else if(identifier==1 && avatars[0]!=null)  {
-                System.out.println("avatars[0].toString() = " + avatars[0].toString());
-                avatarDao.insert(avatars[0]);
+            try {
+                if (identifier == 0) {
+                    return avatarDao.isTableEmpty();
+                } else if (identifier == 1 && avatars[0] != null) {
+                    avatarDao.insert(avatars[0]);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();  // 오류 로그 기록
+                return false;
             }
             return false;
         }
     }
+
+    public static class rankingAsyncTask extends AsyncTask<String, Void, List<Ranking>> {
+
+        private RankingDao rankingDao;
+        private int identifier;
+        public rankingAsyncTask(int identifier, RankingDao rankingDao) {
+            this.identifier = identifier;
+            this.rankingDao = rankingDao;
+        }
+
+        @Override //백그라운드작업(메인스레드 X)
+        protected List<Ranking> doInBackground(String ... userIds) {
+
+            if(identifier==0) {
+                List<Ranking> top10 = rankingDao.getTop10();
+                return top10;
+            } else {
+                int userScore = rankingDao.getUserTotalScore(userIds[0]);
+                List<Ranking> rankings = new ArrayList<>();
+                rankings.add(new Ranking(null, userIds[0], userScore));
+                return rankings;
+            }
+        }
+
+    }
+
+    public static class userAsyncTask extends AsyncTask<String, Void, String> {
+
+        private UserDao userDao;
+        public userAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override //백그라운드작업(메인스레드 X)
+        protected String doInBackground(String ... userIds) {
+
+            if(userIds[0]!=null) return userDao.getNickName(userIds[0]);
+            else return null;
+        }
+
+    }
+
+    public static class scoreAsyncTask extends AsyncTask<String, Void, Integer> {
+        private ScoreDao scoreDao;
+
+        public  scoreAsyncTask(ScoreDao scoreDao){
+            this.scoreDao = scoreDao;
+
+        }
+
+        @Override //백그라운드작업(메인스레드 X)
+        protected Integer doInBackground(String ... userIds) {
+
+            // select
+            if (userIds[0] != null) {
+
+                return scoreDao.getScore(userIds[0]).getScore();
+            } else return 0;
+
+        }
+    }
+
 
     private void seasonUpdate() {
         PeriodicWorkRequest request = new PeriodicWorkRequest.Builder(SeasonUpdateWorker.class, 14, TimeUnit.DAYS).build();

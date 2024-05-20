@@ -1,8 +1,10 @@
 package org.androidtown.gympalai.adapter;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,8 +20,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     List<Message> messageList;
 
-    public MessageAdapter(List<Message> messageList) {
+    String avatarName;
+
+    Bitmap avatarImage;
+
+    public MessageAdapter(List<Message> messageList, String avatarName, Bitmap avatarImage) {
         this.messageList = messageList;
+        this.avatarName = avatarName;
+        this.avatarImage = avatarImage;
     }
 
     //ViewHolder 생성
@@ -44,6 +52,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.left_chat_view.setVisibility(View.VISIBLE);
             holder.left_chat_tv.setText(message.getMessage());
         }
+
+        holder.avatarImage.setImageBitmap(avatarImage);
+        holder.avatarName.setText(avatarName);
+
     }
     //user 입력시 left_view 제거, right_view 텍스트 노출
 
@@ -56,6 +68,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder{
         LinearLayout left_chat_view, right_chat_view;
         TextView left_chat_tv, right_chat_tv;
+        ImageView avatarImage;
+        TextView avatarName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +77,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             right_chat_view = itemView.findViewById(R.id.right_chat_view);
             left_chat_tv = itemView.findViewById(R.id.left_chat_tv);
             right_chat_tv = itemView.findViewById(R.id.right_chat_tv);
+            avatarImage = itemView.findViewById(R.id.image_profile);
+            avatarName = itemView.findViewById(R.id.chat_avatar_name);
         }
     }
 }

@@ -158,7 +158,11 @@ public class NextSignupActivity extends AppCompatActivity {
         }
         @Override
         protected Void doInBackground(HealthInfo... healthInfos) {
+            try{
             healthInfoDao.insert(healthInfos[0]);
+            } catch(Exception e){
+                System.out.println("e.getMessage() = " + e.getMessage());
+            }
             return null;
         }
     }

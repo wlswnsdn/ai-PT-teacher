@@ -12,8 +12,7 @@ import java.util.Arrays;
 // 외래키 설정
 // foreignKeys = @ForeignKey(entity = User.class,
 //        parentColumns = "avatarName", childColumns = "avatarName", onDelete = ForeignKey.CASCADE
-@Entity(tableName = "avatar", foreignKeys = @ForeignKey(entity = User.class,
-        parentColumns = "avatarName", childColumns = "avatarName", onDelete = ForeignKey.CASCADE))
+@Entity(tableName = "avatar")
 public class Avatar {
 
     public Avatar(@NonNull String avatarName, byte[] image, @NonNull Boolean isLocked, @NonNull String description) {

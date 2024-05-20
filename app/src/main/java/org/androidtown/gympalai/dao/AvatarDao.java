@@ -20,8 +20,13 @@ public interface AvatarDao {
     @Query("select * from avatar where avatarName=:avatarName")
     Avatar getAvatar(String avatarName);
 
+
+
     @Query("select count(*) =0 from avatar")
     boolean isTableEmpty();
+
+    @Query("select * from avatar limit 3 offset 1")
+    List<Avatar> getAvatarList();
 
     @Insert
     void insert(Avatar avatar);
