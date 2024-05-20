@@ -19,11 +19,14 @@ import androidx.lifecycle.Observer;
 
 import org.androidtown.gympalai.LoginSignupJava.LoginActivity;
 import org.androidtown.gympalai.R;
+import org.androidtown.gympalai.dao.HealthInfoCloneDao;
 import org.androidtown.gympalai.dao.HealthInfoDao;
 import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.HealthInfo;
+import org.androidtown.gympalai.entity.HealthInfoClone;
 import org.androidtown.gympalai.entity.User;
 
+import java.util.Date;
 import java.util.List;
 
 public class NextSignupActivity extends AppCompatActivity {
@@ -133,7 +136,9 @@ public class NextSignupActivity extends AppCompatActivity {
                         float height = Float.valueOf(Height_number.getText().toString());
                         float weight = Float.valueOf(Weight_number.getText().toString());
                         int age = Integer.parseInt(Age_number.getText().toString());
-                        HealthInfo healthInfo = new HealthInfo(userId, height, weight, age, gender, 0, purpose); // Activity는 수정해주시면 입력기능 추가할게요
+
+                        HealthInfo healthInfo = new HealthInfo(userId, height, weight, age, gender, exercise_num_index, purpose); //메인 Entity
+                        HealthInfoClone healthInfoClone = new HealthInfoClone(userId, height, weight, age, gender,exercise_num_index, purpose, new Date());
                         new InsertAsyncTask(db.healthInfoDao()).execute(healthInfo);
 
                         Intent intent = new Intent(NextSignupActivity.this, LoginActivity.class);
@@ -154,6 +159,16 @@ public class NextSignupActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(HealthInfo... healthInfos) {
             healthInfoDao.insert(healthInfos[0]);
+            return null;
+        }
+    }
+    private static class InsertAsyncTask2 extends AsyncTask<HealthInfoClone, Void, Void>{
+        private HealthInfoCloneDao healthInfoCloneDao;
+        public InsertAsyncTask2(HealthInfoCloneDao healthInfoCloneDao){this.healthInfoCloneDao = healthInfoCloneDao;}
+
+        @Override
+        protected Void doInBackground(HealthInfoClone... healthInfoClones) {
+            healthInfoCloneDao.insert(healthInfoClones[0]);
             return null;
         }
     }

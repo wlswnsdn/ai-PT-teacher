@@ -27,4 +27,7 @@ public interface ScoreDao {
 
     @Delete
     void delete (Score score);
+
+    @Query("SELECT * FROM score Where userId = :userId")
+    LiveData<List<Score>> getUserScoreList(String userId); //Graph생성시 필요
 }
