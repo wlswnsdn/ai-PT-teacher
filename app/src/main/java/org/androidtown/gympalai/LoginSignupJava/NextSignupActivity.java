@@ -31,7 +31,7 @@ import java.util.List;
 
 public class NextSignupActivity extends AppCompatActivity {
     String[] purposes={"다이어트","벌크업","유지어트"};
-    String[] exercise_num={"운동하지 않음","일주일에 1~2회","일주일에 6~7회","하루에 2회"};
+    String[] exercise_num={"운동하지 않음","일주일에 1~2회","일주일에 3~5회","일주일에 6~7회","하루에 2회"};
 
     RadioGroup radGroupGender;
     RadioButton male_r_btn, female_r_btn;
