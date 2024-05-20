@@ -17,7 +17,9 @@ import java.util.Date;
 public class HealthInfoClone {
 
     @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private long HealthInfoId;
+    @NonNull
     private String userId;
 
     @NonNull
@@ -61,6 +63,15 @@ public class HealthInfoClone {
     }
 
     // Getter 및 Setter 메서드
+
+    public long getHealthInfoId() {
+        return HealthInfoId;
+    }
+
+    public void setHealthInfoId(long healthInfoId) {
+        HealthInfoId = healthInfoId;
+    }
+
     @NonNull
     public String getUserId() {
         return userId;
@@ -129,8 +140,9 @@ public class HealthInfoClone {
 
     @Override
     public String toString() {
-        return "HealthInfo{" +
-                "userId='" + userId + '\'' +
+        return "HealthInfoClone{" +
+                "HealthInfoId=" + HealthInfoId +
+                ", userId='" + userId + '\'' +
                 ", height=" + height +
                 ", weight=" + weight +
                 ", age=" + age +
