@@ -105,7 +105,7 @@ public class AvatarSettings extends AppCompatActivity {
         return stream.toByteArray();
     }
 
-    private static class avatarInsertAsyncTask extends AsyncTask<Avatar, Void, Boolean> {
+    public static class avatarInsertAsyncTask extends AsyncTask<Avatar, Void, Boolean> {
         private AvatarDao avatarDao;
         private int identifier;
         public avatarInsertAsyncTask(int identifier, AvatarDao avatarDao){

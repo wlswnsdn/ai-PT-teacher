@@ -24,7 +24,7 @@ public class RankingSettings extends AppCompatActivity {
 
         try {
             List<String> top10 = new rankingAsyncTask(db.rankingDao()).execute("hi").get();
-            
+
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

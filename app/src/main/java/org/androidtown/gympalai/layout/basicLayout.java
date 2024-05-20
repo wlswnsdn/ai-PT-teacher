@@ -1,5 +1,9 @@
 package org.androidtown.gympalai.layout;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +23,18 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import org.androidtown.gympalai.R;
 
+import org.androidtown.gympalai.backmethod.AvatarSettings;
+import org.androidtown.gympalai.dao.AvatarDao;
 import org.androidtown.gympalai.database.GymPalDB;
+import org.androidtown.gympalai.entity.Avatar;
 import org.androidtown.gympalai.entity.User;
 import org.androidtown.gympalai.worker.SeasonUpdateWorker;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class basicLayout extends AppCompatActivity {
@@ -51,8 +62,9 @@ public class basicLayout extends AppCompatActivity {
             }
         });
 
-        // 2주마다 ranking 초기화
-        seasonUpdate();
+
+
+
 
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -102,9 +114,5 @@ public class basicLayout extends AppCompatActivity {
         }
     }
 
-    private void seasonUpdate() {
-        PeriodicWorkRequest request = new PeriodicWorkRequest.Builder(SeasonUpdateWorker.class, 14, TimeUnit.DAYS).build();
 
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork("SeasonUpdateWork", ExistingPeriodicWorkPolicy.KEEP, request);
-    }
 }
