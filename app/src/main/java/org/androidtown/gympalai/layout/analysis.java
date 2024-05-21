@@ -53,7 +53,8 @@ public class analysis extends Fragment {
     LineChart chartTDEE;
 
     GymPalDB db = GymPalDB.getInstance(getActivity());
-    LoginId loginId = new LoginId(); // 테스트를 위한 하드코딩
+    LoginFunction loginFunction = new LoginFunction();
+//    LoginId loginId = new LoginId(); // 테스트를 위한 하드코딩
 
     // 프래그먼트가 생성될 때 호출되는 메서드
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -178,7 +179,7 @@ public class analysis extends Fragment {
     // 차트 데이터 로딩 메서드
     private void loadChartData() {
 
-        db.healthInfoCloneDao().getUserInfoList(loginId.getLoginId()).observe(getViewLifecycleOwner(), new Observer<List<HealthInfoClone>>() {
+        db.healthInfoCloneDao().getUserInfoList(loginFunction.getMyId()).observe(getViewLifecycleOwner(), new Observer<List<HealthInfoClone>>() {
             @Override
             public void onChanged(List<HealthInfoClone> healthInfoClones) {
                 List<Entry> weightEntries = new ArrayList<>();
@@ -190,7 +191,7 @@ public class analysis extends Fragment {
             }
         });
 
-        db.scoreDao().getUserScoreList(loginId.getLoginId()).observe(getViewLifecycleOwner(), new Observer<List<Score>>() {
+        db.scoreDao().getUserScoreList(loginFunction.getMyId()).observe(getViewLifecycleOwner(), new Observer<List<Score>>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onChanged(List<Score> scores) {
@@ -206,7 +207,7 @@ public class analysis extends Fragment {
         });
 
         //TDEE
-        db.healthInfoCloneDao().getUserInfoList(loginId.getLoginId()).observe(getViewLifecycleOwner(), new Observer<List<HealthInfoClone>>() {
+        db.healthInfoCloneDao().getUserInfoList(loginFunction.getMyId()).observe(getViewLifecycleOwner(), new Observer<List<HealthInfoClone>>() {
             @Override
             public void onChanged(List<HealthInfoClone> healthInfoClones) {
                 List<Entry> TDEEEntries = new ArrayList<>();
