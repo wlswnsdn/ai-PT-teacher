@@ -22,4 +22,7 @@ public interface HealthInfoCloneDao {
     @Query("SELECT * FROM healthInfoClone WHERE userID = :userId")
     LiveData<List<HealthInfoClone>> getUserInfoList(String userId); // 그래프 만들 떄 사용
 
+    @Query("UPDATE healthInfoClone SET height= :height, weight = :weight, purpose= :purpose WHERE userId = :userId")
+    void updateHealthInfoClone(String userId, float height, float weight, int purpose);
+
 }

@@ -140,6 +140,7 @@ public class NextSignupActivity extends AppCompatActivity {
                         HealthInfo healthInfo = new HealthInfo(userId, height, weight, age, gender, exercise_num_index, purpose); //메인 Entity
                         HealthInfoClone healthInfoClone = new HealthInfoClone(userId, height, weight, age, gender,exercise_num_index, purpose, new Date());
                         new InsertAsyncTask(db.healthInfoDao()).execute(healthInfo);
+                        new InsertAsyncTask2(db.healthInfoCloneDao()).execute(healthInfoClone);
 
                         Intent intent = new Intent(NextSignupActivity.this, LoginActivity.class);
                         startActivity(intent);
