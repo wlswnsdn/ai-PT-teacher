@@ -51,7 +51,7 @@ public class analysis extends Fragment {
     LineChart chartTDEE;
 
     GymPalDB db = GymPalDB.getInstance(getActivity());
-    LoginId loginId = new LoginId(); // 테스트를 위한 하드코딩
+    LoginFunction loginFunction = new LoginFunction();
 
     // 프래그먼트가 생성될 때 호출되는 메서드
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,10 +65,6 @@ public class analysis extends Fragment {
 
         // 차트 설정 초기화
         setupCharts();
-
-        // 샘플 데이터 추가(테스트용)
-        //insertSampleHealthInfo();
-        //insertSampleScores();
 
 
         // 차트 데이터 로딩
@@ -104,37 +100,7 @@ public class analysis extends Fragment {
         }
     }
 
-    // HealthInfoClone 테이블에 샘플 데이터 추가
 
-
-//    private void insertSampleHealthInfo() {
-//        // 샘플 데이터 생성
-//        // 데이터베이스에 추가
-//        new InsertAsyncTask1(db.userDao()).execute(new User(loginId.getLoginId(), "123", "123", "Ha"));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 70, 25, true, 1, 0, new Date(System.currentTimeMillis() - 10 * 24 * 60 * 60 * 1000)));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 71, 25, true, 1, 0, new Date(System.currentTimeMillis() - 9 * 24 * 60 * 60 * 1000)));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 72, 25, true, 1, 0, new Date(System.currentTimeMillis() - 8 * 24 * 60 * 60 * 1000)));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 73, 25, true, 1, 0, new Date(System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000)));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 74, 25, true, 1, 0, new Date(System.currentTimeMillis() - 6 * 24 * 60 * 60 * 1000)));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 75, 25, true, 1, 0, new Date(System.currentTimeMillis() - 5 * 24 * 60 * 60 * 1000)));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 76, 26, true, 1, 0, new Date(System.currentTimeMillis() - 4 * 24 * 60 * 60 * 1000)));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 77, 26, true, 1, 0, new Date(System.currentTimeMillis() - 3 * 24 * 60 * 60 * 1000)));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 78, 26, true, 1, 0, new Date(System.currentTimeMillis() - 2 * 24 * 60 * 60 * 1000)));
-//        new InsertAsyncTask(db.healthInfoCloneDao()).execute(new HealthInfoClone(loginId.getLoginId(), 170, 79, 26, true, 1, 0, new Date(System.currentTimeMillis() - 1 * 24 * 60 * 60 * 1000)));
-//
-//
-//    }
-
-//     Score 테이블에 샘플 데이터 추가
-//    private void insertSampleScores() {
-//        // 샘플 데이터 생성
-//        new InsertAsyncTask2(db.scoreDao()).execute(new Score( LocalDateTime.now().minusDays(6),loginId.getLoginId(), 300));
-//        new InsertAsyncTask2(db.scoreDao()).execute(new Score( LocalDateTime.now().minusDays(5),loginId.getLoginId(), 400));
-//        new InsertAsyncTask2(db.scoreDao()).execute(new Score( LocalDateTime.now().minusDays(4),loginId.getLoginId(), 100));
-//        new InsertAsyncTask2(db.scoreDao()).execute(new Score( LocalDateTime.now().minusDays(3),loginId.getLoginId(), 500));
-//        new InsertAsyncTask2(db.scoreDao()).execute(new Score( LocalDateTime.now().minusDays(2),loginId.getLoginId(), 200));
-//        new InsertAsyncTask2(db.scoreDao()).execute(new Score( LocalDateTime.now().minusDays(1),loginId.getLoginId(), 300));
-//    }
 
     // 데이터 세트 초기 설정 메서드
     private void setupDataSet(LineDataSet dataSet) {
@@ -173,7 +139,7 @@ public class analysis extends Fragment {
     // 차트 데이터 로딩 메서드
     private void loadChartData() {
 
-        db.healthInfoCloneDao().getUserInfoList(loginId.getLoginId()).observe(getViewLifecycleOwner(), new Observer<List<HealthInfoClone>>() {
+        db.healthInfoCloneDao().getUserInfoList(loginFunction.getMyId()).observe(getViewLifecycleOwner(), new Observer<List<HealthInfoClone>>() {
             @Override
             public void onChanged(List<HealthInfoClone> healthInfoClones) {
                 List<Entry> weightEntries = new ArrayList<>();
@@ -185,7 +151,7 @@ public class analysis extends Fragment {
             }
         });
 
-        db.scoreDao().getUserScoreList(loginId.getLoginId()).observe(getViewLifecycleOwner(), new Observer<List<Score>>() {
+        db.scoreDao().getUserScoreList(loginFunction.getMyId()).observe(getViewLifecycleOwner(), new Observer<List<Score>>() {
             @Override
             public void onChanged(List<Score> scores) {
                 List<Entry> scoreEntries = new ArrayList<>();
@@ -200,7 +166,7 @@ public class analysis extends Fragment {
         });
 
         //TDEE
-        db.healthInfoCloneDao().getUserInfoList(loginId.getLoginId()).observe(getViewLifecycleOwner(), new Observer<List<HealthInfoClone>>() {
+        db.healthInfoCloneDao().getUserInfoList(loginFunction.getMyId()).observe(getViewLifecycleOwner(), new Observer<List<HealthInfoClone>>() {
             @Override
             public void onChanged(List<HealthInfoClone> healthInfoClones) {
                 List<Entry> TDEEEntries = new ArrayList<>();
