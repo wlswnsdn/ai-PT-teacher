@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import org.androidtown.gympalai.entity.Ranking;
 import org.androidtown.gympalai.entity.Score;
+import org.androidtown.gympalai.model.UserTotalScore;
 
 import java.util.List;
 
@@ -17,8 +18,8 @@ public interface RankingDao {
     @Query("select * from ranking")
     LiveData<List<Ranking>> getAll();
 
-    @Query("select * from ranking group by userId order by sum(Score) desc limit 10")
-    List<Ranking> getTop10();
+    @Query("SELECT userId, SUM(Score) as totalScore FROM ranking GROUP BY userId ORDER BY totalScore DESC LIMIT 10")
+    List<UserTotalScore> getTop10();
 
     @Query("SELECT SUM(Score) AS totalScore FROM ranking WHERE userId = :userId GROUP BY userId")
     int getUserTotalScore(String userId);

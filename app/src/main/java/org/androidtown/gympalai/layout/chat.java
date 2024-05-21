@@ -176,7 +176,8 @@ public class chat extends Fragment {
             for (Chat chat : chatList) {
                 String sentBy = (chat.getQuestion()) ? "me" : "bot";
                 Message message = new Message(chat.getMessage(), sentBy);
-                messageList.add(message);
+                String forShow = getSubstringBeforeBracket(message.getMessage());
+                messageList.add(new Message(forShow, message.getSentBy()));
             }
         }
         messageAdapter.notifyDataSetChanged(); // RecyclerView를 업데이트합니다.
@@ -187,7 +188,10 @@ public class chat extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     void addToChat(String message, String sentBy) {
         getActivity().runOnUiThread(() -> {
-            messageList.add(new Message(message, sentBy));
+
+            String forShow = getSubstringBeforeBracket(message);
+            System.out.println("forShow = " + forShow);
+            messageList.add(new Message(forShow, sentBy));
             char identifier = message.charAt(message.length() - 1);
 
             // db에도 message 저장
@@ -332,7 +336,16 @@ public class chat extends Fragment {
         return infoNames;
     }
 
-
+    private String getSubstringBeforeBracket(String str) {
+        // '['의 인덱스를 찾는다
+        int index = str.indexOf('[');
+        // '['이 없다면 원본 문자열을 반환
+        if (index == -1) {
+            return str;
+        }
+        // '[' 이전까지의 서브스트링을 반환
+        return str.substring(0, index);
+    }
 
     void callAPI(String question)  {
         //okhttp

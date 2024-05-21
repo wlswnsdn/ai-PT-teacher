@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity(tableName = "ranking",
         foreignKeys = @ForeignKey(entity = User.class, parentColumns = "userId", childColumns = "userId", onDelete = ForeignKey.CASCADE))
 public class Ranking {
-    public Ranking(@NonNull LocalDateTime date, @NonNull String userId, int score) {
+    public Ranking(LocalDateTime date, @NonNull String userId, int score) {
         this.date = date;
         this.userId = userId;
         this.score = score;
