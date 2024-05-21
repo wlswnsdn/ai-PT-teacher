@@ -14,11 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import org.androidtown.gympalai.R;
-import org.androidtown.gympalai.layout.plan;
+import org.androidtown.gympalai.backmethod.LoginFunction;
 import org.androidtown.gympalai.dao.ChatDao;
 import org.androidtown.gympalai.database.GymPalDB;
-import org.androidtown.gympalai.entity.Chat;
-import org.androidtown.gympalai.model.LoginId;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +32,7 @@ public class DietFragment extends Fragment {
 
     GymPalDB db;
 
-    LoginId loginId=new LoginId();
+    LoginFunction loginFunction = new LoginFunction();
 
     @Nullable
     @Override
@@ -50,7 +49,7 @@ public class DietFragment extends Fragment {
 
 
         try {
-            String response = new chatAsyncTask(db.chatDao()).execute(loginId.getLoginId()).get();
+            String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMYId()).get();
             List<String> diet_array = new ArrayList<>();
 
             if (response != null) {
