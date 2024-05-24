@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/first_signup_layout">
     <include layout="@layout/upper_bar_for_login"/>
     <ImageView
         android:layout_width="300dp"

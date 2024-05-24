@@ -23,9 +23,11 @@ import org.androidtown.gympalai.R;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class NicknamePassword extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1; //
-    ImageView user_image;
+    CircleImageView user_image;
     TextView old_usr_nickname;
 
     EditText new_usr_nickname,new_password,password_confirm;
