@@ -12,7 +12,7 @@
         >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -23,10 +23,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="체중 (kg)"
+                    android:text="@string/weight"
                     android:textStyle="bold"
                     android:padding="5dp"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:background="@color/bottom_grey"/>
 
                 <com.github.mikephil.charting.charts.LineChart
@@ -45,10 +45,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="식단점수 (점)"
+                    android:text="@string/dietScore"
                     android:textStyle="bold"
                     android:padding="5dp"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:background="@color/bottom_grey"/>
 
                 <com.github.mikephil.charting.charts.LineChart
@@ -66,10 +66,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="TDEE (점)"
+                    android:text="@string/tdeeScore"
                     android:textStyle="bold"
                     android:padding="5dp"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:background="@color/bottom_grey"/>
 
                 <com.github.mikephil.charting.charts.LineChart

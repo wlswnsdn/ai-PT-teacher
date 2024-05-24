@@ -30,7 +30,7 @@ public class CircularProgressView extends View {
 
     private void init() {
         paint = new Paint();
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.GRAY);
         paint.setStrokeWidth(30);
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);

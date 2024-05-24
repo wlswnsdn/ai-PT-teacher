@@ -1,13 +1,16 @@
 package org.androidtown.gympalai.layout;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,11 +30,7 @@ import org.androidtown.gympalai.dao.UserDao;
 import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.Avatar;
 
-import org.androidtown.gympalai.adapter.LeaderboardAdapter;
-
 import org.androidtown.gympalai.entity.Ranking;
-import org.androidtown.gympalai.entity.Score;
-import org.androidtown.gympalai.entity.User;
 import org.androidtown.gympalai.model.CircularProgressView;
 import org.androidtown.gympalai.model.UserTotalScore;
 import org.androidtown.gympalai.worker.SeasonUpdateWorker;
@@ -39,14 +38,13 @@ import org.androidtown.gympalai.worker.SeasonUpdateWorker;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class home extends Fragment {
 
+    ImageView silver, bronze, learderboardImage, firstImage, secondImage, thirdImage;
     CircularProgressView personalScore;  // 개인 점수 표시 뷰
     RecyclerView recyclerView;  // 리더보드 리사이클러뷰
     TextView firstPlace, secondPlace, thirdPlace;  // 1, 2, 3등 사용자 이름 텍스트뷰
@@ -58,11 +56,18 @@ public class home extends Fragment {
 
     GymPalDB db;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // 뷰 초기화
+        silver = view.findViewById(R.id.silvercrown);
+        bronze = view.findViewById(R.id.bronzecrown);
+        learderboardImage = view.findViewById(R.id.leaderboard_image); //리더보드 내 사진
+        firstImage = view.findViewById(R.id.firstImage);  //1등 사진
+        secondImage = view.findViewById(R.id.secondImage); //2등 사진
+        thirdImage = view.findViewById(R.id.thirdImage); //3등 사진
         personalScore = view.findViewById(R.id.score);
         recyclerView = view.findViewById(R.id.leaderboard);
         firstPlace = view.findViewById(R.id.userfirst);
@@ -72,10 +77,13 @@ public class home extends Fragment {
         secondPlaceScore = view.findViewById(R.id.scoresecond);
         thirdPlaceScore = view.findViewById(R.id.scorethird);
 
+
+        silver.setColorFilter(Color.parseColor("#A5A9B4"));
+        bronze.setColorFilter(Color.parseColor("#B08D57"));
         // 2주마다 ranking 초기화
         seasonUpdate();
 
-        currentUser = loginFunction.getMYId();
+        currentUser = loginFunction.getMyId();
 
         //DB 생성
         db = GymPalDB.getInstance(getActivity());
@@ -241,6 +249,12 @@ public class home extends Fragment {
             holder.username.setText(ranking.getUserId());
             holder.score.setText(String.valueOf(ranking.getScore()));
 
+            if(ranking.getUserId().equals(currentUser)) {
+                holder.itemView.setBackgroundResource(R.drawable.leaderboard_square_mine);
+            }
+            else {
+                holder.itemView.setBackgroundResource(R.drawable.leaderboard_square);
+            }
 
         }
 

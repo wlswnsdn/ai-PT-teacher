@@ -105,8 +105,16 @@ public class analysis extends Fragment {
             YAxis leftAxis = chart.getAxisLeft();
             leftAxis.setDrawGridLines(false); // 그리드 라인 비활성화
 
-            chart.setVisibleXRangeMaximum(5); // 초기 화면에 보이는 데이터 포인트 수
+            chart.setDoubleTapToZoomEnabled(false); // 더블 클릭 줌 비활성화
+            chart.setScaleEnabled(false); // 스케일(확대/축소) 비활성화
+
+            chart.setVisibleXRangeMaximum(10); // 초기 화면에 보이는 데이터 포인트 수
             chart.setDragEnabled(true); // 차트를 드래그 가능하게 설정
+
+            if (chart.getData() != null && chart.getData().getEntryCount() > 0) {
+                float minX = chart.getData().getXMin() - 1; // 최소값을 첫 데이터 포인트보다 작게 설정
+                xAxis.setAxisMinimum(minX);
+            }
         }
     }
 
@@ -149,15 +157,39 @@ public class analysis extends Fragment {
         dataSet.setDrawCircles(true); // 데이터 포인트 원형 표시 활성화
         dataSet.setLineWidth(2f); // 라인 두께 설정
         dataSet.setCircleRadius(3f); // 원형 반지름 설정
+
+        if (dataSet.getEntryCount() == 1) {
+            dataSet.setDrawCircles(true); // 원형 표시 활성화
+            dataSet.setDrawFilled(false); // 채우기 비활성화
+            dataSet.setDrawValues(true); // 값 표시 활성화
+        } else {
+            dataSet.setDrawCircles(true); // 원형 표시 활성화
+            dataSet.setDrawFilled(false); // 채우기 비활성화
+            dataSet.setDrawValues(false); // 값 표시 비활성화
+        }
+
     }
 
     // 차트 데이터 설정 메서드
     private void setupChartData(LineChart chart, List<Entry> entries, String label) {
         LineDataSet dataSet = new LineDataSet(entries, label); // 데이터 세트 생성
         setupDataSet(dataSet); // 데이터 세트 초기 설정 적용
+
+        if (entries.size() == 1) {
+            dataSet.setDrawCircles(true);
+            dataSet.setDrawFilled(false);
+            dataSet.setDrawValues(true);
+            dataSet.setLineWidth(0f); // 선 두께 0으로 설정하여 선을 보이지 않게 함
+        }
+
         LineData lineData = new LineData(dataSet); // 라인 데이터 생성
         chart.setData(lineData); // 차트에 데이터 설정
         chart.invalidate(); // 차트 갱신
+
+        if (entries.size() > 0) {
+            float minX = entries.get(0).getX() - 1; // 첫 데이터 포인트보다 작게 설정
+            chart.getXAxis().setAxisMinimum(minX);
+        }
     }
 
     // X축 값을 날짜 형식으로 포맷하는 클래스

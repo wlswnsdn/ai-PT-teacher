@@ -13,12 +13,24 @@
     <string name="weight">Weight(kg)</string>
     <string name="age">Age</string>
     <string name="exercise_number">exercise number per week</string>
+    <string name="home">HOME</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="next">next</string>
+    <string name="send">send</string>
+    <string name="hello">hello</string>
+    <string name="enter">Enter</string>
+    <string name="type_here">Type here</string>
 
-
-
-
-
-
+    <string name="dietScore">Diet Score</string>
+    <string name="tdeeScore">TDEE</string>
+    <string name="daily_health_score">Daily Health Score</string>
+    <string name="userscore">userscore</string>
+    <string name="username">username</string>
+    <string name="chat">Chat</string>
+    <string name="plan">Plan</string>
+    <string name="analysis">Analysis</string>
+    <string name="my">My</string>
 
 
 </resources>

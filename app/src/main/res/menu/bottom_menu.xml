@@ -5,14 +5,14 @@
         android:id="@+id/chat"
         android:enabled="true"
         android:icon="@drawable/chat"
-        android:title="Chat"
+        android:title="@string/chat"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/routine"
         android:enabled="true"
         android:icon="@drawable/plan"
-        android:title="Plan"
+        android:title="@string/plan"
         app:showAsAction="always"/>
 
     <item
@@ -25,12 +25,12 @@
         android:id="@+id/analysis"
         android:enabled="true"
         android:icon="@drawable/analysis"
-        android:title="Analysis"
+        android:title="@string/analysis"
         app:showAsAction="always"/>
     <item
         android:id="@+id/my"
         android:enabled="true"
         android:icon="@drawable/mypage"
-        android:title="My"
+        android:title="@string/my"
         app:showAsAction="always"/>
 </menu>

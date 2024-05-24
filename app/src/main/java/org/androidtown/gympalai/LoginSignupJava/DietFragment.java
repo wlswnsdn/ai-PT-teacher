@@ -49,7 +49,7 @@ public class DietFragment extends Fragment {
 
 
         try {
-            String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMYId()).get();
+            String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMyId()).get();
             List<String> diet_array = new ArrayList<>();
 
             if (response != null) {
