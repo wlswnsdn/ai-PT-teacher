@@ -14,9 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import org.androidtown.gympalai.R;
+import org.androidtown.gympalai.backmethod.LoginFunction;
 import org.androidtown.gympalai.dao.ChatDao;
 import org.androidtown.gympalai.database.GymPalDB;
-import org.androidtown.gympalai.model.LoginId;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +30,8 @@ public class ExerciseFragment extends Fragment {
     TextView exercise_textview_1, exercise_textview_2, exercise_textview_3, exercise_textview_4, exercise_textview_5;
 
     GymPalDB db;
-    LoginId loginId = new LoginId();
+
+    LoginFunction loginFunction = new LoginFunction();
 
     @Nullable
     @Override
@@ -54,8 +55,9 @@ public class ExerciseFragment extends Fragment {
         exercise_textview_5 = rootView.findViewById(R.id.exercise_text_view_5);
 
         try {
-            String response = new chatAsyncTask(db.chatDao()).execute(loginId.getLoginId()).get();
-            List<String> exercise_routine_array;
+
+            String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMYId()).get();
+            List<String> exercise_routine_array = new ArrayList<>();
 
             if (response != null) {
                 exercise_routine_array = getSplitedNamesFromResponse(response);

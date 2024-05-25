@@ -1,5 +1,6 @@
 package org.androidtown.gympalai.mypagefragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import org.androidtown.gympalai.R;
+import org.androidtown.gympalai.backmethod.LoginFunction;
+import org.androidtown.gympalai.dao.HealthInfoCloneDao;
+import org.androidtown.gympalai.dao.HealthInfoDao;
+import org.androidtown.gympalai.database.GymPalDB;
+import org.androidtown.gympalai.entity.HealthInfo;
+import org.androidtown.gympalai.entity.HealthInfoClone;
+import org.androidtown.gympalai.entity.User;
+
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MyInformationChangeFragment extends Fragment {
     //weight, height를 위한 numberpicker정의
@@ -24,7 +37,8 @@ public class MyInformationChangeFragment extends Fragment {
     Spinner spinner_purpose;
 
     public Button information_submit_btn;
-
+    LoginFunction loginFunction;
+    GymPalDB db;
 
     @Nullable
     @Override
@@ -35,7 +49,14 @@ public class MyInformationChangeFragment extends Fragment {
         heightPicker=rootView.findViewById(R.id.height_picker);
         information_submit_btn=rootView.findViewById(R.id.information_submit_btn);
 
-
+        // 로그인 및 Db
+        loginFunction = new LoginFunction();
+        db = GymPalDB.getInstance(getActivity());
+        db.userDao().getAll().observe(getActivity(), new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+            }
+        });
 
 
         setupNumberPicker(weightPicker, 40.0f, 120.0f, 1f);
@@ -52,7 +73,51 @@ public class MyInformationChangeFragment extends Fragment {
         information_submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                float selectedWeight = Float.parseFloat(weightPicker.getDisplayedValues()[weightPicker.getValue()]);
+                float selectedHeight = Float.parseFloat(heightPicker.getDisplayedValues()[heightPicker.getValue()]);
+                int selectedPurpose = spinner_purpose.getSelectedItemPosition();
+                boolean isUpdate;
+                boolean isInsert;
+                //HealthInfo 값 Update
+                try {
+                    isUpdate = new UpdateHealthInfoAsyncTask(db.healthInfoDao()).execute(loginFunction.getMyId(),
+                            String.valueOf(selectedHeight), String.valueOf(selectedWeight), String.valueOf(selectedPurpose)).get();
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                //HealthInfoClone에 값 Insert
+                HealthInfoClone healthInfoClone;
+                try {
+                    HealthInfo healthInfo = new GetHealthInfoByUserIdAsynctask(db.healthInfoDao()).execute(loginFunction.getMyId()).get();
+                    healthInfoClone = new HealthInfoClone(
+                            loginFunction.getMyId(),
+                            selectedHeight,
+                            selectedWeight,
+                            healthInfo.getAge(),
+                            healthInfo.isGender(),
+                            healthInfo.getActivity(),
+                            selectedPurpose,
+                            new Date()
+                    );
 
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                     isInsert = new InsertHealthInfoClone(db.healthInfoCloneDao()).execute(healthInfoClone).get();
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if(isUpdate && isInsert){
+                    Toast.makeText(getContext(), "HealthInfo Updated", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -81,5 +146,47 @@ public class MyInformationChangeFragment extends Fragment {
                 // weight_picker에서 값이 변경되었을때 selectedValue를 height에 반영해주시면 됩니다..
             }
         });
+    }
+
+    private static class UpdateHealthInfoAsyncTask extends AsyncTask<String, Void, Boolean>{
+        private HealthInfoDao healthInfoDao;
+        private HealthInfoCloneDao healthInfoCloneDao;
+        public UpdateHealthInfoAsyncTask(HealthInfoDao healthInfoDao){
+            this.healthInfoDao = healthInfoDao;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            String userId = strings[0];
+            float height = Float.parseFloat(strings[1]);
+            float weight = Float.parseFloat(strings[2]);
+            int purpose = Integer.parseInt(strings[3]);
+
+            healthInfoDao.updateHealthInfo(userId, height, weight, purpose);
+            return true;
+        }
+    }
+
+    private static class GetHealthInfoByUserIdAsynctask extends AsyncTask<String, Void, HealthInfo>{
+        private HealthInfoDao healthInfoDao;
+
+        public GetHealthInfoByUserIdAsynctask(HealthInfoDao healthInfoDao) {
+            this.healthInfoDao = healthInfoDao;
+        }
+        @Override
+        protected HealthInfo doInBackground(String... strings) {
+            return healthInfoDao.getHealthInfoByUserId(strings[0]);
+        }
+    }
+
+    private static class InsertHealthInfoClone extends AsyncTask<HealthInfoClone, Void, Boolean>{
+        private HealthInfoCloneDao healthInfoCloneDao;
+        public InsertHealthInfoClone(HealthInfoCloneDao healthInfoCloneDao){this.healthInfoCloneDao = healthInfoCloneDao;}
+
+        @Override
+        protected Boolean doInBackground(HealthInfoClone... healthInfoClones) {
+            healthInfoCloneDao.insert(healthInfoClones[0]);
+            return true;
+        }
     }
 }

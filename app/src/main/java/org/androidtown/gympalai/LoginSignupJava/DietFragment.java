@@ -15,9 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import org.androidtown.gympalai.R;
+
+import org.androidtown.gympalai.backmethod.LoginFunction;
 import org.androidtown.gympalai.dao.ChatDao;
 import org.androidtown.gympalai.database.GymPalDB;
-import org.androidtown.gympalai.model.LoginId;
+
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +33,9 @@ public class DietFragment extends Fragment {
     Button diet_btn_1, diet_btn_2, diet_btn_3;
     TextView diet_text_view_1, diet_text_view_2, diet_text_view_3;
     GymPalDB db;
-    LoginId loginId = new LoginId();
+
+    LoginFunction loginFunction = new LoginFunction();
+
 
     @Nullable
     @Override
@@ -51,8 +56,10 @@ public class DietFragment extends Fragment {
         diet_text_view_3 = rootView.findViewById(R.id.food_text_view_3);
 
         try {
-            String response = new chatAsyncTask(db.chatDao()).execute(loginId.getLoginId()).get();
-            List<String> diet_array;
+
+            String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMYId()).get();
+            List<String> diet_array = new ArrayList<>();
+
 
             if (response != null) {
                 diet_array = getSplitedNamesFromResponse(response);

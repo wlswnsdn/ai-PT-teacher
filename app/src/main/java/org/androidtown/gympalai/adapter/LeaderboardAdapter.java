@@ -9,13 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.androidtown.gympalai.R;
-import org.androidtown.gympalai.layout.home.UserScore;
+import org.androidtown.gympalai.entity.Ranking;
 
 import java.util.List;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     // 사용자 점수 리스트를 저장할 변수
-    private List<UserScore> userList;
+    private List<Ranking> userList;
     // 현재 사용자 아이디를 저장할 변수
     private String currentUser;
     //  사용자 뷰 타입을 나타내는 상수, 0=타인, 1=자신
@@ -23,7 +23,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int VIEW_TYPE_CURRENT_USER = 1;
 
     // 사용자 점수 리스트와 현재 사용자 아이디를 초기화
-    public LeaderboardAdapter(List<UserScore> userList, String currentUser) {
+    public LeaderboardAdapter(List<Ranking> userList, String currentUser) {
         this.userList = userList;
         this.currentUser = currentUser;
     }
@@ -55,7 +55,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // 사용자 데이터를 가져옴
-        UserScore user = userList.get(position);
+        Ranking user = userList.get(position);
         if (holder.getItemViewType() == VIEW_TYPE_CURRENT_USER) {
             ((CurrentUserViewHolder) holder).bind(user, position);
         } else {
@@ -82,7 +82,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         // 사용자 데이터를 ViewHolder에 바인딩하는 메서드
-        void bind(UserScore user, int position) {
+        void bind(Ranking user, int position) {
             rank.setText(String.valueOf(position + 1)); // 순위를 설정
             username.setText(user.getUserId()); // 사용자 이름을 설정
             score.setText(String.valueOf(user.getScore())); // 점수를 설정
@@ -102,7 +102,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         // 사용자 데이터를 ViewHolder에 바인딩하는 메서드
-        void bind(UserScore user, int position) {
+        void bind(Ranking user, int position) {
             rank.setText(String.valueOf(position + 1)); // 순위를 설정
             username.setText(user.getUserId()); // 사용자 이름을 설정
             score.setText(String.valueOf(user.getScore())); // 점수를 설정

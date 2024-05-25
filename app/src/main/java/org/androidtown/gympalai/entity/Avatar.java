@@ -7,19 +7,27 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 // 외래키 설정
 // foreignKeys = @ForeignKey(entity = User.class,
 //        parentColumns = "avatarName", childColumns = "avatarName", onDelete = ForeignKey.CASCADE
-@Entity(tableName = "avatar", foreignKeys = @ForeignKey(entity = User.class,
-        parentColumns = "avatarName", childColumns = "avatarName", onDelete = ForeignKey.CASCADE))
+@Entity(tableName = "avatar")
 public class Avatar {
+
+    public Avatar(@NonNull String avatarName, byte[] image, @NonNull Boolean isLocked, @NonNull String description) {
+        this.avatarName = avatarName;
+        this.image = image;
+        this.isLocked = isLocked;
+        this.description = description;
+    }
+
     @NonNull
     @PrimaryKey
     private String avatarName;
 
-    @ColumnInfo(name = "date")
-    private LocalDateTime date;
+    @ColumnInfo(name = "image")
+    private byte[] image;
 
     // True -> 잠김 상태 False -> 열림 상태
     @NonNull
@@ -36,14 +44,6 @@ public class Avatar {
 
     public void setAvatarName(String avatarName) {
         this.avatarName = avatarName;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
     }
 
     @NonNull
@@ -64,11 +64,19 @@ public class Avatar {
         this.description = description;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Avatar{" +
                 "avatarName='" + avatarName + '\'' +
-                ", date=" + date +
+                ", image=" + Arrays.toString(image) +
                 ", isLocked=" + isLocked +
                 ", description='" + description + '\'' +
                 '}';

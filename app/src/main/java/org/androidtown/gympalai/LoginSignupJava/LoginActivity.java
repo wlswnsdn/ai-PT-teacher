@@ -69,11 +69,11 @@ public class LoginActivity extends AppCompatActivity {
                 String pw = login_password.getText().toString();
                 boolean loginResult = false;
                 try {
-                    String pwCheck = new GetUserPwTask(db.userDao()).execute(id).get();
-                    if (pwCheck.equals(pw)) {
-                        loginResult = true;
-                    }
-                } catch (ExecutionException | InterruptedException e) {
+
+                    String pwCheck = String.valueOf(new GetUserPwTask(db.userDao()).execute(id).get());
+                    if(pwCheck.equals(pw)){loginResult = true;}
+                } catch (ExecutionException e) {
+
                     throw new RuntimeException(e);
                 }
                 if (loginResult) {

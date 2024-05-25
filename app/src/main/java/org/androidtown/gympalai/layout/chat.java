@@ -1,6 +1,8 @@
 package org.androidtown.gympalai.layout;
 import android.annotation.SuppressLint;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,17 +24,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.androidtown.gympalai.R;
 import org.androidtown.gympalai.adapter.MessageAdapter;
+import org.androidtown.gympalai.backmethod.LoginFunction;
+import org.androidtown.gympalai.dao.AvatarDao;
 import org.androidtown.gympalai.dao.ChatDao;
 import org.androidtown.gympalai.dao.RankingDao;
 import org.androidtown.gympalai.dao.ScoreDao;
 import org.androidtown.gympalai.dao.UserDao;
 import org.androidtown.gympalai.database.GymPalDB;
+import org.androidtown.gympalai.entity.Avatar;
 import org.androidtown.gympalai.entity.Chat;
 import org.androidtown.gympalai.entity.HealthInfo;
 import org.androidtown.gympalai.entity.Ranking;
 import org.androidtown.gympalai.entity.Score;
-import org.androidtown.gympalai.entity.User;
-import org.androidtown.gympalai.model.LoginId;
 import org.androidtown.gympalai.model.Message;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,9 +65,10 @@ public class chat extends Fragment {
 
     RecyclerView recyclerView;
     EditText etMsg;
-    TextView tvWelcome;
+    TextView tvWelcome,chat_avatar_name;
     ImageButton btnSend;
 
+    ImageView imageView;
     List<Message> messageList;
     MessageAdapter messageAdapter;
 
@@ -72,15 +77,18 @@ public class chat extends Fragment {
     //DB 생성
     GymPalDB db;
 
-    LoginId loginId = new LoginId();
+    LoginFunction loginFunction = new LoginFunction();
 
+    String avatarDescription;
 
     private static final String api_key = "sk-proj-5h1uVBeVPFcBqzoibAlUT3BlbkFJoWYnw4fzTEHfeDs9RuFv";
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // 레이아웃 파일을 inflate하여 View 생성
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        View view2 = inflater.inflate(R.layout.chat_item, container, false);
 
         //DB 생성
         db = GymPalDB.getInstance(getActivity());
@@ -91,6 +99,8 @@ public class chat extends Fragment {
         tvWelcome = view.findViewById(R.id.tv_welcome);
         etMsg = view.findViewById(R.id.et_msg);
         btnSend = view.findViewById(R.id.btn_send);
+        imageView = view2.findViewById(R.id.image_profile);
+        chat_avatar_name = view2.findViewById(R.id.chat_avatar_name);
 
         // RecyclerView 설정
         recyclerView.setHasFixedSize(true);
@@ -98,17 +108,39 @@ public class chat extends Fragment {
         manager.setStackFromEnd(true);
         recyclerView.setLayoutManager(manager);
 
-        // 메시지 리스트 초기화 및 어댑터 설정
-        messageList = new ArrayList<>();
-        messageAdapter = new MessageAdapter(messageList);
-        recyclerView.setAdapter(messageAdapter);
+        // 아바타 설정
+        String avatarName = null;
+        try {
+            avatarName = new userAsyncTask(db.userDao()).execute(loginFunction.getMYId()).get();
+            System.out.println("avatarName = " + avatarName);
+            if (avatarName != null) {
+                Avatar avatar = new avatarAsyncTask(db.avatarDao()).execute(avatarName).get();
+                avatarDescription=avatar.getDescription();
+                byte[] image = avatar.getImage();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                System.out.println("avatar.getAvatarName() = " + avatar.getAvatarName());
+                // 메시지 리스트 초기화 및 어댑터 설정
+                messageList = new ArrayList<>();
+                messageAdapter = new MessageAdapter(messageList,avatar.getAvatarName(),bitmap);
+                recyclerView.setAdapter(messageAdapter);
+
+            }
+
+        } catch (ExecutionException e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
+        } catch (InterruptedException e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
+        }
+
+
+
 
 
 
 
         // db의 이전 메시지 list에 추가
 
-        db.chatDao().getAll(loginId.getLoginId()).observe(getViewLifecycleOwner(), new Observer<List<Chat>>() {
+        db.chatDao().getAll(loginFunction.getMYId()).observe(getViewLifecycleOwner(), new Observer<List<Chat>>() {
             @Override
             public void onChanged(List<Chat> chatList) {
                 updateRecyclerView(chatList);
@@ -117,8 +149,8 @@ public class chat extends Fragment {
 
 
 
-        messageAdapter = new MessageAdapter(messageList);
-        recyclerView.setAdapter(messageAdapter);
+//        messageAdapter = new MessageAdapter(messageList);
+//        recyclerView.setAdapter(messageAdapter);
 
 
 
@@ -144,7 +176,8 @@ public class chat extends Fragment {
             for (Chat chat : chatList) {
                 String sentBy = (chat.getQuestion()) ? "me" : "bot";
                 Message message = new Message(chat.getMessage(), sentBy);
-                messageList.add(message);
+                String forShow = getSubstringBeforeBracket(message.getMessage());
+                messageList.add(new Message(forShow, message.getSentBy()));
             }
         }
         messageAdapter.notifyDataSetChanged(); // RecyclerView를 업데이트합니다.
@@ -155,7 +188,10 @@ public class chat extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     void addToChat(String message, String sentBy) {
         getActivity().runOnUiThread(() -> {
-            messageList.add(new Message(message, sentBy));
+
+            String forShow = getSubstringBeforeBracket(message);
+            System.out.println("forShow = " + forShow);
+            messageList.add(new Message(forShow, sentBy));
             char identifier = message.charAt(message.length() - 1);
 
             // db에도 message 저장
@@ -167,15 +203,15 @@ public class chat extends Fragment {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 // 식단 추천
-                if(identifier=='1') new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginId.getLoginId(), LocalDateTime.now(), isQuestion, message,null,getFullNamesFromResponse(message) ));
+                if(identifier=='1') new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,null,getFullNamesFromResponse(message) ));
                 // 운동 추천
-                else if(identifier=='2') new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginId.getLoginId(), LocalDateTime.now(), isQuestion, message,getFullNamesFromResponse(message), null ));
+                else if(identifier=='2') new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,getFullNamesFromResponse(message), null ));
                 // 식단 피드백
                 else if(identifier=='3'){
-                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginId.getLoginId(), LocalDateTime.now(), isQuestion, message,null,null ));
+                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,null,null ));
                     // score에다가 점수 계산해서 넣어야됨
                     List<String> nutrition = getSplitedNamesFromResponse(message);
-                    db.healthInfoDao().getUserInfo(loginId.getLoginId()).observe(getActivity(), new Observer<HealthInfo>() {
+                    db.healthInfoDao().getUserInfo(loginFunction.getMYId()).observe(getActivity(), new Observer<HealthInfo>() {
                         @Override
                         public void onChanged(HealthInfo healthInfo) {
                             System.out.println("healthInfo = " + healthInfo);
@@ -190,20 +226,20 @@ public class chat extends Fragment {
                             Score score = null;
                             Ranking ranking = null;
                             try {
-                                score = new scoreAsyncTask(2, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
-                                ranking = new rankingAsyncTask(2, 0, loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
+                                score = new scoreAsyncTask(2, 0, loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), 0)).get();
+                                ranking = new rankingAsyncTask(2, 0, loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), 0)).get();
                                 // 오늘 첫 기록이면
                                 if(score==null) {
-                                    new scoreAsyncTask(0, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), dietScore));
-                                    new rankingAsyncTask(0, 0, loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), dietScore));
+                                    new scoreAsyncTask(0, 0, loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), dietScore));
+                                    new rankingAsyncTask(0, 0, loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), dietScore));
                                 }
                                 // 이미 오늘 기록한게 있으면
                                 else if(score.getScore()+dietScore<1000) {
-                                    new scoreAsyncTask(1, score.getScoreId(), loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), score.getScore()+dietScore));
-                                    new rankingAsyncTask(1, ranking.getRankingId(), loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), ranking.getScore() + dietScore));
+                                    new scoreAsyncTask(1, score.getScoreId(), loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), score.getScore()+dietScore));
+                                    new rankingAsyncTask(1, ranking.getRankingId(), loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), ranking.getScore() + dietScore));
                                 }
 
-                                //System.out.println("score.toString() = " + score.toString());
+
                             } catch (ExecutionException e) {
                                 throw new RuntimeException(e);
                             } catch (InterruptedException e) {
@@ -228,7 +264,7 @@ public class chat extends Fragment {
                 }
                 // 운동 피드백
                 else if (identifier == '4') {
-                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginId.getLoginId(), LocalDateTime.now(), isQuestion, message,null,null ));
+                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,null,null ));
                     // 운동 점수 계산
                     int sets = Integer.parseInt(getSplitedNamesFromResponse(message).get(0));
                     // 최대 세트 수는 30
@@ -237,20 +273,20 @@ public class chat extends Fragment {
                     Score score = null;
                     Ranking ranking = null;
                     try {
-                        score = new scoreAsyncTask(2, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
-                        ranking = new rankingAsyncTask(2, 0, loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), 0)).get();
+                        score = new scoreAsyncTask(2, 0, loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), 0)).get();
+                        ranking = new rankingAsyncTask(2, 0, loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), 0)).get();
                         // 오늘 첫 기록이면
                         if(score==null) {
-                            new scoreAsyncTask(0, 0, loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), exerciseScore));
-                            new rankingAsyncTask(0, 0, loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), exerciseScore));
+                            new scoreAsyncTask(0, 0, loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), exerciseScore));
+                            new rankingAsyncTask(0, 0, loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), exerciseScore));
                         }
                         // 이미 오늘 기록한게 있으면
                         else if(score.getScore()+exerciseScore<1000) {
-                            new scoreAsyncTask(1, score.getScoreId(), loginId.getLoginId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginId.getLoginId(), score.getScore()+exerciseScore));
-                            new rankingAsyncTask(1, ranking.getRankingId(), loginId.getLoginId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginId.getLoginId(), ranking.getScore() + exerciseScore));
+                            new scoreAsyncTask(1, score.getScoreId(), loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), score.getScore()+exerciseScore));
+                            new rankingAsyncTask(1, ranking.getRankingId(), loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), ranking.getScore() + exerciseScore));
                         }
 
-                        //System.out.println("score.toString() = " + score.toString());
+
                     } catch (ExecutionException e) {
                         throw new RuntimeException(e);
                     } catch (InterruptedException e) {
@@ -261,7 +297,7 @@ public class chat extends Fragment {
                 }
                 // 나머지
                 else{
-                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginId.getLoginId(), LocalDateTime.now(), isQuestion, message,null,null ));
+                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,null,null ));
 
                 }
             }
@@ -300,9 +336,18 @@ public class chat extends Fragment {
         return infoNames;
     }
 
+    private String getSubstringBeforeBracket(String str) {
+        // '['의 인덱스를 찾는다
+        int index = str.indexOf('[');
+        // '['이 없다면 원본 문자열을 반환
+        if (index == -1) {
+            return str;
+        }
+        // '[' 이전까지의 서브스트링을 반환
+        return str.substring(0, index);
+    }
 
-
-    void callAPI(String question) {
+    void callAPI(String question)  {
         //okhttp
         messageList.add(new Message("...", Message.SENT_BY_BOT));
 
@@ -317,7 +362,7 @@ public class chat extends Fragment {
         try {
             //AI 속성설정
             baseAi.put("role", "user");
-            baseAi.put("content", script);
+            baseAi.put("content", "너는 지금부터 내가 설명하는 트레이너가 돼서 유저들을 가르치는거야."+ avatarDescription + script);
             //유저 메세지
             userMsg.put("role", "user");
             userMsg.put("content", question);
@@ -513,6 +558,54 @@ public class chat extends Fragment {
 
         }
 
+    }
+
+    //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
+    public static class avatarAsyncTask extends AsyncTask<String, Void, Avatar> {
+
+        private AvatarDao avatarDao;
+
+        public avatarAsyncTask(AvatarDao avatarDao) {
+            this.avatarDao = avatarDao;
+        }
+
+        @Override //백그라운드작업(메인스레드 X)
+        protected Avatar doInBackground(String ...avatarNames) {
+            try{
+                if(avatarNames[0]!=null) {
+                    Avatar avatar = avatarDao.getAvatar(avatarNames[0]);
+                    return avatar;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+
+        }
+    }
+
+    //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
+    public static class userAsyncTask extends AsyncTask<String, Void, String> {
+
+        private UserDao userDao;
+
+        public userAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override //백그라운드작업(메인스레드 X)
+        protected String doInBackground(String ...userIds) {
+            try{
+                if(userIds[0]!=null) {
+                    String avatarName = userDao.getAvatarName(userIds[0]);
+                    return avatarName;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+
+        }
     }
 
 

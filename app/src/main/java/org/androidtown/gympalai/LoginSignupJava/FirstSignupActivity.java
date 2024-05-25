@@ -88,9 +88,11 @@ public class FirstSignupActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "동일한 닉네임이 존재합니다.", Toast.LENGTH_SHORT).show();
                     } else {
                         String pw = edit_passwrd.getText().toString();
-                        User user = new User(id, pw, nickName, null); // 회원가입 할 user 객체 생성
-                        // DB 조작은 Async로
-                        // db.userDao().insert(user); // 이렇게 코드를 짜고 싶은데 메인스레드에서는 작업할 수 없다
+
+                        User user = new User(id, pw, nickName, "성민수"); //회원가입 할 user객체 생성
+                        // DB조작은 Async로
+                        //db.userDao().insert(user); //이렇게 코드를 짜고 싶은데 메인스레드에서는 작업할 수 없다
+
                         new InsertAsyncTask(db.userDao()).execute(user);
 
                         // 화면 전환
@@ -119,8 +121,13 @@ public class FirstSignupActivity extends AppCompatActivity {
             this.userDao = userDao;
         }
         @Override
-        protected Void doInBackground(User... users) { // 여기서 비동기 처리 수행
-            userDao.insert(users[0]);
+        protected Void doInBackground(User... users) { //여기서 비동기 처리 수행
+            try {
+                userDao.insert(users[0]);
+            } catch (Exception e) {
+                System.out.println("e.getMessage() = " + e.getMessage());
+            }
+
             return null;
         }
     }

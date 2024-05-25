@@ -23,7 +23,11 @@ public interface HealthInfoDao {
     @Query("SELECT * FROM healthInfo WHERE userId = :userId")
     LiveData<HealthInfo> getUserInfo(String userId);
 
+    @Query("Update healthInfo SET height= :height, weight = :weight, purpose= :purpose WHERE userId = :userId ")
+    void updateHealthInfo(String userId, float height, float weight, int purpose);
 
+    @Query("SELECT * FROM healthInfo WHERE userId = :userId")
+    HealthInfo getHealthInfoByUserId(String userId);
     @Insert
     void insert (HealthInfo healthInfo);
 
