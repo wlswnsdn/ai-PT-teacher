@@ -59,8 +59,8 @@ public class MyInformationChangeFragment extends Fragment {
         });
 
 
-        setupNumberPicker(weightPicker, 30.0f, 200.0f, 0.1f);
-        setupNumberPicker(heightPicker, 100.0f, 200.0f, 0.1f);
+        setupNumberPicker(weightPicker, 40.0f, 120.0f, 1f);
+        setupNumberPicker(heightPicker, 150.0f, 200.0f, 1f);
         //number picker들로 값을 설정하면 ChangeUserHealthInfo로 몸무게랑 키값 바꿔주시면 됩니다.
 
         //spinner 생성
@@ -142,10 +142,8 @@ public class MyInformationChangeFragment extends Fragment {
             float selectedValue = minValue + (newVal * step);
             if (picker.getId() == R.id.weight_picker) {
                 // weight_picker에서 값이 변경되었을때 selectedValue를 weight테이블에,
-                Toast.makeText(getContext(), "Selected weight: "+selectedValue , Toast.LENGTH_SHORT).show();
             } else if (picker.getId() == R.id.height_picker) {
                 // weight_picker에서 값이 변경되었을때 selectedValue를 height에 반영해주시면 됩니다..
-                Toast.makeText(getContext(), "Selected height: "+selectedValue , Toast.LENGTH_SHORT).show();
             }
         });
     }

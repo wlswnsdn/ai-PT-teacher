@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusableInTouchMode="true">
     <include layout="@layout/upper_bar_for_login"/>
     <ImageView
         android:layout_width="300dp"
@@ -38,8 +40,6 @@
             android:hint="@string/login_password_hint"
             android:textColorHint="@color/hint_grey"
             android:gravity="center"
-
-
             />
         <Button
             android:id="@+id/login_button_in_login_page"
@@ -53,7 +53,6 @@
             android:layout_alignTop="@+id/id_place"
             android:background="@drawable/round_square_purple"
             />
-
     </RelativeLayout>
 
     <Button
@@ -64,8 +63,7 @@
         android:layout_marginTop="30dp"
         android:background="@color/transparent"
         android:text="@string/signup_button_text_in_login"
+        android:textColor="@color/blue"
         android:textAllCaps="false"
         android:textStyle="bold" />
-
-
 </LinearLayout>
