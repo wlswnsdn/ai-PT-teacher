@@ -34,6 +34,7 @@ import org.androidtown.gympalai.entity.Ranking;
 import org.androidtown.gympalai.model.CircularProgressView;
 import org.androidtown.gympalai.model.UserTotalScore;
 import org.androidtown.gympalai.worker.SeasonUpdateWorker;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -44,12 +45,13 @@ import java.util.concurrent.TimeUnit;
 
 public class home extends Fragment {
 
-    ImageView silver, bronze, learderboardImage, firstImage, secondImage, thirdImage;
+    ImageView silver, bronze, learderboardImage;
+    ImageView firstImage, secondImage, thirdImage; //1, 2, 3등 사용자 이미지뷰
     CircularProgressView personalScore;  // 개인 점수 표시 뷰
     RecyclerView recyclerView;  // 리더보드 리사이클러뷰
     TextView firstPlace, secondPlace, thirdPlace;  // 1, 2, 3등 사용자 이름 텍스트뷰
     TextView firstPlaceScore, secondPlaceScore, thirdPlaceScore;  // 1, 2, 3등 사용자 점수 텍스트뷰
-
+    TextView enough;
     LoginFunction loginFunction = new LoginFunction();
 
     private static String currentUser; // 현재 사용자 아이디를 user6으로 설정, 이부분 가져와야함.
@@ -76,7 +78,7 @@ public class home extends Fragment {
         firstPlaceScore = view.findViewById(R.id.scorefirst);
         secondPlaceScore = view.findViewById(R.id.scoresecond);
         thirdPlaceScore = view.findViewById(R.id.scorethird);
-
+        enough = view.findViewById(R.id.enough);
 
         silver.setColorFilter(Color.parseColor("#A5A9B4"));
         bronze.setColorFilter(Color.parseColor("#B08D57"));
@@ -180,6 +182,7 @@ public class home extends Fragment {
 
             // 상위 3명 사용자 이름 및 점수 설정
             if (userList.size() >= 3) {
+                enough.setAlpha(0.0f);
                 firstPlace.setText(userList.get(0).getUserId());
                 secondPlace.setText(userList.get(1).getUserId());
                 thirdPlace.setText(userList.get(2).getUserId());

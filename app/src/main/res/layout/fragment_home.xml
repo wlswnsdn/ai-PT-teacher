@@ -64,7 +64,17 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     >
-
+                    <TextView
+                        android:id="@+id/enough"
+                        android:layout_width="match_parent"
+                        android:layout_height="190dp"
+                        android:text="Oop!\nthere aren't enough participants yet to display ranking.\nStay turned!"
+                        android:textSize="25sp"
+                        android:textColor="@color/basic_purple"
+                        android:gravity="center"
+                        android:translationZ="50dp"
+                        android:background="@color/white"
+                        tools:ignore="MissingConstraints" />
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="10dp"
@@ -279,6 +289,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/leaderboard"
                     android:background="@drawable/mainbottom"
@@ -291,7 +302,9 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
 
 
+
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

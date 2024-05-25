@@ -217,7 +217,13 @@ public class analysis extends Fragment {
                 List<Entry> weightEntries = new ArrayList<>();
                 for(HealthInfoClone healthInfoClone : healthInfoClones){
                     long timestamp = healthInfoClone.getDate().getTime();
-                    weightEntries.add(new Entry(timestamp, healthInfoClone.getWeight()));
+                    if (!weightEntries.isEmpty() && weightEntries.get(weightEntries.size() - 1).getX() == timestamp) {
+                        // 날짜가 같다면 마지막 항목의 값을 업데이트
+                        weightEntries.get(weightEntries.size() - 1).setY(healthInfoClone.getWeight());
+                    } else {
+                        // 날짜가 다르다면 새로운 데이터를 리스트에 추가
+                        weightEntries.add(new Entry(timestamp, healthInfoClone.getWeight()));
+                    }
                 }
                 setupChartData(chartWeight, weightEntries, "Weight");
             }
@@ -231,7 +237,12 @@ public class analysis extends Fragment {
                 for(Score score : scores){
                     // LocalDate를 사용하여 년도, 월, 일까지만 타임스탬프로 변환
                     long timestamp = score.getDate().toLocalDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
-                    scoreEntries.add(new Entry(timestamp, score.getScore())); // Entry 객체를 생성하여 리스트에 추가
+                    if (!scoreEntries.isEmpty() && scoreEntries.get(scoreEntries.size() - 1).getX() == timestamp) {
+                        // 날짜가 같다면 마지막 항목의 값을 업데이트
+                        scoreEntries.get(scoreEntries.size() - 1).setY(score.getScore());
+                    } else {
+                        scoreEntries.add(new Entry(timestamp, score.getScore())); // Entry 객체를 생성하여 리스트에 추가
+                    }
 
                 }
                 setupChartData(chartScore, scoreEntries, "Score");
@@ -246,7 +257,12 @@ public class analysis extends Fragment {
                 for(HealthInfoClone healthInfoClone : healthInfoClones){
                     long timestamp = healthInfoClone.getDate().getTime();
                     float TDEE = (float) getTDEE(healthInfoClone);
-                    TDEEEntries.add(new Entry(timestamp, TDEE));// TDEE 값을 추가
+                    if (!TDEEEntries.isEmpty() && TDEEEntries.get(TDEEEntries.size() - 1).getX() == timestamp) {
+                        // 날짜가 같다면 마지막 항목의 값을 업데이트
+                        TDEEEntries.get(TDEEEntries.size() - 1).setY(TDEE);
+                    } else {
+                        TDEEEntries.add(new Entry(timestamp, TDEE)); // TDEE 값을 추가
+                    }
                 }
                 setupChartData(chartTDEE, TDEEEntries, "TDEE");// 차트 데이터 설정
             }
