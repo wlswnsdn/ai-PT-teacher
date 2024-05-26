@@ -96,7 +96,9 @@
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:translationZ="8dp"/>
+            android:translationZ="8dp"
+            android:background="@color/transparent"
+            />
 
     </FrameLayout>
 

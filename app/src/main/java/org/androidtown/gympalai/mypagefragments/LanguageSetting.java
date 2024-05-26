@@ -1,6 +1,7 @@
 package org.androidtown.gympalai.mypagefragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -72,7 +73,7 @@ public class LanguageSetting extends Fragment {
                 current_language.setText("한국어");
                 break;
             case "en":
-                current_language.setText("english");
+                current_language.setText("English");
                 break;
             case "ja":
                 current_language.setText("日本語");
@@ -94,10 +95,16 @@ public class LanguageSetting extends Fragment {
         // 현재 언어를 업데이트
         setCurrentLanguage();
 
-        // 필요 시, 애플리케이션을 재시작하여 언어 변경을 반영할 수 있습니다.
-        // 예를 들어, 다음과 같이 Activity를 재시작할 수 있습니다:
-        // Intent intent = getActivity().getIntent();
-        // getActivity().finish();
-        // startActivity(intent);
+        // 프래그먼트 재시작하여 언어 변경을 반영
+        restartFragment();
+    }
+
+    // 프래그먼트를 재시작하는 메서드
+    private void restartFragment() {
+        getFragmentManager()
+                .beginTransaction()
+                .detach(this)
+                .attach(this)
+                .commit();
     }
 }

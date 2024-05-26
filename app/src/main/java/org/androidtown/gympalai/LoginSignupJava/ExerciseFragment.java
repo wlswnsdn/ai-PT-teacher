@@ -3,11 +3,11 @@ package org.androidtown.gympalai.LoginSignupJava;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,68 +26,78 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ExerciseFragment extends Fragment {
-    Button exercise_btn_1,exercise_btn_2,exercise_btn_3,exercise_btn_4,exercise_btn_5;
+    Button exercise_btn_1, exercise_btn_2, exercise_btn_3, exercise_btn_4, exercise_btn_5;
+    TextView exercise_textview_1, exercise_textview_2, exercise_textview_3, exercise_textview_4, exercise_textview_5;
 
     GymPalDB db;
 
     LoginFunction loginFunction = new LoginFunction();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView= (ViewGroup) inflater.inflate(R.layout.fragment_exercise, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_exercise, container, false);
 
-        //DB 생성
+        // DB 생성
         db = GymPalDB.getInstance(getActivity());
-
+        // 버튼 선언
         exercise_btn_1 = rootView.findViewById(R.id.exercise_btn_1);
         exercise_btn_2 = rootView.findViewById(R.id.exercise_btn_2);
         exercise_btn_3 = rootView.findViewById(R.id.exercise_btn_3);
         exercise_btn_4 = rootView.findViewById(R.id.exercise_btn_4);
         exercise_btn_5 = rootView.findViewById(R.id.exercise_btn_5);
 
+        // 텍스트뷰 선언
+        exercise_textview_1 = rootView.findViewById(R.id.exercise_text_view_1);
+        exercise_textview_2 = rootView.findViewById(R.id.exercise_text_view_2);
+        exercise_textview_3 = rootView.findViewById(R.id.exercise_text_view_3);
+        exercise_textview_4 = rootView.findViewById(R.id.exercise_text_view_4);
+        exercise_textview_5 = rootView.findViewById(R.id.exercise_text_view_5);
+
         try {
+
             String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMyId()).get();
+
             List<String> exercise_routine_array = new ArrayList<>();
 
-            if (response!=null) {
-                List<String> exerciseList = getSplitedNamesFromResponse(response);
-                for (String exercise : exerciseList) {
-                    exercise_routine_array.add(exercise);
-                }
+            if (response != null) {
+                exercise_routine_array = getSplitedNamesFromResponse(response);
+            } else {
+                exercise_routine_array = Arrays.asList("Take a recommendation", "Take a recommendation", "Take a recommendation", "Take a recommendation", "Take a recommendation");
             }
 
-            else exercise_routine_array = Arrays.asList("Take a recommendation", "Take a recommendation", "Take a recommendation", "Take a recommendation", "Take a recommendation" );
+            // 텍스트뷰에 텍스트 설정
+            setTextViewText(exercise_textview_1, exercise_routine_array.get(0));
+            setTextViewText(exercise_textview_2, exercise_routine_array.get(1));
+            setTextViewText(exercise_textview_3, exercise_routine_array.get(2));
+            setTextViewText(exercise_textview_4, exercise_routine_array.get(3));
+            setTextViewText(exercise_textview_5, exercise_routine_array.get(4));
 
-
-            // 버튼에 텍스트 세팅
-            setButtonText(exercise_btn_1, exercise_routine_array.get(0));
-            setButtonText(exercise_btn_2, exercise_routine_array.get(1));
-            setButtonText(exercise_btn_3, exercise_routine_array.get(2));
-            setButtonText(exercise_btn_4, exercise_routine_array.get(3));
-            setButtonText(exercise_btn_5, exercise_routine_array.get(4));
-
-            // 버튼에 텍스트가 있으면 보여주고 없으면 안보여주는 메서드
-            setButtonVisibility(exercise_btn_1);
-            setButtonVisibility(exercise_btn_2);
-            setButtonVisibility(exercise_btn_3);
-            setButtonVisibility(exercise_btn_4);
-            setButtonVisibility(exercise_btn_5);
+            // 버튼과 텍스트뷰의 가시성 설정
+            setVisibility(exercise_btn_1, exercise_textview_1);
+            setVisibility(exercise_btn_2, exercise_textview_2);
+            setVisibility(exercise_btn_3, exercise_textview_3);
+            setVisibility(exercise_btn_4, exercise_textview_4);
+            setVisibility(exercise_btn_5, exercise_textview_5);
 
             return rootView;
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
-
-    private void setButtonVisibility(Button button) {
-        if (TextUtils.isEmpty(button.getText().toString().trim())) {
+    //textview에 texxt없으면 버튼과 text뷰 모두 안보이게 한다.
+    private void setVisibility(Button button, TextView textView) {
+        if (TextUtils.isEmpty(textView.getText().toString().trim())) {
             button.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
         } else {
             button.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
         }
+    }
+    //textview에 텍스트를 설정한다.
+    private void setTextViewText(TextView textView, String text) {
+        textView.setText(text);
     }
 
     private List<String> getSplitedNamesFromResponse(String response) {
@@ -104,25 +114,17 @@ public class ExerciseFragment extends Fragment {
         return infoNames;
     }
 
-    private void setButtonText(Button button, String text) {
-        button.setText(text);
-    }
-
-    //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
+    // 메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
     public static class chatAsyncTask extends AsyncTask<String, Void, String> {
         private ChatDao chatDao;
 
-        public  chatAsyncTask(ChatDao chatDao){
+        public chatAsyncTask(ChatDao chatDao) {
             this.chatDao = chatDao;
         }
 
-        @Override //백그라운드작업(메인스레드 X)
-        protected String doInBackground(String ... userIds) {
-            String exerciseList = chatDao.getExerciseList(userIds[0]);
-            return exerciseList;
-
+        @Override // 백그라운드 작업(메인스레드 X)
+        protected String doInBackground(String... userIds) {
+            return chatDao.getExerciseList(userIds[0]);
         }
     }
-
-
 }

@@ -16,7 +16,7 @@
                 android:id="@+id/weight_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="몸무게"
+                android:text="@string/change_weight"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_marginTop="50dp"
@@ -35,7 +35,7 @@
                 android:id="@+id/height_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="키"
+                android:text="@string/change_height"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_below="@id/weight_picker"
@@ -68,7 +68,7 @@
                 android:background="@drawable/round_square_purple"
                 android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
-                android:text="정보 입력"
+                android:text="@string/on_change"
                 />
 
         </RelativeLayout>
