@@ -13,6 +13,32 @@
     <string name="weight">Weight(kg)</string>
     <string name="age">Age</string>
     <string name="exercise_number">exercise number per week</string>
+    <!--    my_page에서 사용하는 string-->
+    <string name="change_my_information">내 정보 수정</string>
+    <string name="change_nickname_password">닉네임/비밀번호 설정</string>
+v    <string name="change_avatar">아바타 설정</string>
+    <string name="change_language">언어 설정</string>
+    <string name="logout">로그아웃</string>
+
+
+
+    <!--    my_page_avatar에서 사용하는 string-->
+    <string name="current_trainer">현재 트레이너:</string>
+    <!--    my_page_information에서 사용하는 string-->
+    <string name="change_weight">몸무게</string>
+    <string name="change_height">키</string>
+    <string name="on_change">정보 입력</string>
+    <!--    my_page_language에서 사용하는 string-->
+    <string name="current_langugae">현재 언어:</string>
+    <string name="korean">한국어</string>
+    <string name="english">영어</string>
+    <string name="japanese">일본어</string>
+
+
+
+
+
+
 
 
 
