@@ -13,12 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button"
-        android:text="send"/>
+        android:text="@string/send"/>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="hello"
+        android:text="@string/hello"
         android:id="@+id/textView"/>
 
 

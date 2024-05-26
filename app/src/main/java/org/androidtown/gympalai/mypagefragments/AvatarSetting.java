@@ -71,7 +71,7 @@ public class AvatarSetting extends Fragment {
 
         try {
             // 내 트레이너 설정
-            String avatarName = new userAsyncTask(0,"",db.userDao()).execute(loginFunction.getMYId()).get();
+            String avatarName = new userAsyncTask(0,"",db.userDao()).execute(loginFunction.getMyId()).get();
             List<Avatar> avatar = new avatarAsyncTask(0, db.avatarDao()).execute(avatarName).get();
             byte[] current_image = avatar.get(0).getImage();
             Bitmap current_bitmap = BitmapFactory.decodeByteArray(current_image, 0, current_image.length);
@@ -101,7 +101,7 @@ public class AvatarSetting extends Fragment {
             public void onClick(View v) {//여기에 avatar1 구현해주시면됩니다.
                 try {
                     List<Avatar> avatars = new avatarAsyncTask(1, db.avatarDao()).execute("").get();
-                    new userAsyncTask(1, avatars.get(0).getAvatarName(), db.userDao()).execute(loginFunction.getMYId());
+                    new userAsyncTask(1, avatars.get(0).getAvatarName(), db.userDao()).execute(loginFunction.getMyId());
                     String sourceText = trainners[0].getText().toString();
                     current_trainner_name.setText(sourceText);
                     current_trainner.setImageDrawable(trainnerOptions[0].getDrawable());
@@ -119,7 +119,7 @@ public class AvatarSetting extends Fragment {
             public void onClick(View v) {
                 try {
                     List<Avatar> avatars = new avatarAsyncTask(1, db.avatarDao()).execute("").get();
-                    new userAsyncTask(1, avatars.get(1).getAvatarName(), db.userDao()).execute(loginFunction.getMYId());
+                    new userAsyncTask(1, avatars.get(1).getAvatarName(), db.userDao()).execute(loginFunction.getMyId());
                     String sourceText = trainners[1].getText().toString();
                     current_trainner_name.setText(sourceText);
                     current_trainner.setImageDrawable(trainnerOptions[1].getDrawable());
@@ -137,7 +137,7 @@ public class AvatarSetting extends Fragment {
             public void onClick(View v) {
                 try {
                     List<Avatar> avatars = new avatarAsyncTask(1, db.avatarDao()).execute("").get();
-                    new userAsyncTask(1, avatars.get(2).getAvatarName(), db.userDao()).execute(loginFunction.getMYId());
+                    new userAsyncTask(1, avatars.get(2).getAvatarName(), db.userDao()).execute(loginFunction.getMyId());
                     String sourceText = trainners[2].getText().toString();
                     current_trainner_name.setText(sourceText);
                     current_trainner.setImageDrawable(trainnerOptions[2].getDrawable());
