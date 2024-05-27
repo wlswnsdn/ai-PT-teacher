@@ -111,7 +111,7 @@ public class chat extends Fragment {
         // 아바타 설정
         String avatarName = null;
         try {
-            avatarName = new userAsyncTask(db.userDao()).execute(loginFunction.getMYId()).get();
+            avatarName = new userAsyncTask(db.userDao()).execute(loginFunction.getMyId()).get();
             System.out.println("avatarName = " + avatarName);
             if (avatarName != null) {
                 Avatar avatar = new avatarAsyncTask(db.avatarDao()).execute(avatarName).get();
@@ -186,8 +186,7 @@ public class chat extends Fragment {
 
     //  채팅 목록에 메세지 추가
     @SuppressLint("NotifyDataSetChanged")
-    void addToChat(String message, String sentBy) {
-        getActivity().runOnUiThread(() -> {
+    public void addToChat(String message, String sentBy) {
 
             String forShow = getSubstringBeforeBracket(message);
             System.out.println("forShow = " + forShow);
@@ -203,15 +202,15 @@ public class chat extends Fragment {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 // 식단 추천
-                if(identifier=='1') new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,null,getFullNamesFromResponse(message) ));
+                if(identifier=='1') new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMyId(), LocalDateTime.now(), isQuestion, message,null,getFullNamesFromResponse(message) ));
                 // 운동 추천
-                else if(identifier=='2') new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,getFullNamesFromResponse(message), null ));
+                else if(identifier=='2') new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMyId(), LocalDateTime.now(), isQuestion, message,getFullNamesFromResponse(message), null ));
                 // 식단 피드백
                 else if(identifier=='3'){
-                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,null,null ));
+                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMyId(), LocalDateTime.now(), isQuestion, message,null,null ));
                     // score에다가 점수 계산해서 넣어야됨
                     List<String> nutrition = getSplitedNamesFromResponse(message);
-                    db.healthInfoDao().getUserInfo(loginFunction.getMYId()).observe(getActivity(), new Observer<HealthInfo>() {
+                    db.healthInfoDao().getUserInfo(loginFunction.getMyId()).observe(getActivity(), new Observer<HealthInfo>() {
                         @Override
                         public void onChanged(HealthInfo healthInfo) {
                             System.out.println("healthInfo = " + healthInfo);
@@ -226,17 +225,17 @@ public class chat extends Fragment {
                             Score score = null;
                             Ranking ranking = null;
                             try {
-                                score = new scoreAsyncTask(2, 0, loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), 0)).get();
-                                ranking = new rankingAsyncTask(2, 0, loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), 0)).get();
+                                score = new scoreAsyncTask(2, 0, loginFunction.getMyId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMyId(), 0)).get();
+                                ranking = new rankingAsyncTask(2, 0, loginFunction.getMyId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMyId(), 0)).get();
                                 // 오늘 첫 기록이면
                                 if(score==null) {
-                                    new scoreAsyncTask(0, 0, loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), dietScore));
-                                    new rankingAsyncTask(0, 0, loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), dietScore));
+                                    new scoreAsyncTask(0, 0, loginFunction.getMyId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMyId(), dietScore));
+                                    new rankingAsyncTask(0, 0, loginFunction.getMyId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMyId(), dietScore));
                                 }
                                 // 이미 오늘 기록한게 있으면
                                 else if(score.getScore()+dietScore<1000) {
-                                    new scoreAsyncTask(1, score.getScoreId(), loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), score.getScore()+dietScore));
-                                    new rankingAsyncTask(1, ranking.getRankingId(), loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), ranking.getScore() + dietScore));
+                                    new scoreAsyncTask(1, score.getScoreId(), loginFunction.getMyId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMyId(), score.getScore()+dietScore));
+                                    new rankingAsyncTask(1, ranking.getRankingId(), loginFunction.getMyId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMyId(), ranking.getScore() + dietScore));
                                 }
 
 
@@ -264,7 +263,7 @@ public class chat extends Fragment {
                 }
                 // 운동 피드백
                 else if (identifier == '4') {
-                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,null,null ));
+                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMyId(), LocalDateTime.now(), isQuestion, message,null,null ));
                     // 운동 점수 계산
                     int sets = Integer.parseInt(getSplitedNamesFromResponse(message).get(0));
                     // 최대 세트 수는 30
@@ -273,17 +272,17 @@ public class chat extends Fragment {
                     Score score = null;
                     Ranking ranking = null;
                     try {
-                        score = new scoreAsyncTask(2, 0, loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), 0)).get();
-                        ranking = new rankingAsyncTask(2, 0, loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), 0)).get();
+                        score = new scoreAsyncTask(2, 0, loginFunction.getMyId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMyId(), 0)).get();
+                        ranking = new rankingAsyncTask(2, 0, loginFunction.getMyId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMyId(), 0)).get();
                         // 오늘 첫 기록이면
                         if(score==null) {
-                            new scoreAsyncTask(0, 0, loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), exerciseScore));
-                            new rankingAsyncTask(0, 0, loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), exerciseScore));
+                            new scoreAsyncTask(0, 0, loginFunction.getMyId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMyId(), exerciseScore));
+                            new rankingAsyncTask(0, 0, loginFunction.getMyId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMyId(), exerciseScore));
                         }
                         // 이미 오늘 기록한게 있으면
                         else if(score.getScore()+exerciseScore<1000) {
-                            new scoreAsyncTask(1, score.getScoreId(), loginFunction.getMYId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMYId(), score.getScore()+exerciseScore));
-                            new rankingAsyncTask(1, ranking.getRankingId(), loginFunction.getMYId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMYId(), ranking.getScore() + exerciseScore));
+                            new scoreAsyncTask(1, score.getScoreId(), loginFunction.getMyId(), db.scoreDao()).execute(new Score(LocalDateTime.now(), loginFunction.getMyId(), score.getScore()+exerciseScore));
+                            new rankingAsyncTask(1, ranking.getRankingId(), loginFunction.getMyId(), db.rankingDao()).execute(new Ranking(LocalDateTime.now(), loginFunction.getMyId(), ranking.getScore() + exerciseScore));
                         }
 
 
@@ -297,13 +296,13 @@ public class chat extends Fragment {
                 }
                 // 나머지
                 else{
-                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMYId(), LocalDateTime.now(), isQuestion, message,null,null ));
+                    new chatInsertAsyncTask(db.chatDao()).execute(new Chat(loginFunction.getMyId(), LocalDateTime.now(), isQuestion, message,null,null ));
 
                 }
             }
             messageAdapter.notifyDataSetChanged();
             recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-        });
+
     }
 
     void addResponse(String response){

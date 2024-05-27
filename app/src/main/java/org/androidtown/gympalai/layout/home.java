@@ -75,7 +75,7 @@ public class home extends Fragment {
         // 2주마다 ranking 초기화
         seasonUpdate();
 
-        currentUser = loginFunction.getMYId();
+        currentUser = loginFunction.getMyId();
 
         //DB 생성
         db = GymPalDB.getInstance(getActivity());

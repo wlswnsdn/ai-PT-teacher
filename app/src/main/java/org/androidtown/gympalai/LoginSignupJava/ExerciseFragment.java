@@ -46,7 +46,7 @@ public class ExerciseFragment extends Fragment {
         exercise_btn_5 = rootView.findViewById(R.id.exercise_btn_5);
 
         try {
-            String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMYId()).get();
+            String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMyId()).get();
             List<String> exercise_routine_array = new ArrayList<>();
 
             if (response!=null) {
