@@ -6,15 +6,18 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Arrays;
+
 // nickName에 unique 설정
 @Entity(tableName = "user", indices = {@Index(value = {"nickName"}, unique = true)})
 public class User {
 
-    public User(@NonNull String userId, @NonNull String pw, @NonNull String nickName, String avatarName) {
+    public User(@NonNull String userId, @NonNull String pw, @NonNull String nickName, String avatarName, byte[] profilePicture) {
         this.userId = userId;
         this.pw = pw;
         this.nickName = nickName;
         this.avatarName = avatarName;
+        this.profilePicture = profilePicture;
     }
 
     @NonNull
@@ -29,8 +32,11 @@ public class User {
     @ColumnInfo(name = "nickName")
     private String nickName;
 
+
     @ColumnInfo(name = "avatarName")
     private String avatarName;
+    @ColumnInfo(name = "profilePicture")
+    private byte[] profilePicture;
 
     @NonNull
     public String getUserId() {
@@ -67,6 +73,14 @@ public class User {
         this.avatarName = avatarName;
     }
 
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -74,6 +88,7 @@ public class User {
                 ", pw='" + pw + '\'' +
                 ", nickName='" + nickName + '\'' +
                 ", avatarName='" + avatarName + '\'' +
+                ", profilePicture=" + Arrays.toString(profilePicture) +
                 '}';
     }
 }
