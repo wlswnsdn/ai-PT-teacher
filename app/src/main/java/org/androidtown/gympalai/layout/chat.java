@@ -111,7 +111,7 @@ public class chat extends Fragment {
         // 아바타 설정
         String avatarName = null;
         try {
-            
+
             avatarName = new userAsyncTask(db.userDao()).execute(loginFunction.getMyId()).get();
             System.out.println("avatarName = " + avatarName);
             if (avatarName != null) {

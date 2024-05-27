@@ -28,7 +28,7 @@
                         android:id="@+id/current_trainer_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="현재 트레이너:"
+                        android:text="@string/current_trainer"
                         android:textStyle="bold"
                         android:textSize="25sp"
                         android:textColor="@color/black"/>
@@ -37,7 +37,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:text="시험 텍스트"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="25sp"
                         android:textColor="@color/black"/>
@@ -79,19 +79,24 @@
                         android:id="@+id/trainner_btn_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Freindly\n Jenny"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="25sp"
                         android:textColor="@color/black"
                         android:background="@color/transparent"/>
-
-                    <TextView
-                        android:id="@+id/trainner_description_1"
+                    <ScrollView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="She has kind\n personality \nand will lead \nyou slowly \nand gently"
-                        android:textSize="20sp"
-                        android:textColor="@color/black"/>
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/trainner_description_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
+
+                    </ScrollView>
+
 
 
                 </LinearLayout>
@@ -116,19 +121,24 @@
                         android:id="@+id/trainner_btn_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Strong\n Ronny"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="25sp"
                         android:textColor="@color/black"
                         android:background="@color/transparent"/>
-                    <TextView
-                        android:id="@+id/trainner_description_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="He has\n sgrong\n personality\n and might\n push you\n hard. "
-                        android:textSize="20sp"
-                        android:textColor="@color/black"/>
 
+                    <ScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/trainner_description_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
+
+                    </ScrollView>
 
 
                 </LinearLayout>
@@ -151,20 +161,23 @@
                         android:id="@+id/trainner_btn_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Master\n Woo"
+                        android:text=""
                         android:textStyle="bold"
                         android:textSize="25sp"
                         android:textColor="@color/black"
                         android:background="@color/transparent"/>
-                    <TextView
-                        android:id="@+id/trainner_description_3"
+                    <ScrollView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="She is \nmaster of\nyofa. She\nwill help you\nfind inner\n peace! Try\n her out!"
-                        android:textSize="20sp"
-                        android:textColor="@color/black"/>
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/trainner_description_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
 
-
+                    </ScrollView>
 
                 </LinearLayout>
             </RelativeLayout>

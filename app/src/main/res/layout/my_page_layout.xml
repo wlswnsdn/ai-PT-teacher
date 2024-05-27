@@ -6,6 +6,12 @@
     tools:ignore="MissingConstraints"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/button_container"
@@ -13,24 +19,46 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/basic_circle_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/basic_profile_img" />
+
+            <TextView
+                android:id="@+id/nickname_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@android:color/black"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"/>
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/minimalist_book_icon_transparent"
-                    android:scaleType="fitXY"/>
+                >
 
                 <Button
                     android:id="@+id/information_btn"
                     android:layout_width="250dp"
                     android:layout_height="70dp"
-                    android:text="내 정보 수정"
+                    android:text="@string/change_my_information"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:background="@color/transparent"
 
@@ -43,18 +71,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/password_img"
-                    android:scaleType="fitXY"/>
+                >
+
 
                 <Button
                     android:id="@+id/nickname_password_btn"
                     android:layout_width="250dp"
                     android:layout_height="70dp"
-                    android:text="닉네임/비밀번호 설정"
+                    android:text="@string/change_nickname_password"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:background="@color/transparent"
 
@@ -67,18 +92,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/avatar_img"
-                    android:scaleType="fitXY"/>
+                >
+
 
                 <Button
                     android:id="@+id/avatar_btn"
                     android:layout_width="250dp"
                     android:layout_height="70dp"
-                    android:text="아바타 설정"
+                    android:text="@string/change_avatar"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:background="@color/transparent"
 
@@ -91,18 +113,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/laguage_img"
-                    android:scaleType="fitXY"/>
+                >
+
 
                 <Button
                     android:id="@+id/language_setting_btn"
                     android:layout_width="250dp"
                     android:layout_height="70dp"
-                    android:text="언어 설정"
+                    android:text="@string/change_language"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:background="@color/transparent"
 
@@ -114,18 +133,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/logout_img"
-                    android:scaleType="fitXY"/>
+                >
+
 
                 <Button
                     android:id="@+id/logout_btn"
                     android:layout_width="250dp"
                     android:layout_height="70dp"
-                    android:text="로그아웃"
+                    android:text="@string/logout"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:background="@color/transparent"
 
@@ -135,7 +151,7 @@
             </LinearLayout>
 
         </LinearLayout>
-
+    </ScrollView>
 </FrameLayout>
 
 

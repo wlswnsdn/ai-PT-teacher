@@ -8,18 +8,18 @@
         android:id="@+id/editText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Type here"/>
+        android:hint="@string/type_here"/>
     <Button
         android:id="@+id/enter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter"/>
+        android:text="@string/enter"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="hello" />
+        android:text="@string/hello" />
 
 
 </LinearLayout>

@@ -32,9 +32,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/et_msg"
             android:layout_centerInParent="true"
-            android:hint="Write here"
+            android:hint="@string/type_here"
             android:padding="16dp"
-            android:layout_toLeftOf="@+id/btn_send"
+            android:layout_toStartOf="@+id/btn_send"
             android:background="@drawable/round_square_purple"/>
 
         <ImageButton

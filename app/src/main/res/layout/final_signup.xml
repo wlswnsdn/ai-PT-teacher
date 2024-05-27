@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/next_signup_layout">
     <include layout="@layout/upper_bar_for_login"/>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/scroll_view">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +34,7 @@
                         android:id="@+id/male_r_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Male"
+                        android:text="@string/male"
                         android:textStyle="bold"
                         android:textSize="25sp"
                         android:minWidth="48dp"
@@ -42,7 +44,7 @@
                         android:id="@+id/female_r_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Female"
+                        android:text="@string/female"
                         android:textStyle="bold"
                         android:textSize="25sp"
                         android:minWidth="48dp"

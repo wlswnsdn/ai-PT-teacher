@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/first_signup_layout">
     <include layout="@layout/upper_bar_for_login"/>
     <ImageView
         android:layout_width="300dp"
@@ -55,7 +56,7 @@
         android:id="@+id/first_signup_btn"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="next"
+        android:text="@string/next"
         android:textStyle="bold"
         android:background="@drawable/round_square_purple"
         android:layout_marginTop="20dp"/>
