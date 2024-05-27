@@ -27,11 +27,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class AvatarSetting extends Fragment {
-    ImageView current_trainner, trainner_option_1,trainner_option_2,trainner_option_3;
+    ImageView current_trainner;
     TextView current_trainner_name;
-
-    Button trainner1, trainner2, trainner3;
-
     GymPalDB db;
 
     LoginFunction loginFunction = new LoginFunction();
@@ -47,27 +44,33 @@ public class AvatarSetting extends Fragment {
         //imageView들 선언
         current_trainner=rootView.findViewById(R.id.trainner_circle_1);
 
-        ImageView[] trainnerOptions = new ImageView[3];
+        ImageView[] trainnerOptions = new ImageView[4];
 
         trainnerOptions[0] = rootView.findViewById(R.id.trainner_option_circle_1);
         trainnerOptions[1] = rootView.findViewById(R.id.trainner_option_circle_2);
         trainnerOptions[2] = rootView.findViewById(R.id.trainner_option_circle_3);
+        trainnerOptions[3] = rootView.findViewById(R.id.trainner_option_circle_4);
+
 
         //textview선언
         current_trainner_name=rootView.findViewById(R.id.trainer_name_textview);
 
-        TextView[] trainnerDescriptions = new TextView[3];
+        TextView[] trainnerDescriptions = new TextView[4];
 
         trainnerDescriptions[0] = rootView.findViewById(R.id.trainner_description_1);
         trainnerDescriptions[1] = rootView.findViewById(R.id.trainner_description_2);
         trainnerDescriptions[2] = rootView.findViewById(R.id.trainner_description_3);
+        trainnerDescriptions[3] = rootView.findViewById(R.id.trainner_description_4);
+
 
         //Button들 선언
-        Button[] trainners = new Button[3];
+        Button[] trainners = new Button[4];
 
         trainners[0]=rootView.findViewById(R.id.trainner_btn_1);
         trainners[1]=rootView.findViewById(R.id.trainner_btn_2);
         trainners[2]=rootView.findViewById(R.id.trainner_btn_3);
+        trainners[3]=rootView.findViewById(R.id.trainner_btn_4);
+
 
         try {
             // 내 트레이너 설정
@@ -80,12 +83,12 @@ public class AvatarSetting extends Fragment {
 
             // 다른 트레이너 설정
             List<Avatar> avatars = new avatarAsyncTask(1, db.avatarDao()).execute("").get();
-            for(int i=0;i<3;i++){
+            for(int i=0;i<4;i++){
                 byte[] image = avatars.get(i).getImage();
                 Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
                 trainnerOptions[i].setImageBitmap(bitmap);
                 trainners[i].setText(avatars.get(i).getAvatarName());
-               // trainnerDescriptions[i].setText(avatars.get(i).getDescription());
+                trainnerDescriptions[i].setText(avatars.get(i).getDescription());
             }
 
         } catch (ExecutionException e) {
@@ -149,6 +152,26 @@ public class AvatarSetting extends Fragment {
 
             }
         });
+
+        trainners[3].setOnClickListener(new View.OnClickListener() {//trainer4버튼을 누르면 avatar가 바뀐다.
+            @Override
+            public void onClick(View v) {//여기에 avatar1 구현해주시면됩니다.
+                try {
+                    List<Avatar> avatars = new avatarAsyncTask(1, db.avatarDao()).execute("").get();
+                    new userAsyncTask(1, avatars.get(3).getAvatarName(), db.userDao()).execute(loginFunction.getMyId());
+                    String sourceText = trainners[3].getText().toString();
+                    current_trainner_name.setText(sourceText);
+                    current_trainner.setImageDrawable(trainnerOptions[3].getDrawable());
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
+
+
 
 
         return rootView;

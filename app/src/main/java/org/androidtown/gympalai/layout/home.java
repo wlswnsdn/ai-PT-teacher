@@ -67,9 +67,11 @@ public class home extends Fragment {
         silver = view.findViewById(R.id.silvercrown);
         bronze = view.findViewById(R.id.bronzecrown);
         learderboardImage = view.findViewById(R.id.leaderboard_image); //리더보드 내 사진
+
         firstImage = view.findViewById(R.id.firstImage);  //1등 사진
         secondImage = view.findViewById(R.id.secondImage); //2등 사진
         thirdImage = view.findViewById(R.id.thirdImage); //3등 사진
+
         personalScore = view.findViewById(R.id.score);
         recyclerView = view.findViewById(R.id.leaderboard);
         firstPlace = view.findViewById(R.id.userfirst);
