@@ -67,12 +67,21 @@ public class NicknamePassword extends Fragment {
             }
         });
 
+        String nickName;// 기존 닉네임을 가져온다
+        try {
+            nickName = String.valueOf(new GetUserNickTask(db.userDao()).execute(loginFunction.getMyId()).get());
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        old_usr_nickname.setText(nickName); //기존 닉네임을 보이게 한다
+
         // 닉네임 변경 버튼 클릭 리스너
         change_nickname_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//여기에서 새로운 닉네임 값을 DB에 반영해주시면 됩니다.
-                String newNickname = new_usr_nickname.getText().toString();
-                String oldNickName;// 기존 닉네임을 가져온다
+                String oldNickName = null;
                 try {
                     oldNickName = String.valueOf(new GetUserNickTask(db.userDao()).execute(loginFunction.getMyId()).get());
                 } catch (ExecutionException e) {
@@ -80,7 +89,7 @@ public class NicknamePassword extends Fragment {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
+                String newNickname = new_usr_nickname.getText().toString();
                 if(newNickname.equals(oldNickName)){ //기존 닉네임과 동일하다면
                     Toast.makeText(getContext(), "기존 닉네임과 동일합니다.", Toast.LENGTH_SHORT).show();
                 }else{
