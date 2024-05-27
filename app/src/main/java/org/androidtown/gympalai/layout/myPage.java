@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -19,6 +20,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import org.androidtown.gympalai.R;
+import org.androidtown.gympalai.backmethod.LoginFunction;
+import org.androidtown.gympalai.dao.UserDao;
+import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.mypagefragments.AvatarSetting;
 import org.androidtown.gympalai.mypagefragments.LanguageSetting;
 import org.androidtown.gympalai.mypagefragments.Logout;
@@ -26,6 +30,7 @@ import org.androidtown.gympalai.mypagefragments.MyInformationChangeFragment;
 import org.androidtown.gympalai.mypagefragments.NicknamePassword;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,6 +48,10 @@ public class myPage extends Fragment {
     private TextView nickname_text_view;
     private CircleImageView profileImage;
 
+    GymPalDB db;
+
+    LoginFunction loginFunction;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +67,10 @@ public class myPage extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.my_page_layout, container, false);
+
+        // db 받아오기
+        db = GymPalDB.getInstance(getActivity());
+        loginFunction = new LoginFunction();
 
         // 버튼들 findViewById로 생성
         my_information_btn = rootView.findViewById(R.id.information_btn);
@@ -80,7 +93,14 @@ public class myPage extends Fragment {
         logout_btn.setOnClickListener(v -> replaceFragment(logout));
 
         //textview에 닉네임 불러와서 넣어주시면 됩니다.
-        String nickname_from_db;
+        String nickname_from_db = null;
+        try {
+            nickname_from_db = String.valueOf(new GetUserNickTask(db.userDao()).execute(loginFunction.getMyId()).get());
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         setTextViewText(nickname_text_view, nickname_from_db);
 
         // CircleImageView 클릭 이벤트 설정
@@ -122,6 +142,17 @@ public class myPage extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static class GetUserNickTask extends AsyncTask<String, Void, String> { //닉네임을 가져오기
+        private UserDao userDao;
+        public GetUserNickTask(UserDao userDao){this.userDao = userDao;}
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String nickName = userDao.getUserNickById(strings[0]);
+            return nickName;
         }
     }
 }

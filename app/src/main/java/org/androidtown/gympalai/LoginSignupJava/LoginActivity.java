@@ -75,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (ExecutionException e) {
 
                     throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
                 if (loginResult) {
                     loginFunction = new LoginFunction(id);
