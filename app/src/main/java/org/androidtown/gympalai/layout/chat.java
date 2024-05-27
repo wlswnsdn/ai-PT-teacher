@@ -111,6 +111,7 @@ public class chat extends Fragment {
         // 아바타 설정
         String avatarName = null;
         try {
+            
             avatarName = new userAsyncTask(db.userDao()).execute(loginFunction.getMyId()).get();
             System.out.println("avatarName = " + avatarName);
             if (avatarName != null) {
@@ -140,7 +141,7 @@ public class chat extends Fragment {
 
         // db의 이전 메시지 list에 추가
 
-        db.chatDao().getAll(loginFunction.getMYId()).observe(getViewLifecycleOwner(), new Observer<List<Chat>>() {
+        db.chatDao().getAll(loginFunction.getMyId()).observe(getViewLifecycleOwner(), new Observer<List<Chat>>() {
             @Override
             public void onChanged(List<Chat> chatList) {
                 updateRecyclerView(chatList);
