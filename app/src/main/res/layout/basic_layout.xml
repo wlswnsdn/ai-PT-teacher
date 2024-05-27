@@ -12,18 +12,15 @@
         android:layout_height="80dp"
         android:background="@color/basic_purple"
         android:orientation="horizontal"
-        tools:ignore="MissingConstraints">
+        android:gravity="center"
+        tools:ignore="MissingConstraints"
+        >
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
 
-            android:src="@drawable/dumbell"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-
-            android:text="  GymPal AI"
+            android:text="GymPal AI"
             android:textStyle="bold"
             android:gravity="center_vertical"
             android:textSize="40dp"
