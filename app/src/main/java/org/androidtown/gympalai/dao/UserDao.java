@@ -51,4 +51,13 @@ public interface UserDao {
     @Query("SELECT pw FROM user WHERE userId = :loginId")
     String getUserPwById(String loginId); //로그인 시 아이디로 비밀번호를 가져와 일치여부를 판단할거임
 
+    @Query("UPDATE user SET profilePicture = :profilePicture WHERE userId = :userId")
+    void updateProfilePicture(String userId, byte[] profilePicture);
+
+    @Query("SELECT profilePicture FROM user WHERE userId = :userId")
+    byte[] getProfilePictureById(String userId);
+
+    @Query("SELECT profilePicture FROM user WHERE nickName = :nickName")
+    byte[] getProfilePictureByNickName(String nickName);
+
 }

@@ -89,7 +89,7 @@ public class FirstSignupActivity extends AppCompatActivity {
                     } else {
                         String pw = edit_passwrd.getText().toString();
 
-                        User user = new User(id, pw, nickName, "성민수"); //회원가입 할 user객체 생성
+                        User user = new User(id, pw, nickName, "성민수", null); //회원가입 할 user객체 생성
                         // DB조작은 Async로
                         //db.userDao().insert(user); //이렇게 코드를 짜고 싶은데 메인스레드에서는 작업할 수 없다
 
