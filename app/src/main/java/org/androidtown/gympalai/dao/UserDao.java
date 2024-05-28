@@ -57,4 +57,7 @@ public interface UserDao {
     @Query("SELECT profilePicture FROM user WHERE userId = :userId")
     byte[] getProfilePictureById(String userId);
 
+    @Query("SELECT profilePicture FROM user WHERE nickName = :nickName")
+    byte[] getProfilePictureByNickName(String nickName);
+
 }
