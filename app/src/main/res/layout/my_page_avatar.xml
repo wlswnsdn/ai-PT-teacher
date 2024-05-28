@@ -2,28 +2,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <!-- Current Trainer Layout -->
             <RelativeLayout
                 android:id="@+id/current_trainner_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:gravity="center"
-                >
+                android:gravity="center">
+
                 <LinearLayout
                     android:id="@+id/text_linearlayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
-                    android:orientation="vertical"
+                    android:orientation="vertical">
 
-                    >
                     <TextView
                         android:id="@+id/current_trainer_textview"
                         android:layout_width="wrap_content"
@@ -43,6 +46,7 @@
                         android:textColor="@color/black"/>
 
                 </LinearLayout>
+
                 <ImageView
                     android:id="@+id/trainner_circle_1"
                     android:layout_width="100dp"
@@ -52,21 +56,23 @@
                     android:src="@drawable/password_img"/>
             </RelativeLayout>
 
-            <RelativeLayout
+            <!-- Trainer Options Layout -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/current_trainner_layout"
-                android:gravity="center_horizontal"
-                >
+                android:orientation="vertical"
+                android:layout_below="@id/current_trainner_layout"
+                android:padding="20dp">
+
+                <!-- First Trainer Option -->
                 <LinearLayout
                     android:id="@+id/trainner_option_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:background="?attr/selectableItemBackground">
 
                     <ImageView
                         android:id="@+id/trainner_option_circle_1"
@@ -74,19 +80,24 @@
                         android:layout_height="100dp"
                         android:background="@drawable/basic_circle_shape"
                         android:src="@drawable/avatar_img"
-                        />
-                    <Button
-                        android:id="@+id/trainner_btn_1"
-                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="20dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textStyle="bold"
-                        android:textSize="25sp"
-                        android:textColor="@color/black"
-                        android:background="@color/transparent"/>
-                    <ScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/trainner_btn_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:textColor="@color/black"
+                            android:background="@color/transparent"/>
+
                         <TextView
                             android:id="@+id/trainner_description_1"
                             android:layout_width="wrap_content"
@@ -94,42 +105,43 @@
                             android:text=""
                             android:textSize="20sp"
                             android:textColor="@color/black"/>
-
-                    </ScrollView>
-
-
-
+                    </LinearLayout>
                 </LinearLayout>
+
+                <!-- Second Trainer Option -->
                 <LinearLayout
                     android:id="@+id/trainner_option_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/trainner_option_1"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:background="?attr/selectableItemBackground">
 
                     <ImageView
                         android:id="@+id/trainner_option_circle_2"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="@drawable/basic_circle_shape"
-                        android:src="@drawable/laguage_img"/>
-                    <Button
-                        android:id="@+id/trainner_btn_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textStyle="bold"
-                        android:textSize="25sp"
-                        android:textColor="@color/black"
-                        android:background="@color/transparent"/>
+                        android:src="@drawable/laguage_img"
+                        android:layout_marginEnd="20dp" />
 
-                    <ScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/trainner_btn_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:textColor="@color/black"
+                            android:background="@color/transparent"/>
+
                         <TextView
                             android:id="@+id/trainner_description_2"
                             android:layout_width="wrap_content"
@@ -137,38 +149,43 @@
                             android:text=""
                             android:textSize="20sp"
                             android:textColor="@color/black"/>
-
-                    </ScrollView>
-
-
+                    </LinearLayout>
                 </LinearLayout>
+
+                <!-- Third Trainer Option -->
                 <LinearLayout
                     android:id="@+id/trainner_option_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/trainner_option_2"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:background="?attr/selectableItemBackground">
+
                     <ImageView
                         android:id="@+id/trainner_option_circle_3"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:background="@drawable/basic_circle_shape"
-                        android:src="@drawable/dumbell"/>
-                    <Button
-                        android:id="@+id/trainner_btn_3"
-                        android:layout_width="wrap_content"
+                        android:src="@drawable/dumbell"
+                        android:layout_marginEnd="20dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textStyle="bold"
-                        android:textSize="25sp"
-                        android:textColor="@color/black"
-                        android:background="@color/transparent"/>
-                    <ScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/trainner_btn_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:textColor="@color/black"
+                            android:background="@color/transparent"/>
+
                         <TextView
                             android:id="@+id/trainner_description_3"
                             android:layout_width="wrap_content"
@@ -176,15 +193,53 @@
                             android:text=""
                             android:textSize="20sp"
                             android:textColor="@color/black"/>
-
-                    </ScrollView>
-
+                    </LinearLayout>
                 </LinearLayout>
-            </RelativeLayout>
+                <!-- Fourth Trainer Option -->
+                <LinearLayout
+                    android:id="@+id/trainner_option_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:background="?attr/selectableItemBackground">
 
+                    <ImageView
+                        android:id="@+id/trainner_option_circle_4"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/basic_circle_shape"
+                        android:src="@drawable/avatar_img"
+                        android:layout_marginEnd="20dp" />
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
+                        <Button
+                            android:id="@+id/trainner_btn_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textStyle="bold"
+                            android:textSize="25sp"
+                            android:textColor="@color/black"
+                            android:background="@color/transparent"/>
+
+                        <TextView
+                            android:id="@+id/trainner_description_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
         </RelativeLayout>
-
     </ScrollView>
 </RelativeLayout>

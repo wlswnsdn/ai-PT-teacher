@@ -111,6 +111,7 @@ public class chat extends Fragment {
         // 아바타 설정
         String avatarName = null;
         try {
+
             avatarName = new userAsyncTask(db.userDao()).execute(loginFunction.getMyId()).get();
             System.out.println("avatarName = " + avatarName);
             if (avatarName != null) {
@@ -186,8 +187,7 @@ public class chat extends Fragment {
 
     //  채팅 목록에 메세지 추가
     @SuppressLint("NotifyDataSetChanged")
-    void addToChat(String message, String sentBy) {
-        getActivity().runOnUiThread(() -> {
+    public void addToChat(String message, String sentBy) {
 
             String forShow = getSubstringBeforeBracket(message);
             System.out.println("forShow = " + forShow);
@@ -303,7 +303,7 @@ public class chat extends Fragment {
             }
             messageAdapter.notifyDataSetChanged();
             recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-        });
+
     }
 
     void addResponse(String response){

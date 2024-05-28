@@ -25,7 +25,7 @@ public interface AvatarDao {
     @Query("select count(*) =0 from avatar")
     boolean isTableEmpty();
 
-    @Query("select * from avatar limit 3 offset 1")
+    @Query("select * from avatar limit 5 offset 1")
     List<Avatar> getAvatarList();
 
     @Insert

@@ -28,6 +28,8 @@ android {
     }
 }
 
+
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -39,10 +41,17 @@ dependencies {
 
     implementation 'androidx.room:room-runtime:2.4.2'
     implementation 'com.android.volley:volley:1.2.1'
-    testImplementation 'junit:junit:4.13.2'
+    implementation 'androidx.test.ext:junit:1.1.5'
+//    testImplementation 'junit:junit:4.13.2'
+//    testImplementation 'org.junit.jupiter:junit-jupiter'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+
+    implementation 'junit:junit:4.12'
+
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'androidx.test:core:1.5.0'
     // roomDB 추가
     def room_version ="2.4.0-alpha03"
     implementation "androidx.room:room-runtime:$room_version"
@@ -51,5 +60,11 @@ dependencies {
     implementation "androidx.work:work-runtime:2.7.1"
     //차트생성용
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    // 테스트
+    testImplementation 'org.mockito:mockito-core:4.8.0'
+    testImplementation 'org.robolectric:robolectric:4.5.1'
+
+
+
 
 }
