@@ -47,7 +47,7 @@
 
                 </LinearLayout>
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/trainner_circle_1"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -74,7 +74,7 @@
                     android:padding="10dp"
                     android:background="?attr/selectableItemBackground">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/trainner_option_circle_1"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
@@ -118,7 +118,7 @@
                     android:padding="10dp"
                     android:background="?attr/selectableItemBackground">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/trainner_option_circle_2"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
@@ -162,7 +162,7 @@
                     android:padding="10dp"
                     android:background="?attr/selectableItemBackground">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/trainner_option_circle_3"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
@@ -205,7 +205,7 @@
                     android:padding="10dp"
                     android:background="?attr/selectableItemBackground">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/trainner_option_circle_4"
                         android:layout_width="100dp"
                         android:layout_height="100dp"

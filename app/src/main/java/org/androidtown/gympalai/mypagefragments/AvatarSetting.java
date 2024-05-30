@@ -26,8 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AvatarSetting extends Fragment {
-    ImageView current_trainner;
+    CircleImageView current_trainner;
     TextView current_trainner_name;
     GymPalDB db;
 
