@@ -185,6 +185,7 @@ public class chat extends Fragment {
     }
 
 
+
     //  채팅 목록에 메세지 추가
     @SuppressLint("NotifyDataSetChanged")
     public void addToChat(String message, String sentBy) {
@@ -312,7 +313,7 @@ public class chat extends Fragment {
     }
 
     // #뒤의 식별자에 따라 운동, 식단 이름 파싱
-    private String getFullNamesFromResponse(String response) {
+    public String getFullNamesFromResponse(String response) {
         Pattern pattern = Pattern.compile("\\[([^\\[\\]]+)\\]");
         Matcher matcher = pattern.matcher(response);
         if (matcher.find()) {
@@ -322,7 +323,7 @@ public class chat extends Fragment {
         }
     }
 
-    private List<String> getSplitedNamesFromResponse(String response) {
+    public List<String> getSplitedNamesFromResponse(String response) {
         Pattern pattern = Pattern.compile("\\[(.*?)\\]");
         Matcher matcher = pattern.matcher(response);
         List<String> infoNames = new ArrayList<>();
@@ -336,7 +337,7 @@ public class chat extends Fragment {
         return infoNames;
     }
 
-    private String getSubstringBeforeBracket(String str) {
+    public String getSubstringBeforeBracket(String str) {
         // '['의 인덱스를 찾는다
         int index = str.indexOf('[');
         // '['이 없다면 원본 문자열을 반환
@@ -420,7 +421,7 @@ public class chat extends Fragment {
         });
     }
 
-    private double getTDEE(HealthInfo userInfo) {
+    public double getTDEE(HealthInfo userInfo) {
         double TDEE;
         if (userInfo.isGender() == true) TDEE = 88.362 + (13.397 * userInfo.getWeight()) + (4.799 * userInfo.getHeight()) - (5.677 * userInfo.getAge());
         else {
@@ -450,7 +451,7 @@ public class chat extends Fragment {
         return TDEE;
     }
 
-    private int getDietScore(double tdee, double ratio, double actualIntake){
+    public int getDietScore(double tdee, double ratio, double actualIntake){
         int gperKcal = (ratio == 0.5 || ratio == 0.2) ? 4 : 9;
         double recommendedIntake = (tdee * ratio) / gperKcal;
         int score = (int) (-(700 * ratio) / Math.pow(recommendedIntake, 2) * Math.pow(actualIntake - recommendedIntake, 2) + (700 * ratio));
@@ -459,7 +460,34 @@ public class chat extends Fragment {
 
     }
 
+    public List<Chat> loadChatMessages(String userId)  {
 
+        return db.chatDao().getAllForTest(userId);
+    }
+
+    public String loadAvatarName(String testUser) {
+        return db.userDao().getAvatarName(testUser);
+    }
+
+    public Avatar loadAvatar(String testAvatar) {
+        return db.avatarDao().getAvatar(testAvatar);
+    }
+
+
+    //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
+    public static class chatTestAsyncTask extends AsyncTask<String, Void, List<Chat>> {
+        private ChatDao chatDao;
+
+        public chatTestAsyncTask(ChatDao chatDao){
+            this.chatDao = chatDao;
+        }
+
+        @Override //백그라운드작업(메인스레드 X)
+        protected List<Chat> doInBackground(String ... userIds) {
+            if(userIds[0]!=null)    return chatDao.getAllForTest(userIds[0]);
+            return null;
+        }
+    }
 
 
     //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.

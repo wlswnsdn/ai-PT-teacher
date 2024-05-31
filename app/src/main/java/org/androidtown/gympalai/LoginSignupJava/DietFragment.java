@@ -58,7 +58,7 @@ public class DietFragment extends Fragment {
         try {
 
 
-            String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMyId()).get();
+            String response = getDietFromGPTResponse();
 
             List<String> diet_array = new ArrayList<>();
 
@@ -84,6 +84,10 @@ public class DietFragment extends Fragment {
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getDietFromGPTResponse() throws ExecutionException, InterruptedException {
+        return new chatAsyncTask(db.chatDao()).execute(loginFunction.getMyId()).get();
     }
 
     private void setVisibility(Button button, TextView textView) {

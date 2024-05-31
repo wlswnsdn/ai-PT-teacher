@@ -56,7 +56,7 @@ public class ExerciseFragment extends Fragment {
 
         try {
 
-            String response = new chatAsyncTask(db.chatDao()).execute(loginFunction.getMyId()).get();
+            String response = getRoutineFromGPTResponse();
 
             List<String> exercise_routine_array = new ArrayList<>();
 
@@ -85,6 +85,11 @@ public class ExerciseFragment extends Fragment {
             throw new RuntimeException(e);
         }
     }
+
+    private String getRoutineFromGPTResponse() throws ExecutionException, InterruptedException {
+        return new chatAsyncTask(db.chatDao()).execute(loginFunction.getMyId()).get();
+    }
+
     //textview에 texxt없으면 버튼과 text뷰 모두 안보이게 한다.
     private void setVisibility(Button button, TextView textView) {
         if (TextUtils.isEmpty(textView.getText().toString().trim())) {
@@ -113,7 +118,8 @@ public class ExerciseFragment extends Fragment {
         }
         return infoNames;
     }
-
+    
+    
     // 메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
     public static class chatAsyncTask extends AsyncTask<String, Void, String> {
         private ChatDao chatDao;

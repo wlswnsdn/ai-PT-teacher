@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,6 @@ import org.androidtown.gympalai.entity.Ranking;
 import org.androidtown.gympalai.model.CircularProgressView;
 import org.androidtown.gympalai.model.UserTotalScore;
 import org.androidtown.gympalai.worker.SeasonUpdateWorker;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-public class home extends Fragment {
+public class Home extends Fragment {
 
     ImageView silver, bronze, learderboardImage;
     ImageView firstImage, secondImage, thirdImage; //1, 2, 3등 사용자 이미지뷰
@@ -57,6 +57,7 @@ public class home extends Fragment {
     private static String currentUser; // 현재 사용자 아이디를 user6으로 설정, 이부분 가져와야함.
 
     GymPalDB db;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -280,7 +281,7 @@ public class home extends Fragment {
         }
     }
 
-    private Bitmap loadImageFromDrawable(Context context, int drawableId) {
+    public Bitmap loadImageFromDrawable(Context context, int drawableId) {
         return BitmapFactory.decodeResource(context.getResources(), drawableId);
     }
 
@@ -355,11 +356,17 @@ public class home extends Fragment {
             this.userDao = userDao;
         }
 
+
         @Override //백그라운드작업(메인스레드 X)
         protected String doInBackground(String... userIds) {
+            try {
+                if (userIds[0] != null) return userDao.getNickName(userIds[0]);
+            } catch (Exception e) {
+                System.out.println("e.getMessage() = " + e.getMessage());
+                Log.e("test", e.getMessage());
+            }
 
-            if (userIds[0] != null) return userDao.getNickName(userIds[0]);
-            else return null;
+            return null;
         }
 
     }
