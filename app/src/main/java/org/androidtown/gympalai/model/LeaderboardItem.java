@@ -5,6 +5,8 @@ public class LeaderboardItem {
     private String userId;
     private int score;
 
+
+
     public LeaderboardItem(int rank, String userId, int score) {
         this.rank = rank;
         this.userId = userId;

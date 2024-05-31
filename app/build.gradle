@@ -1,5 +1,10 @@
 plugins {
     id 'com.android.application'
+    id 'jacoco'
+}
+
+jacoco {
+    toolVersion = "0.8.8"
 }
 
 android {
@@ -21,11 +26,28 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            testCoverageEnabled true // 커버리지 테스트 활성화
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+//        sourceCompatibility JavaVersion.VERSION_17
+//        targetCompatibility JavaVersion.VERSION_17
+
     }
+//    tasks.withType(JavaCompile).configureEach {
+//        it.options.compilerArgs.add('--release')
+//        it.options.compilerArgs.add('17')
+//    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+
+    }
+
+
+
 }
 
 
@@ -64,7 +86,27 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:4.8.0'
     testImplementation 'org.robolectric:robolectric:4.5.1'
 
+    // FragmentScenario 추가
+    androidTestImplementation 'androidx.fragment:fragment-testing:1.4.1'
 
 
 
+}
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    reports {
+        html.enabled true
+    }
+
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*',
+                      '**/*Test*.*', 'android/**/*.*']
+
+    def debugTree = fileTree(dir: "$buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "$projectDir/src/main/java"
+
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ]))
 }
