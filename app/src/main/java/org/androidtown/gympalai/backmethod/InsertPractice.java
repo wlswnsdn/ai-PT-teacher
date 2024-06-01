@@ -56,7 +56,7 @@ public class InsertPractice extends AppCompatActivity {
                 }else{
                     // execute() 매개변수로 doInBackGround()에 들어가야되는 매개변수 넣으면 됨
                     new InsertAsyncTask(db.userDao()).execute(new
-                            User(editText.getText().toString(), "1234","Jan","John"));
+                            User(editText.getText().toString(), "1234","Jan","John", null));
                     editText.setText("");
                 }
             }

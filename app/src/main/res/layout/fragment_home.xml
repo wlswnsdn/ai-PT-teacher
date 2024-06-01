@@ -113,7 +113,7 @@
 
                     <ImageView
                         android:id="@+id/firstImage"
-                        android:src="@drawable/avatar3"
+                        android:src="@drawable/basic_profile_img"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@drawable/circle_background"
@@ -184,7 +184,7 @@
                         android:textSize="20sp" />
                     <ImageView
                         android:id="@+id/secondImage"
-                        android:src="@drawable/avatar5"
+                        android:src="@drawable/basic_profile_img"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@drawable/circle_background"
@@ -252,7 +252,7 @@
                         android:textSize="20sp" />
                     <ImageView
                         android:id="@+id/thirdImage"
-                        android:src="@drawable/avatar1"
+                        android:src="@drawable/basic_profile_img"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@drawable/circle_background"

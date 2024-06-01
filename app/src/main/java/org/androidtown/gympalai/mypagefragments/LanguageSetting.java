@@ -20,7 +20,7 @@ import java.util.Locale;
 
 public class LanguageSetting extends Fragment {
     Button kr_btn, en_btn, jp_btn;
-    TextView current_language;
+    TextView current_language, what_language;
 
     @Nullable
     @Override
@@ -34,6 +34,7 @@ public class LanguageSetting extends Fragment {
 
         // 텍스트 뷰 생성
         current_language = rootView.findViewById(R.id.present_language);
+        what_language = rootView.findViewById(R.id.text_view1);
 
         // 현재 언어 설정
         setCurrentLanguage();
@@ -71,12 +72,28 @@ public class LanguageSetting extends Fragment {
         switch (language) {
             case "ko":
                 current_language.setText("한국어");
+                what_language.setText("현재 언어: ");
+                kr_btn.setText("한국어");
+                en_btn.setText("영어");
+                jp_btn.setText("일본어");
+
+
                 break;
             case "en":
                 current_language.setText("English");
+                what_language.setText("current_language: ");
+                kr_btn.setText("Korean");
+                en_btn.setText("English");
+                jp_btn.setText("Japanese");
+
                 break;
             case "ja":
                 current_language.setText("日本語");
+                what_language.setText("現在の言語: ");
+                kr_btn.setText("韓国語");
+                en_btn.setText("英語");
+                jp_btn.setText("日本語");
+
                 break;
             default:
                 current_language.setText(language); // 기타 언어

@@ -1,4 +1,4 @@
-package org.androidtown.gympalai.LoginSignupJava;
+package org.androidtown.gympalai.layout;
 
 import android.os.AsyncTask;
 import android.os.Bundle;

@@ -13,8 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import org.androidtown.gympalai.LoginSignupJava.DietFragment;
-import org.androidtown.gympalai.LoginSignupJava.ExerciseFragment;
 import org.androidtown.gympalai.R;
 
 public class plan extends Fragment {

@@ -3,6 +3,7 @@ package org.androidtown.gympalai.layout;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -103,8 +104,9 @@ public class myPage extends Fragment {
         }
         setTextViewText(nickname_text_view, nickname_from_db);
 
-        // CircleImageView 클릭 이벤트 설정
-        profileImage.setOnClickListener(v -> openImageChooser());
+        // 프로필 사진 불러오기
+        new GetProfilePictureAsyncTask(db.userDao(), profileImage).execute(loginFunction.getMyId());
+
 
         return rootView;
     }
@@ -120,13 +122,6 @@ public class myPage extends Fragment {
         transaction.commit();
     }
 
-    private void openImageChooser() {
-        // 이미지 선택 인텐트
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -155,4 +150,31 @@ public class myPage extends Fragment {
             return nickName;
         }
     }
+
+
+    private static class GetProfilePictureAsyncTask extends AsyncTask<String, Void, byte[]> {
+        private UserDao userDao;
+        private CircleImageView profileImage;
+
+        public GetProfilePictureAsyncTask(UserDao userDao, CircleImageView profileImage) {
+            this.userDao = userDao;
+            this.profileImage = profileImage;
+        }
+
+        @Override
+        protected byte[] doInBackground(String... strings) {
+            return userDao.getProfilePictureById(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(byte[] profilePicture) {
+            if (profilePicture != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(profilePicture, 0, profilePicture.length);
+                profileImage.setImageBitmap(bitmap);
+            }
+        }
+    }
+
+
+
 }

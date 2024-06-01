@@ -17,6 +17,9 @@ public interface ChatDao {
     @Query("SELECT * FROM chat WHERE userId = :userId")
     LiveData<List<Chat>> getAll(String userId);
 
+    @Query("SELECT * FROM chat WHERE userId = :userId")
+    List<Chat> getAllForTest(String userId);
+
     @Query("SELECT exerciseList FROM chat WHERE userId = :userId AND exerciseList IS NOT NULL ORDER BY chatId DESC LIMIT 1")
     String getExerciseList(String userId);
 //    @Query("SELECT dietList FROM chat WHERE date = DATE('now') AND userId = :userId AND dietList IS NOT NULL; -- exerciseList가 null이 아닌 경우 선택\n")

@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "org.androidtown.gympalai"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -92,21 +92,21 @@ dependencies {
 
 
 }
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-    reports {
-        html.enabled true
-    }
-
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*',
-                      '**/*Test*.*', 'android/**/*.*']
-
-    def debugTree = fileTree(dir: "$buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
-    def mainSrc = "$projectDir/src/main/java"
-
-    sourceDirectories.setFrom(files([mainSrc]))
-    classDirectories.setFrom(files([debugTree]))
-    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ]))
-}
+//task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+//    reports {
+//        html.enabled true
+//    }
+//
+//
+//    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*',
+//                      '**/*Test*.*', 'android/**/*.*']
+//
+//    def debugTree = fileTree(dir: "$buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+//    def mainSrc = "$projectDir/src/main/java"
+//
+//    sourceDirectories.setFrom(files([mainSrc]))
+//    classDirectories.setFrom(files([debugTree]))
+//    executionData.setFrom(fileTree(dir: "$buildDir", includes: [
+//            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+//    ]))
+//}

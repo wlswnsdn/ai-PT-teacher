@@ -82,7 +82,7 @@ public class basicLayout extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment homeFragment = new Home();
+                Fragment homeFragment = new home();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.framelayout, homeFragment)
                         .commit();
@@ -92,7 +92,7 @@ public class basicLayout extends AppCompatActivity {
         // Set homeFragment as the default fragment when the app starts
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.framelayout, new Home())
+                    .replace(R.id.framelayout, new home())
                     .commit();
         }
     }

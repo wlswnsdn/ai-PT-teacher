@@ -32,6 +32,7 @@ import org.androidtown.gympalai.database.GymPalDB;
 import org.androidtown.gympalai.entity.Avatar;
 
 import org.androidtown.gympalai.entity.Ranking;
+import org.androidtown.gympalai.entity.User;
 import org.androidtown.gympalai.model.CircularProgressView;
 import org.androidtown.gympalai.model.UserTotalScore;
 import org.androidtown.gympalai.worker.SeasonUpdateWorker;
@@ -42,8 +43,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Home extends Fragment {
+
+
+
+public class home extends Fragment {
+
 
     ImageView silver, bronze, learderboardImage;
     ImageView firstImage, secondImage, thirdImage; //1, 2, 3등 사용자 이미지뷰
@@ -168,19 +174,27 @@ public class Home extends Fragment {
 
         // DB에서 데이터 가져오기
         List<Ranking> userList = null;
+        List<byte[]> imageList = new ArrayList<>(); // 유저의 이미지를 저장하는 imageList 선언
+        // 유저의 이미지를 저장하는 imageList 선언
         try {
             userList = new rankingAsyncTask(0, db.rankingDao()).execute("").get();
             for (Ranking ranking : userList) {
                 if (ranking != null) {
-                    String nickName = new userAsyncTask(db.userDao()).execute(ranking.getUserId()).get();
+                    String nickName = new userAsyncTask(db.userDao()).execute(ranking.getUserId()).get(); //닉네임 갖고오기
                     ranking.setUserId(nickName);
+                    // imageList에 닉네임으로 유저 테이브에서 같은 닉네임을 가진 유저 사진 가져와서 리스트로 만들기
+                    // GetProfilePictureAsyncTask 사용하기
+                    byte[] profileImage = new GetProfilePictureAsyncTask(db.userDao()).execute(ranking.getUserId()).get();
+                    imageList.add(profileImage);
                 }
                 System.out.println("ranking = " + ranking);
 
             }
 
-            // 리더보드 어댑터 설정
-            LeaderboardAdapter adapter = new LeaderboardAdapter(userList);
+
+
+            // 리더보드 어댑터 설정어
+            LeaderboardAdapter adapter = new LeaderboardAdapter(userList, imageList); // 여기에 사진 list추가 해야함
             recyclerView.setAdapter(adapter);
 
             // 상위 3명 사용자 이름 및 점수 설정
@@ -193,6 +207,11 @@ public class Home extends Fragment {
                 firstPlaceScore.setText(String.valueOf(userList.get(0).getScore()));
                 secondPlaceScore.setText(String.valueOf(userList.get(1).getScore()));
                 thirdPlaceScore.setText(String.valueOf(userList.get(2).getScore()));
+
+                // 백에서 해당하는 닉네임을 갖는 유저의 이미지를 가져오면 된다.
+                new SetProfilePictureAsyncTask(db.userDao(), firstImage).execute(userList.get(0).getUserId());
+                new SetProfilePictureAsyncTask(db.userDao(), secondImage).execute(userList.get(1).getUserId());
+                new SetProfilePictureAsyncTask(db.userDao(), thirdImage).execute(userList.get(2).getUserId());
             }
 
             // 개인 점수 설정
@@ -236,9 +255,11 @@ public class Home extends Fragment {
     static class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
 
         private List<Ranking> userList;
+        private List<byte[]> imageList;
 
-        public LeaderboardAdapter(List<Ranking> userList) {
+        public LeaderboardAdapter(List<Ranking> userList, List<byte[]> imageList) {
             this.userList = userList;
+            this.imageList = imageList;
         }
 
         @NonNull
@@ -255,6 +276,11 @@ public class Home extends Fragment {
             holder.username.setText(ranking.getUserId());
             holder.score.setText(String.valueOf(ranking.getScore()));
 
+            byte[] image = imageList.get(position);
+            if(image != null){
+                Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+                holder.profileImage.setImageBitmap(bitmap);
+            }
             if(ranking.getUserId().equals(currentUser)) {
                 holder.itemView.setBackgroundResource(R.drawable.leaderboard_square_mine);
             }
@@ -271,12 +297,14 @@ public class Home extends Fragment {
 
         static class ViewHolder extends RecyclerView.ViewHolder {
             TextView rank, username, score;
+            ImageView profileImage;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 rank = itemView.findViewById(R.id.rank);
                 username = itemView.findViewById(R.id.username);
                 score = itemView.findViewById(R.id.score);
+                profileImage = itemView.findViewById(R.id.leaderboard_image);
             }
         }
     }
@@ -290,6 +318,43 @@ public class Home extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
     }
+
+    private static class GetProfilePictureAsyncTask extends AsyncTask<String, Void, byte[]>{
+        private UserDao userDao;
+
+        public GetProfilePictureAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override
+        protected byte[] doInBackground(String... strings) {
+            byte[] picture = userDao.getProfilePictureByNickName(strings[0]);
+            return picture;
+        }
+    }
+    private static class SetProfilePictureAsyncTask extends AsyncTask<String, Void, byte[]> {
+        private UserDao userDao;
+        private ImageView profileImage;
+
+        public SetProfilePictureAsyncTask(UserDao userDao, ImageView profileImage) {
+            this.userDao = userDao;
+            this.profileImage = profileImage;
+        }
+
+        @Override
+        protected byte[] doInBackground(String... strings) {
+            return userDao.getProfilePictureByNickName(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(byte[] profilePicture) {
+            if (profilePicture != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(profilePicture, 0, profilePicture.length);
+                profileImage.setImageBitmap(bitmap);
+            }
+        }
+    }
+
 
     public static class avatarInsertAsyncTask extends AsyncTask<Avatar, Void, Boolean> {
         private AvatarDao avatarDao;
@@ -404,4 +469,3 @@ public class Home extends Fragment {
     }
 
 }
-
