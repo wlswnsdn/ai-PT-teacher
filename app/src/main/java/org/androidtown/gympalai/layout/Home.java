@@ -139,7 +139,7 @@ public class home extends Fragment {
                 "말투: 부드럽고 차분한\n" +
                 "예시:\n" +
                 "\"좋아요, 조금만 더 힘내세요! 잘하고 있어요, 계속해봅시다.\"");
-        Avatar avatar5 = new Avatar("김갑식", bitmapList.get(4), false, "나이: 40대 초반\n" +
+        Avatar avatar5 = new Avatar("김갑식", bitmapList.get(4), true, "나이: 40대 초반\n" +
                 "가르치는 스타일: 강도 높은 훈련, 체력 향상에 집중\n" +
                 "성격: 직설적이고 강압적인\n" +
                 "말투: 직설적이고 강한\n" +
