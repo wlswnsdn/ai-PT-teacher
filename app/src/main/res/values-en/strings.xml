@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">GymPalAi</string>
+    <string name="catch_phrase">We encourage\npeople\'s better life\nwith our best ai\npersonal trainner</string>
+    <string name="login_id_hint">ID</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_button_text_in_login">New user?\ntouch here to sign up!</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign up</string>
+
+    <!--    signup page에서 사용하는 string-->
+    <string name="nickname">Nickname</string>
+    <string name="height">Height(cm)</string>
+    <string name="weight">Weight(kg)</string>
+    <string name="age">Age</string>
+    <string name="exercise_number">exercise number per week</string>
+
+    <string name="home">HOME</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="next">next</string>
+    <string name="send">send</string>
+    <string name="hello">hello</string>
+    <string name="enter">Enter</string>
+    <string name="type_here">Type here</string>
+
+    <string name="dietScore">Diet Score</string>
+    <string name="tdeeScore">TDEE</string>
+    <string name="daily_health_score">Daily Health Score</string>
+    <string name="userscore">userscore</string>
+    <string name="username">username</string>
+    <string name="chat">Chat</string>
+    <string name="plan">Plan</string>
+    <string name="analysis">Analysis</string>
+    <string name="my">My</string>
+
+    <!--    my_page에서 사용하는 string-->
+    <string name="change_my_information">Edit My Information</string>
+    <string name="change_nickname_password">Nickname/Password Settings</string>
+    <string name="change_avatar">Avatar settings</string>
+    <string name="change_language">Language settings</string>
+    <string name="logout">Logout</string>
+
+
+
+    <!--    my_page_avatar에서 사용하는 string-->
+    <string name="current_trainer">Current Trainer:</string>
+    <!--    my_page_information에서 사용하는 string-->
+    <string name="change_weight">Weight</string>
+    <string name="change_height">Height</string>
+    <string name="on_change">Enter information</string>
+    <!--    my_page_language에서 사용하는 string-->
+    <string name="current_langugae">Current language:</string>
+    <string name="korean">Korean</string>
+    <string name="english">English</string>
+    <string name="japanese">Japanese</string>
+</resources>

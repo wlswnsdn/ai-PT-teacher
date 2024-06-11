@@ -3,7 +3,7 @@
     <string name="catch_phrase">We encourage\npeople\'s better life\nwith our best ai\npersonal trainner</string>
     <string name="login_id_hint">ID</string>
     <string name="login_password_hint">Password</string>
-    <string name="signup_button_text_in_login">New user?\ntouch here to sign up!</string>
+    <string name="signup_button_text_in_login">New user? touch here to sign up!</string>
     <string name="login">Login</string>
     <string name="signup">Sign up</string>
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GymPalAi</string>
+    <string name="catch_phrase">私たちは最高の AI パーソナル トレーナーとともに人々のより良い生活を応援します</string>
+    <string name="login_id_hint">ID</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_button_text_in_login">新しいユーザー？ここにタッチしてサインアップしてください！</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign up</string>
+    <string name="nickname">ニックネーム</string>
+    <string name="height">身長(cm)</string>
+    <string name="weight">重量(kg)</string>
+    <string name="age">年</string>
+    <string name="exercise_number">週あたりの運動回数</string>
+    <string name="home">HOME</string>
+    <string name="male">男</string>
+    <string name="female">女性</string>
+    <string name="next">next</string>
+    <string name="send">送信</string>
+    <string name="hello">こんにちは</string>
+    <string name="enter">入力</string>
+    <string name="type_here">ここに入力</string>
+    <string name="dietScore">Diet Score</string>
+    <string name="tdeeScore">TDEE</string>
+    <string name="daily_health_score">毎日の健康スコア</string>
+    <string name="userscore">userscore</string>
+    <string name="username">username</string>
+    <string name="chat">チャット</string>
+    <string name="plan">プラン</string>
+    <string name="analysis">分析</string>
+    <string name="my">My</string>
+    <string name="change_my_information">私の情報を編集する</string>
+    <string name="change_nickname_password">ニックネーム/パスワードの設定</string>
+    <string name="change_avatar">アバター設定</string>
+    <string name="change_language">言語設定</string>
+    <string name="logout">ログアウト</string>
+    <string name="current_trainer">現在のトレーナー:</string>
+    <string name="change_weight">重さ</string>
+    <string name="change_height">身長</string>
+    <string name="on_change">情報を入力してください</string>
+    <string name="current_langugae">現在の言語:</string>
+    <string name="korean">韓国語</string>
+    <string name="english">英語</string>
+    <string name="japanese">日本語</string>
+</resources>
