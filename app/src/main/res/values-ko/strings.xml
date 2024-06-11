@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GymPalAi</string>
+    <string name="catch_phrase">우리는 최고의 AI 개인 트레이너와 함께 사람들의 더 나은 삶을 장려합니다</string>
+    <string name="login_id_hint">ID</string>
+    <string name="login_password_hint">Password</string>
+    <string name="signup_button_text_in_login">New user?</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign up</string>
+    <string name="nickname">닉네임</string>
+    <string name="height">키(cm)</string>
+    <string name="weight">몸무게(kg)</string>
+    <string name="age">나이</string>
+    <string name="exercise_number">운동 횟수</string>
+    <string name="home">HOME</string>
+    <string name="male">남</string>
+    <string name="female">여</string>
+    <string name="next">next</string>
+    <string name="send">send</string>
+    <string name="hello">hello</string>
+    <string name="enter">Enter</string>
+    <string name="type_here">Type here</string>
+    <string name="dietScore">다이어트 점수</string>
+    <string name="tdeeScore">TDEE</string>
+    <string name="daily_health_score">Daily Health Score</string>
+    <string name="userscore">userscore</string>
+    <string name="username">username</string>
+    <string name="chat">Chat</string>
+    <string name="plan">Plan</string>
+    <string name="analysis">Analysis</string>
+    <string name="my">My</string>
+    <string name="change_my_information">내 정보 수정</string>
+    <string name="change_nickname_password">닉네임/비밀번호 설정</string>
+    <string name="change_avatar">아바타 설정</string>
+    <string name="change_language">언어 설정</string>
+    <string name="logout">로그아웃</string>
+    <string name="current_trainer">현재 트레이너:</string>
+    <string name="change_weight">몸무게</string>
+    <string name="change_height">키</string>
+    <string name="on_change">정보 입력</string>
+    <string name="current_langugae">현재 언어:</string>
+    <string name="korean">한국어</string>
+    <string name="english">영어</string>
+    <string name="japanese">일본어</string>
+</resources>
